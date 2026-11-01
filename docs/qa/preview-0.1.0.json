@@ -1,0 +1,31 @@
+{
+  "name": "iDash",
+  "version_name": "0.1.0",
+  "version_code": 1,
+  "kind": "preview",
+  "package": "com.shazwan.idash",
+  "min_sdk": 26,
+  "target_sdk": 35,
+  "file": "iDash-0.1.0-preview.apk",
+  "size_bytes": 49784,
+  "sha256": "14db46a23abfe02b22770a39589375fc19c0c3c0652e232e32a776c27dd41663",
+  "signer_sha256": "49f6adc61ce465f494ab7d86bf8adcc196b03189ab81f9e287d91328cd63de73",
+  "native_libraries": 0,
+  "build": "JDK17 / Gradle8.9 / SDK35",
+  "lint": "PASS: 0 errors, 2 warnings",
+  "ui_result": "PASS: 30 iDash API27 UI assertions",
+  "test_environment": "Disposable API27 x86_64 emulator, 1024x600 at160dpi; exact published preview installed with matching-signed test APK",
+  "physical_head_unit_tested": false,
+  "limitations": [
+    "Original iPad-inspired Android design; exact iOS27.2/iPadOS27 appearance not verified",
+    "No native app panels or OEM radio driver; shortcuts open apps normally",
+    "No physical ARM32, hardware volume or1GB performance certification",
+    "Media widget/control integration not implemented"
+  ],
+  "test_notes": [
+    "Initial26-assertion UI suite passed",
+    "Expanded suite needed UiAutomation Back for cross-app return and null-safe waiting for accessibility window readiness; both changes were test-runner only",
+    "Emulator System UI ANR obscured first screenshot and was dismissed before subsequent tests/captures",
+    "Coordinate-driven Control Center opened correctly; first capture occurred before the slow emulator presented it, so it was recaptured after the window settled"
+  ]
+}

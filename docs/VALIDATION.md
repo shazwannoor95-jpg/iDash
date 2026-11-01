@@ -1,10 +1,10 @@
 # Preview validation
 
-Build target: iDash0.1.0, package com.shazwan.idash, minAPI26/target35. Java/native Android views; no bundled native code, therefore no ARM64-only dependency. Actual ARM32/head-unit runtime and1GB performance are still untested.
+Build target: iDash0.1.1, package com.shazwan.idash, minAPI26/target35. Java/native Android views; no bundled native code, therefore no ARM64-only dependency. Actual ARM32/head-unit runtime and1GB performance are still untested.
 
 Build checks: assembleDebug, assembleDebugAndroidTest and lintDebug passed using JDK17, Gradle8.9 and SDK35. Lint: zero errors, two warnings (intentional landscape activity and modern Android data-extraction declaration). Signature v2/v3 and ZIP alignment verified for the downloadable, independently signed iDash preview.
 
-UI checks use an actual installed iDash preview and matching-signed instrumentation on a disposable API27 x86_64 emulator,1024×600 at160dpi. Coverage includes actual app discovery, on-screen bounds/touch heights, local clock, calendar/power visibility, dock-to-library navigation, search/empty/reset, Back, favorite assignment/rebuild/restart persistence, Control Center and external Android Settings return. The test source is in app/src/androidTest/java/com/shazwan/idash/SmokeChecks.java. Final result: PASS,30 assertions. See dist/artifact.json for the artifact hashes and detailed test boundaries.
+UI checks use an installed iDash previews and matching-signed instrumentation on a disposable API27 x86_64 emulator,1024×600 at160dpi. Coverage includes actual app discovery, on-screen bounds/touch heights, local clock, calendar/power visibility, dock-to-library navigation, search/empty/reset, Back, favorite assignment/rebuild/restart persistence, Control Center and external Android Settings return. The test source is in app/src/androidTest/java/com/shazwan/idash/SmokeChecks.java. The original0.1.0 run passed30 assertions; the current result is recorded in dist/artifact.json. See dist/artifact.json for the artifact hashes and detailed test boundaries.
 
 Run on a disposable emulator, not a head unit containing personal settings:
 
@@ -23,4 +23,10 @@ Screenshots show real emulator output. No tile/weather/media data or real car ha
 
 Installation smoke check on a head unit should keep the existing launcher, launch iDash normally first, assign the desired actual apps and check touch, clock, app return and volume behavior before choosing it as the default home app.
 
-The expanded test runner first hit a cross-app INJECT_EVENTS restriction and then an accessibility-root timing race. It now uses UiAutomation Back for the external app and waits for a non-null window root. These were runner changes; no application privileges were added. The final30-assertion run passed on the exact preview. Coordinate-driven Control Center also opened correctly; a frame captured too early was replaced after presentation settled on the slow software emulator.
+The expanded test runner first hit a cross-app INJECT_EVENTS restriction and then an accessibility-root timing race. It now uses UiAutomation Back for the external app and waits for a non-null window root. These were runner changes; no application privileges were added. The original0.1.0 final30-assertion run passed on that exact preview. Coordinate-driven Control Center also opened correctly; a frame captured too early was replaced after presentation settled on the slow software emulator.
+
+0.1.1 changes Favorites and dock to Bluetooth → Files → YouTube in one centered row. The existing suite now also checks the exact order, absence of removed shortcuts and migration of the prior Bluetooth assignment. Bluetooth/Files use named preference keys; an old Video assignment is reused for YouTube only when its package is YouTube or TizenTube. Earlier library/Control Center screenshots are labeled0.1.0; the dashboard image is refreshed for0.1.1.
+
+0.1.1 verification: build/lint/signature/alignment pass. Both UI runs reached29 assertions, including the requested order, absence of removed favorites, migration and persistence. The full suite failed on Control Center accessibility visibility while an emulator System UI ANR was observed in front; the isolated retry used stock Home. Do not report a full33-assertion pass for0.1.1. The known system dialog was dismissed after the test stopped to inspect the dashboard.
+
+After the0.1.1 layout precursor run, the final build adds vibrant original vector marks and the two MRiOS PNGs documented in MRIOS_REVIEW.md. Build/lint/signature/alignment passed again; that final signed APK was installed and visually inspected on API27 and its dashboard screenshot updated. The full functional suite was not rerun on this asset/palette revision.

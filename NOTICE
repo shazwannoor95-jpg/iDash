@@ -2,4 +2,13 @@ iDash application source is MIT licensed. The Gradle wrapper scripts and JAR
 are generated Gradle tooling, distributed under Apache License2.0; their
 original notices remain in the scripts. See gradle/wrapper/LICENSE.
 Android SDK/platform components are build dependencies, not project source.
-No NexaDash application source or Apple proprietary visual assets are included.
+No NexaDash application source is included.
+
+app/src/main/res/drawable-nodpi/mrios_files.png and mrios_settings.png were
+extracted from the owner-supplied MRiOS V2.apk at the owner's request.
+Their original names were res/drawable/ic_ios_files.png and
+res/drawable/ic_ios_settings.png. These third-party images are NOT licensed
+under the project's MIT license; original rights remain with their respective
+owners. A redistribution license was not established from the binary input.
+No MRiOS executable code, native libraries, licensing code or advertising SDKs
+are incorporated. See docs/MRIOS_REVIEW.md for the exact scope.

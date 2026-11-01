@@ -1,20 +1,20 @@
 {
   "name": "iDash",
-  "version_name": "0.1.0",
-  "version_code": 1,
+  "version_name": "0.1.1",
+  "version_code": 2,
   "kind": "preview",
   "package": "com.shazwan.idash",
   "min_sdk": 26,
   "target_sdk": 35,
-  "file": "iDash-0.1.0-preview.apk",
-  "size_bytes": 49784,
-  "sha256": "14db46a23abfe02b22770a39589375fc19c0c3c0652e232e32a776c27dd41663",
+  "file": "iDash-0.1.1-preview.apk",
+  "size_bytes": 181025,
+  "sha256": "71776877a279072d5c2fbaeee4783bd55aef5b54053b5a53bbd3c97f1b14c1a2",
   "signer_sha256": "49f6adc61ce465f494ab7d86bf8adcc196b03189ab81f9e287d91328cd63de73",
   "native_libraries": 0,
   "build": "JDK17 / Gradle8.9 / SDK35",
   "lint": "PASS: 0 errors, 2 warnings",
-  "ui_result": "PASS: 30 iDash API27 UI assertions",
-  "test_environment": "Disposable API27 x86_64 emulator, 1024x600 at160dpi; exact published preview installed with matching-signed test APK",
+  "ui_result": "Layout precursor:29 assertions passed before emulator System UI ANR obscured Control Center; final vibrant/asset build installed and visually inspected on API27, full suite not rerun",
+  "test_environment": "Disposable API27 x86_64 emulator,1024x600 at160dpi; precursor functional suite plus final signed APK install/visual verification",
   "physical_head_unit_tested": false,
   "limitations": [
     "Original iPad-inspired Android design; exact iOS27.2/iPadOS27 appearance not verified",
@@ -23,9 +23,14 @@
     "Media widget/control integration not implemented"
   ],
   "test_notes": [
-    "Initial26-assertion UI suite passed",
-    "Expanded suite needed UiAutomation Back for cross-app return and null-safe waiting for accessibility window readiness; both changes were test-runner only",
-    "Emulator System UI ANR obscured first screenshot and was dismissed before subsequent tests/captures",
-    "Coordinate-driven Control Center opened correctly; first capture occurred before the slow emulator presented it, so it was recaptured after the window settled"
+    "Build, lint, signing and alignment passed",
+    "Both UI attempts reached29 assertions; requested layout and migration checks passed, but Control Center visibility check was obscured by an emulator System UI ANR",
+    "Stock Home used on isolated retry after experimental launcher pause/stop timeout",
+    "No physical head-unit verification; original0.1.0 full30-assertion result is preserved in docs/qa/preview-0.1.0.json",
+    "Final build/lint/signature/alignment passed after vibrant palette and two MRiOS asset integrations; final dashboard captured from installed APK"
+  ],
+  "visual_assets": [
+    "Original Bluetooth and YouTube vector marks with vibrant opaque gradients",
+    "Files and Settings PNGs extracted from owner MRiOS V2 input; separate provenance in NOTICE and docs/MRIOS_REVIEW.md"
   ]
 }
