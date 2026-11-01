@@ -16,3 +16,6 @@ local.properties
 .env.*
 __pycache__/
 .DS_Store
+
+!dist/*.apk
+*.idsig

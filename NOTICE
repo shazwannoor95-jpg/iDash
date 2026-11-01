@@ -1,0 +1,5 @@
+iDash application source is MIT licensed. The Gradle wrapper scripts and JAR
+are generated Gradle tooling, distributed under Apache License2.0; their
+original notices remain in the scripts. See gradle/wrapper/LICENSE.
+Android SDK/platform components are build dependencies, not project source.
+No NexaDash application source or Apple proprietary visual assets are included.
