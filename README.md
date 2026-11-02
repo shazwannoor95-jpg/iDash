@@ -4,24 +4,24 @@ An iPad-inspired Android launcher for landscape car head units. Floating glass d
 
 ![iDash dashboard](docs/dashboard.png)
 
-[Optional web panel preview](docs/optional-panel.png) · [FM panel preview](docs/fm-panel.png)
+[Wallpaper gallery](docs/wallpapers.png) · [Optional web panel preview](docs/optional-panel.png) · [FM panel preview](docs/fm-panel.png)
 
 [MRiOS-themed App Library preview (0.1.2)](docs/app-library.png) · [Icon Control Center preview (0.1.4)](docs/control-center.png)
 
 ## Try the preview
 
-[Download iDash 0.1.5 preview](dist/iDash-0.1.5-preview.apk?raw=true) · Android8.0/API26 or newer · package `com.shazwan.idash`
+[Download iDash 0.1.6 preview](dist/iDash-0.1.6-preview.apk?raw=true) · Android8.0/API26 or newer · package `com.shazwan.idash`
 
 Install alongside your existing launcher. Open **iDash** from the app list first. To make it your home app, open **Control Center → Choose default launcher** and select iDash yourself. Retain the original launcher as a fallback. Android installation may ask you to allow installs from your file manager/browser.
 
 ## Included
 
 - Landscape dashboard without a Favorites section, with translucent rounded cards,24 MRiOS wallpapers and two original gradient palettes.
-- Local clock/date, a browsable Gregorian calendar and an official JAKIM calendar/prayer-times widget replacing Power. Select your zone explicitly; no GPS permission is requested.
+- Compact local clock/date, a browsable Gregorian calendar and a pinned official JAKIM prayer-times widget with next-prayer countdown, replacing Power. The prayer card stays above the dock while the clock/calendar area can scroll. Select your zone explicitly; no GPS permission is requested.
 - Three shortcuts — Bluetooth, Files, YouTube — in the floating dock only. Hold a favorite to select its app, or hold an App Library icon to assign it. Assignments persist across restarts.
 - App Library with installed application icons, live name search, Refresh and Back/Done navigation.
 - Icon-based Control Center with Android Wi-Fi, Bluetooth, display, sound and default-home settings links, plus a real media-volume slider. OEM hardware may handle volume differently.
-- Customize: calendar/JAKIM visibility,24/12-hour time, MRiOS icon theme, Wallpapers gallery, Glass/Transparent/Solid appearance and optional short transitions. MRiOS wallpaper47 is the default unless a rose gradient was previously selected. Supported App Library apps use the MRiOS image theme; unmatched apps retain their own icons.
+- Customize: calendar/JAKIM visibility,24/12-hour time, MRiOS icon theme, thumbnail Wallpapers gallery, Choose from Files for a private custom image, Glass/Transparent/Solid appearance and optional short transitions. MRiOS wallpaper47 is the default unless a rose gradient was previously selected. Supported App Library apps use the MRiOS image theme; unmatched apps retain their own icons.
 
 External apps open normally in their own screens. The optional cooperative native-panel candidate is described below; Maps rendering, media-session playback controls, weather service and privileged system toggles are not implemented. The FM panel uses existing, firmware-specific OEM tuner services; it does not supply a radio driver. Dock shortcuts launch an installed app. No runtime permission prompts, root or ADB grants are needed for normal launcher use; the manifest requests normal audio-settings and Internet permissions. Internet is used when you request a JAKIM refresh or explicitly start the YouTube web panel.
 
@@ -55,6 +55,12 @@ The header groups **Panel**, **Customize** and **Control Center**. Panel starts 
 
 [Download the experimental SmartTube iDash companion](dist/companions/SmartTube-iDash.apk?raw=true). It has a distinct package and supports ARM32/ARM64. Native playback, setup and touch navigation on the head unit remain unverified. **Upstream SmartTube reports a past build-environment compromise; the downloaded stable32.68 input has not been independently cleared for malware here.** See [provenance and security limits](docs/SMARTTUBE_REVIEW.md) before installing this candidate. The iDash launcher itself contains no SmartTube executable code. Ordinary apps cannot use this cooperative native path.
 
-Four SF Pro Display files extracted from MRiOS provide launcher typography; regular is also used by the Android dialog theme. No separate Apple color-emoji font was found in the reviewed APK, so device emoji fallback remains in use. Glass/transparency uses lightweight API26 gradient fills, and optional180ms fades/slides are scoped to iDash views/dialogs plus supported launch transitions. Other apps' internal windows, fonts, animations and system emoji are not globally replaced. The transitions toggle and Android's animator scale are respected. These styles are implemented in iDash; no MRiOS executable theme engine or modern refraction/blur shader is imported.
+Four SF Pro Display files extracted from MRiOS provide launcher typography; regular is also used by the Android dialog theme. No separate Apple color-emoji font was found in the reviewed APK, so device emoji fallback remains in use. Glass/transparency uses cached API26 gradient shaders with a soft highlight and graduated rim, and optional180ms fades/slides are scoped to iDash views/dialogs plus supported launch transitions. Other apps' internal windows, fonts, animations and system emoji are not globally replaced. The transitions toggle and Android's animator scale are respected. These styles are implemented in iDash; no MRiOS executable theme engine or modern refraction/blur shader is imported.
 
 The user-linked [PremiumMods repository review](docs/reviews/PREMIUMMODS.md) found update metadata, not a buildable launcher/theme source tree. All original asset provenance remains recorded separately from iDash's code license.
+
+## Change wallpaper
+
+Tap **Customize → Appearance / Wallpapers → Wallpapers**. Choose a thumbnail from the24 MRiOS images, or tap **Choose from Files** to select your own JPG/PNG/WebP through Android's document picker. Selection applies immediately and is saved without Apply. A custom image is copied to app-private storage, validated, limited to16MiB and decoded to a maximum1280px edge. It is never uploaded or included in this repository; no broad storage permission is requested. Invalid/oversized input retains the previous saved image. Reopen the gallery to use the saved custom image again. Existing wallpaper choices remain unchanged by this update.
+
+0.1.6 shortens the dock from83dp to60dp, with34dp icons and touch tiles at least48dp high. JAKIM visibility is restored once for this update at the owner's request; it remains optional in Customize afterwards. Select your correct zone explicitly if it is unset. Countdown uses available official timetable rows and Malaysia time, excludes sunrise as a prayer, and uses the next day's row after Isyak. It does not invent times outside cached coverage or schedule alarms.

@@ -1,6 +1,6 @@
 # Preview validation
 
-Build target: iDash0.1.5, package com.shazwan.idash, minAPI26/target35. Java/native Android views; no bundled native code, therefore no ARM64-only dependency. Actual ARM32/head-unit runtime and1GB performance are still untested.
+Build target: iDash0.1.6, package com.shazwan.idash, minAPI26/target35. Java/native Android views; no bundled native code, therefore no ARM64-only dependency. Actual ARM32/head-unit runtime and1GB performance are still untested.
 
 Build checks: assembleDebug, assembleDebugAndroidTest and lintDebug passed using JDK17, Gradle8.9 and SDK35. Lint: zero errors, two warnings (intentional landscape activity and modern Android data-extraction declaration). Signature v2/v3 and ZIP alignment verified for the downloadable, independently signed iDash preview.
 
@@ -57,3 +57,7 @@ SmartTube input/output signatures, alignment, manifest and original DEX/native b
 An intermediate FM touch-size assertion exposed44dp controls inside48dp rows after margins. Transport/tuning/preset rows were enlarged to52dp, retaining48dp actual targets; the final PanelChecks suite includes a measured transport-height assertion. The intermediate assertion failure was not treated as a passing release result.
 
 Final0.1.5 exact signed preview:45 focused layout/theme assertions and21 panel assertions PASS on API27. Build/lint (zero errors,37 warnings), v2/v3 signing and ZIP alignment pass. ARM SmartTube and physical iDash FM remain untested.
+
+0.1.6 verification targets the revised glass, thumbnail gallery, custom image import,60dp dock and pinned prayer card. WallpaperChecks uses a generated solid-color image on a disposable emulator to verify exact-byte copying, bounded decode, backdrop update, invalid/oversized input preservation, gallery entries/dismissal and panel-view preservation. It does not import owner images. An early dismissal assertion ran before Android's posted OnDismiss callback; it now waits for idle before checking cleanup. SmokeChecks adds deterministic next-prayer/after-midnight/missing-coverage cases plus on-screen card/dock checks, including a1024×480/font-scale1.3 profile. Current results/hashes are recorded in dist/artifact.json. The native player/FM adapter are unchanged from0.1.5; their prior fixture pass is historical, not a new physical test.
+
+Final0.1.6:53 focused layout/prayer assertions PASS at1024×600 and53 PASS at1024×480/font-scale1.3;13 wallpaper assertions PASS on the exact signed preview. Build/lint, signature and alignment pass. Physical performance remains unmeasured. The inline owner red/orange wallpaper is not bundled; Choose from Files supports that image from the device.

@@ -30,6 +30,19 @@ final class JakimCalendar {
         Day(JSONObject o)throws Exception{date=JakimCalendar.date(o.getString("date"));hijri=o.getString("hijri");if(!hijri.matches("\\d{4}-\\d{2}-\\d{2}"))throw new IOException("Invalid Hijri date");
             int last=-1;for(int i=0;i<6;i++){String v=o.getString(KEYS[i]);if(!v.matches("\\d{2}:\\d{2}(:\\d{2})?"))throw new IOException("Invalid time");int h=Integer.parseInt(v.substring(0,2)),m=Integer.parseInt(v.substring(3,5));if(h>23||m>59||(v.length()==8&&Integer.parseInt(v.substring(6))>59)||h*60+m<=last)throw new IOException("Invalid timetable");last=h*60+m;times[i]=v.substring(0,5);}}
     }
+    static String nextPrayer(Map<String,Day> days,long now){
+        String[] names={"Subuh","Syuruk","Zohor","Asar","Maghrib","Isyak"};
+        Calendar candidate=Calendar.getInstance(MY);candidate.setTimeInMillis(now);
+        for(int offset=0;offset<2;offset++){
+            Calendar date=(Calendar)candidate.clone();date.add(Calendar.DAY_OF_MONTH,offset);Day day=days.get(key(date.getTimeInMillis()));if(day==null)continue;
+            for(int index:new int[]{0,2,3,4,5}){
+                Calendar at=(Calendar)date.clone();at.set(Calendar.HOUR_OF_DAY,Integer.parseInt(day.times[index].substring(0,2)));at.set(Calendar.MINUTE,Integer.parseInt(day.times[index].substring(3,5)));at.set(Calendar.SECOND,0);at.set(Calendar.MILLISECOND,0);
+                long remaining=at.getTimeInMillis()-now;if(remaining<0)continue;long minutes=(remaining+59999)/60000;
+                return names[index]+" · "+day.times[index]+" · "+(minutes>=60?minutes/60+"j ":"")+minutes%60+"m lagi";
+            }
+        }
+        return "Tiada waktu seterusnya dalam jadual";
+    }
     static Map<String,Day> parse(String raw)throws Exception{JSONObject root=new JSONObject(raw);JSONArray rows=root.getJSONArray("prayerTime");if(rows.length()==0||rows.length()>800)throw new IOException("Invalid coverage");Map<String,Day> result=new TreeMap<>();for(int i=0;i<rows.length();i++){Day d=new Day(rows.getJSONObject(i));if(result.put(d.date,d)!=null)throw new IOException("Duplicate date");}return result;}
     static String read(InputStream in)throws IOException{try(InputStream source=in;ByteArrayOutputStream out=new ByteArrayOutputStream()){byte[] bytes=new byte[8192];int n;while((n=source.read(bytes))!=-1){if(out.size()+n>LIMIT)throw new IOException("Timetable too large");out.write(bytes,0,n);}return out.toString("UTF-8");}}
     static Map<String,Day> load(Context c,String zone)throws Exception{

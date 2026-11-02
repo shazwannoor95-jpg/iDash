@@ -6,7 +6,9 @@ final class IosStyle {
  static Typeface font(Context c,boolean strong){try{if(regular==null){regular=Typeface.createFromAsset(c.getAssets(),"mrios/fonts/sf_pro_display_regular.ttf");medium=Typeface.createFromAsset(c.getAssets(),"mrios/fonts/sf_pro_display_medium.ttf");bold=Typeface.createFromAsset(c.getAssets(),"mrios/fonts/sf_pro_display_bold.ttf");}return strong?bold:regular;}catch(RuntimeException absent){return strong?Typeface.DEFAULT_BOLD:Typeface.DEFAULT;}}
  static boolean motion(Context c){return c.getSharedPreferences("idash",0).getBoolean("motion",true)&&android.provider.Settings.Global.getFloat(c.getContentResolver(),android.provider.Settings.Global.ANIMATOR_DURATION_SCALE,1)>0;}
  static void enter(View v){if(!motion(v.getContext()))return;v.setAlpha(.35f);v.setTranslationY(12*v.getResources().getDisplayMetrics().density);v.animate().alpha(1).translationY(0).setDuration(180).start();}
- static GradientDrawable glass(Context c,int tint,int radius){int style=c.getSharedPreferences("idash",0).getInt("glass_style",0);int alpha=style==1?38:style==2?228:110;int rgb=tint&0xffffff;GradientDrawable d=new GradientDrawable(GradientDrawable.Orientation.TL_BR,new int[]{(alpha<<24)|rgb,((style==1?22:style==2?210:75)<<24)|rgb});d.setCornerRadius(radius*c.getResources().getDisplayMetrics().density);d.setStroke(Math.max(1,Math.round(c.getResources().getDisplayMetrics().density)),0x65ffffff);return d;}
+ static Drawable glass(Context c,int tint,int radius){return glass(c,tint,radius,false);}
+ static Drawable glass(Context c,int tint,int radius,boolean sheet){return new GlassSurface(c.getResources().getDisplayMetrics().density,tint,radius,c.getSharedPreferences("idash",0).getInt("glass_style",0),sheet);}
+
  static final class Icon extends View {
   final int type;final Paint p=new Paint(3);final Path path=new Path();
   Icon(Context c,int type){super(c);this.type=type;setImportantForAccessibility(IMPORTANT_FOR_ACCESSIBILITY_NO);}

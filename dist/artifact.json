@@ -1,20 +1,20 @@
 {
   "name": "iDash",
-  "version_name": "0.1.5",
-  "version_code": 6,
+  "version_name": "0.1.6",
+  "version_code": 7,
   "kind": "preview",
   "package": "com.shazwan.idash",
   "min_sdk": 26,
   "target_sdk": 35,
-  "file": "iDash-0.1.5-preview.apk",
-  "size_bytes": 6486424,
-  "sha256": "44ae3bd2e487b432e282c012a35044d56e39685bd7c309466569b5be6c01797d",
+  "file": "iDash-0.1.6-preview.apk",
+  "size_bytes": 6498712,
+  "sha256": "bd91a8b71d5ec508ea78efe00ad4eba87a87a3641fa359e82b7ac07d03e18bfa",
   "signer_sha256": "49f6adc61ce465f494ab7d86bf8adcc196b03189ab81f9e287d91328cd63de73",
   "native_libraries": 0,
   "build": "JDK17 / Gradle8.9 / SDK35",
   "lint": "PASS:0 errors,37 warnings",
-  "ui_result": "PASS:45 iDash API27 layout/theme assertions",
-  "test_environment": "Exact signed preview installed on disposable API27 x86_64 emulator,1024x600@160dpi; focused layoutOnly run",
+  "ui_result": "PASS:53 layout/prayer assertions at1024x600;53 at1024x480/font-scale1.3",
+  "test_environment": "Exact signed0.1.6 preview; disposable API27 x86_64 emulator,1024x600@160dpi and1024x480/font-scale1.3",
   "physical_head_unit_tested": false,
   "limitations": [
     "No pixel-perfect iOS27 certification",
@@ -24,12 +24,14 @@
     "Glass uses API26 fills; device emoji and third-party UI are unchanged"
   ],
   "test_notes": [
-    "Build/lint/signature/alignment passed",
-    "45 focused layout/theme assertions passed on the exact signed preview",
-    "21 final panel assertions passed: native display/touch/release, web waits for Start, FM idle/missing-service failure/48dp measured transport height, car bound/reset/wrap/disposal",
-    "Intermediate FM transport assertion exposed44dp touch areas after margins; rows enlarged to52dp for48dp actual targets",
-    "No original user archives, private diagnostics or signing keys are included",
-    "SmartTube original3DEX/8native libraries preserved with a separate bridge DEX; static byte preservation is not malware or runtime clearance"
+    "Build/lint/signature/alignment passed; zero errors,37 lint warnings",
+    "53 layout/theme/prayer assertions pass on each of two display/font profiles",
+    "13 wallpaper assertions PASS: exact-byte private import, bounded decode, corrupt/oversized preservation, actual backdrop, gallery entries/dismissal and panel-view preservation",
+    "Prayer card stays fully visible above the60dp dock; clock/calendar remain scrollable",
+    "Next-prayer checks cover dawn, exclusion of sunrise, after-Isyak transition and missing coverage",
+    "Glass is cached fill/highlight/rim shading with no backdrop capture or live blur",
+    "Existing optional panel native/FM/car adapters are unchanged; prior0.1.5 fixture result is historical",
+    "No physical-head-unit, ARM SmartTube, live stream or1GB performance certification"
   ],
   "visual_assets": [
     "All36 ic_ios_*.png icons and24 wallpaper images from owner MRiOS V2; original hashes in docs/qa/mrios-visual-assets.json",
@@ -52,9 +54,12 @@
     "device_time_verified": false,
     "live_refresh_tested": false,
     "refresh_response_limit_bytes": 2097152,
-    "parser_attribution": "docs/licenses/NexaDash-MIT.txt"
+    "parser_attribution": "docs/licenses/NexaDash-MIT.txt",
+    "pinned_above_dock": true,
+    "next_prayer_countdown": "Malaysia time; five prayers, sunrise excluded; next-day cached row required after Isyak",
+    "visibility_restored_once_on_update": true
   },
-  "panel_result": "PASS:21 iDash panel assertions (real separate-UID fixture; no ARM SmartTube/live web certification)",
+  "panel_result": "Historical0.1.5:21 native/FM/car panel assertions; unchanged adapters, not rerun for0.1.6",
   "optional_panel": {
     "default_hidden": true,
     "auto_start": false,
@@ -88,5 +93,28 @@
     "Transparent",
     "Solid"
   ],
-  "transitions": "Optional180ms view/dialog fade/slide and supported launcher handoff fades; no global OS replacement"
+  "transitions": "Optional180ms view/dialog fade/slide and supported launcher handoff fades; no global OS replacement",
+  "wallpaper": {
+    "mrios_count": 24,
+    "thumbnails": true,
+    "custom_import": "Android document picker, app-private copy; no broad storage permissions or uploads",
+    "max_input_bytes": 16777216,
+    "max_decode_edge": 1280,
+    "invalid_import_preserves_previous": true,
+    "existing_choice_preserved": true,
+    "owner_inline_red_orange_bundled": false
+  },
+  "dock": {
+    "height_dp": 60,
+    "icon_dp": 34,
+    "touch_min_dp": 48,
+    "apps": [
+      "Bluetooth",
+      "Files",
+      "YouTube",
+      "Settings",
+      "Apps"
+    ]
+  },
+  "wallpaper_result": "PASS:13 iDash wallpaper assertions"
 }
