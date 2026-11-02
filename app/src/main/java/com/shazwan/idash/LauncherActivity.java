@@ -25,7 +25,8 @@ public class LauncherActivity extends Activity {
     final int[] colors = {0xff007aff,0xff168cff,0xffff163d};
     final String[] symbols = {"ᛒ", "▤", "▶"};
     LinearLayout shell, body, grid; FrameLayout stage; EditText search;
-    TextView clock, date, statusTime, batteryLabel, drawerCount;
+    TextView clock, date, statusTime, drawerCount, jakimText;
+    Map<String,JakimCalendar.Day> jakimDays=Collections.emptyMap();String loadedZone="",jakimDayKey=""; boolean jakimLoading;
     android.content.SharedPreferences prefs;
     String page = "home", query = "";
     boolean loaded, destroyed, resumed;
@@ -68,7 +69,7 @@ public class LauncherActivity extends Activity {
     }
     void title(LinearLayout target,String value,String subtitle) { TextView t=text(value,26,Color.WHITE); t.setTypeface(null,Typeface.BOLD); target.addView(t); TextView sub=text(subtitle,12,0xcce6eaff); sub.setPadding(0,dp(3),0,dp(12)); target.addView(sub); }
     void render() {
-        clock=null;date=null;batteryLabel=null;search=null;grid=null;
+        clock=null;date=null;jakimText=null;search=null;grid=null;
         stage=new FrameLayout(this); stage.addView(new Wallpaper(this),new FrameLayout.LayoutParams(-1,-1));
         if(wallpaperBitmap!=null){ImageView backdrop=new ImageView(this);backdrop.setScaleType(ImageView.ScaleType.CENTER_CROP);backdrop.setImageBitmap(wallpaperBitmap);stage.addView(backdrop,new FrameLayout.LayoutParams(-1,-1));View shade=new View(this);shade.setBackgroundColor(0x35000000);stage.addView(shade,new FrameLayout.LayoutParams(-1,-1));}
         ensureWallpaper();
@@ -92,7 +93,7 @@ public class LauncherActivity extends Activity {
         LinearLayout widgets=column(); widgetScroll.addView(widgets); LinearLayout.LayoutParams wp=new LinearLayout.LayoutParams(0,-1,0.37f);wp.rightMargin=dp(24); content.addView(widgetScroll,wp);
         LinearLayout timeCard=column(); timeCard.setPadding(dp(22),dp(14),dp(22),dp(14)); timeCard.setBackground(glass(0x7c20395d,28));
         TextView eyebrow=text("LOCAL TIME",10,0xffbaceeb); eyebrow.setLetterSpacing(.16f);timeCard.addView(eyebrow);
-        clock=text("",58,Color.WHITE); clock.setTypeface(android.graphics.Typeface.create("sans-serif-light",Typeface.NORMAL));timeCard.addView(clock);
+        clock=text("",50,Color.WHITE); clock.setTypeface(android.graphics.Typeface.create("sans-serif-light",Typeface.NORMAL));timeCard.addView(clock);
         date=text("",14,0xffe0eaff); timeCard.addView(date); timeCard.setContentDescription("Clock widget"); timeCard.setOnClickListener(v->openSettings(Settings.ACTION_DATE_SETTINGS)); widgets.addView(timeCard,new LinearLayout.LayoutParams(-1,-2));
         if(prefs.getBoolean("calendar",true)) {
             LinearLayout calendar=column(); calendar.setPadding(dp(20),dp(14),dp(20),dp(14)); calendar.setBackground(glass(0x65ffffff,24));
@@ -101,17 +102,11 @@ public class LauncherActivity extends Activity {
             TextView hint=text("Tap to view your calendar",12,0xcce6eaff);calendar.addView(hint); calendar.setContentDescription("Calendar widget"); calendar.setOnClickListener(v->showCalendar());
             LinearLayout.LayoutParams cp=new LinearLayout.LayoutParams(-1,-2);cp.topMargin=dp(12);widgets.addView(calendar,cp);
         }
-        if(prefs.getBoolean("battery",true)) {
-            LinearLayout battery=row(); battery.setPadding(dp(20),dp(8),dp(20),dp(8)); battery.setBackground(glass(0x40ffffff,24));
-            batteryLabel=text(batteryText(),14,Color.WHITE); battery.addView(batteryLabel,new LinearLayout.LayoutParams(0,dp(48),1));batteryLabel.setGravity(Gravity.CENTER_VERTICAL);
-            battery.setContentDescription("Power widget");battery.setOnClickListener(v->openSettings(Settings.ACTION_SETTINGS)); LinearLayout.LayoutParams bp=new LinearLayout.LayoutParams(-1,-2);bp.topMargin=dp(12);widgets.addView(battery,bp);
+        if(prefs.getBoolean("jakim",true)) {
+            LinearLayout card=column();card.setPadding(dp(18),dp(12),dp(18),dp(12));card.setBackground(glass(0x682b426a,24));card.setContentDescription("JAKIM calendar widget");
+            jakimText=text("",13,Color.WHITE);card.addView(jakimText);card.setOnClickListener(v->jakimDialog());LinearLayout.LayoutParams jp=new LinearLayout.LayoutParams(-1,-2);jp.topMargin=dp(12);widgets.addView(card,jp);updateJakim();loadJakim(false);
         }
-        LinearLayout right=column(); content.addView(right,new LinearLayout.LayoutParams(0,-1,.63f));
-        LinearLayout quickTitle=row();TextView label=text("FAVORITES",11,0xffe0e6ff); label.setLetterSpacing(.16f);quickTitle.addView(label,new LinearLayout.LayoutParams(0,dp(28),1));quickTitle.addView(button("All apps  ›",()->showApps()));right.addView(quickTitle);
-        right.addView(new View(this),new LinearLayout.LayoutParams(-1,0,1));
-        LinearLayout appRow=row(); appRow.setGravity(Gravity.CENTER);right.addView(appRow,new LinearLayout.LayoutParams(-1,dp(110)));
-        for(int i=0;i<slots.length;i++) { final int slot=i; appRow.addView(shortcut(slot,false),new LinearLayout.LayoutParams(0,-1,1)); }
-        TextView hint=text("Touch and hold a favorite to change its app",11,0xbbbfcdec);hint.setGravity(Gravity.CENTER);right.addView(hint,new LinearLayout.LayoutParams(-1,dp(24)));
+        content.addView(new View(this),new LinearLayout.LayoutParams(0,-1,.63f));
     }
     View shortcut(int slot,boolean dock) {
         LinearLayout tile=column(); tile.setGravity(Gravity.CENTER);tile.setPadding(dp(4),dp(5),dp(4),dp(5));
@@ -204,8 +199,8 @@ public class LauncherActivity extends Activity {
         AlertDialog dialog=new AlertDialog.Builder(this).setTitle("Control Center").setView(panel).setPositiveButton("Done",null).create();dialog.show();if(dialog.getWindow()!=null){dialog.getWindow().setBackgroundDrawable(glass(0xf02b355d,28));dialog.getWindow().setLayout(dp(440),-2);}
     }
     void customize() {
-        String[] options={"Calendar widget","Power widget","24-hour clock","Rose wallpaper","MRiOS icon theme"};boolean[] values={prefs.getBoolean("calendar",true),prefs.getBoolean("battery",true),prefs.getBoolean("24h",true),theme==1,prefs.getBoolean("mrios_icons",true)};
-        new AlertDialog.Builder(this).setTitle("Make it yours").setNeutralButton("Wallpapers",(d,w)->wallpaperPicker()).setMultiChoiceItems(options,values,(d,index,checked)->values[index]=checked).setPositiveButton("Apply",(d,w)->{prefs.edit().putBoolean("calendar",values[0]).putBoolean("battery",values[1]).putBoolean("24h",values[2]).putInt("theme",values[3]?1:0).putBoolean("mrios_icons",values[4]).apply();theme=values[3]?1:0;render();loadApps();}).setNegativeButton("Cancel",null).show();
+        String[] options={"Calendar widget","Kalendar JAKIM","24-hour clock","Rose wallpaper","MRiOS icon theme"};boolean[] values={prefs.getBoolean("calendar",true),prefs.getBoolean("jakim",true),prefs.getBoolean("24h",true),theme==1,prefs.getBoolean("mrios_icons",true)};
+        new AlertDialog.Builder(this).setTitle("Make it yours").setNeutralButton("Wallpapers",(d,w)->wallpaperPicker()).setMultiChoiceItems(options,values,(d,index,checked)->values[index]=checked).setPositiveButton("Apply",(d,w)->{prefs.edit().putBoolean("calendar",values[0]).putBoolean("jakim",values[1]).putBoolean("24h",values[2]).putInt("theme",values[3]?1:0).putBoolean("mrios_icons",values[4]).apply();theme=values[3]?1:0;render();loadApps();}).setNegativeButton("Cancel",null).show();
     }
     void wallpaperPicker() {
         try {String[] files=MrIosTheme.wallpapers(getAssets());String[] labels=new String[files.length+1];labels[0]="iDash gradient";for(int i=0;i<files.length;i++)labels[i+1]="MRiOS · "+files[i].replaceFirst("\\.[^.]+$","");
@@ -220,8 +215,29 @@ public class LauncherActivity extends Activity {
             main.post(()->{if(destroyed||generation!=wallpaperGeneration)return;wallpaperBitmap=decoded;render();});});
     }
     void showCalendar() {Calendar c=Calendar.getInstance();DatePickerDialog dialog=new DatePickerDialog(this,(v,y,m,d)->{},c.get(Calendar.YEAR),c.get(Calendar.MONTH),c.get(Calendar.DAY_OF_MONTH));dialog.setTitle("Calendar");dialog.show();}
-    String batteryText() {Intent i=registerReceiver(null,new IntentFilter(Intent.ACTION_BATTERY_CHANGED));if(i==null)return "Power · unavailable";int scale=i.getIntExtra(BatteryManager.EXTRA_SCALE,0),level=i.getIntExtra(BatteryManager.EXTRA_LEVEL,-1);return scale<=0||level<0?"Power · unavailable":"Power  "+(level*100/scale)+"%"+(i.getIntExtra(BatteryManager.EXTRA_PLUGGED,0)>0?"  ·  Connected":"");}
-    void updateClock() {Date now=new Date();boolean h24=prefs.getBoolean("24h",true);if(clock!=null)clock.setText(new SimpleDateFormat(h24?"HH:mm":"h:mm a",Locale.getDefault()).format(now));if(date!=null)date.setText(new SimpleDateFormat("EEEE, d MMMM",Locale.getDefault()).format(now));if(statusTime!=null)statusTime.setText(new SimpleDateFormat(h24?"HH:mm  ·  EEE, d MMM":"h:mm a  ·  EEE, d MMM",Locale.getDefault()).format(now));}
+    void updateClock() {Date now=new Date();if(!JakimCalendar.key(now.getTime()).equals(jakimDayKey))updateJakim();boolean h24=prefs.getBoolean("24h",true);if(clock!=null)clock.setText(new SimpleDateFormat(h24?"HH:mm":"h:mm a",Locale.getDefault()).format(now));if(date!=null)date.setText(new SimpleDateFormat("EEEE, d MMMM",Locale.getDefault()).format(now));if(statusTime!=null)statusTime.setText(new SimpleDateFormat(h24?"HH:mm  ·  EEE, d MMM":"h:mm a  ·  EEE, d MMM",Locale.getDefault()).format(now));}
+    void loadJakim(boolean refresh) {
+        String zone=prefs.getString("jakim_zone","");if(zone.isEmpty()||jakimLoading||(!refresh&&zone.equals(loadedZone)))return;jakimLoading=true;
+        worker.execute(()->{String error="";Map<String,JakimCalendar.Day> days=Collections.emptyMap();try{if(refresh)JakimCalendar.refresh(this,zone);days=JakimCalendar.load(this,zone);}catch(Exception failed){error="Muat turun gagal; cache sedia ada dikekalkan";try{days=JakimCalendar.load(this,zone);}catch(Exception ignored){}}
+            final Map<String,JakimCalendar.Day> result=days;final String message=error;
+            main.post(()->{if(destroyed)return;jakimLoading=false;if(!zone.equals(prefs.getString("jakim_zone",""))){loadJakim(false);return;}loadedZone=zone;jakimDays=result;updateJakim();if(!message.isEmpty())Toast.makeText(this,message,Toast.LENGTH_LONG).show();});});
+    }
+    void updateJakim() {
+        jakimDayKey=JakimCalendar.key(System.currentTimeMillis());if(jakimText==null)return;String zone=prefs.getString("jakim_zone","");
+        if(zone.isEmpty()){jakimText.setText("KALENDAR JAKIM\nPilih zon waktu solat\nTekan untuk tetapan");return;}
+        JakimCalendar.Day d=zone.equals(loadedZone)?jakimDays.get(jakimDayKey):null;
+        if(d==null){jakimText.setText("JAKIM · "+zone+"\n"+jakimDayKey+" · MYT\n"+(jakimLoading?"Memuat jadual…":"Tiada jadual tarikh ini · tekan untuk kemas kini"));return;}
+        jakimText.setText("JAKIM · "+zone+" · "+d.hijri+" H\nSubuh "+d.times[0]+"   Syuruk "+d.times[1]+"   Zohor "+d.times[2]+"\nAsar "+d.times[3]+"   Maghrib "+d.times[4]+"   Isyak "+d.times[5]+"\nTarikh peranti · MYT · Tekan untuk kalendar");
+    }
+    void jakimDialog() {
+        String zone=prefs.getString("jakim_zone","");if(zone.isEmpty()){chooseJakimZone();return;}
+        new AlertDialog.Builder(this).setTitle("Kalendar JAKIM · "+zone).setItems(new String[]{"Pilih tarikh / lihat jadual penuh","Tukar zon","Kemas kini daripada JAKIM"},(d,which)->{if(which==1)chooseJakimZone();else if(which==2){loadJakim(true);Toast.makeText(this,"Mengemas kini jadual…",Toast.LENGTH_SHORT).show();}else{Calendar c=Calendar.getInstance(JakimCalendar.MY);new DatePickerDialog(this,(picker,y,m,day)->{Calendar chosen=Calendar.getInstance(JakimCalendar.MY);chosen.clear();chosen.set(y,m,day,12,0);String key=JakimCalendar.key(chosen.getTimeInMillis());JakimCalendar.Day info=jakimDays.get(key);String message=info==null?"Tiada jadual rasmi untuk tarikh ini. Kemas kini jadual JAKIM diperlukan.":"Hijri: "+info.hijri+" H\n\n";if(info!=null)for(int i=0;i<6;i++)message+=JakimCalendar.NAMES[i]+"  "+info.times[i]+"\n";new AlertDialog.Builder(this).setTitle(zone+" · "+key).setMessage(message+"\nSumber: e-Solat JAKIM · MYT").setPositiveButton("Tutup",null).show();},c.get(Calendar.YEAR),c.get(Calendar.MONTH),c.get(Calendar.DAY_OF_MONTH)).show();}}).setNegativeButton("Tutup",null).show();
+    }
+    void chooseJakimZone() {
+        String[] labels=Arrays.copyOf(JakimCalendar.LABELS,5);labels[4]="Zon lain (muat turun diperlukan)";
+        new AlertDialog.Builder(this).setTitle("Pilih zon JAKIM").setItems(labels,(d,index)->{if(index<4)setJakimZone(JakimCalendar.ZONES[index]);else{EditText input=new EditText(this);input.setSingleLine();input.setHint("Contoh: JHR01");new AlertDialog.Builder(this).setTitle("Kod zon JAKIM").setView(input).setPositiveButton("Pilih",(dialog,w)->{String z=input.getText().toString().trim().toUpperCase(Locale.ROOT);if(JakimCalendar.validZone(z))setJakimZone(z);else Toast.makeText(this,"Kod zon tidak sah",Toast.LENGTH_LONG).show();}).setNegativeButton("Batal",null).show();}}).setNegativeButton("Batal",null).show();
+    }
+    void setJakimZone(String zone){prefs.edit().putString("jakim_zone",zone).apply();loadedZone="";jakimDays=Collections.emptyMap();updateJakim();loadJakim(false);}
     /** Original vector marks; no assets from the reference APK. */
     final class FavoriteGlyph extends View {
         final Paint ink=new Paint(Paint.ANTI_ALIAS_FLAG);final Path path=new Path(); final int slot;

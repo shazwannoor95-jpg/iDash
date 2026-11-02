@@ -1,19 +1,19 @@
 {
   "name": "iDash",
-  "version_name": "0.1.2",
-  "version_code": 3,
+  "version_name": "0.1.3",
+  "version_code": 4,
   "kind": "preview",
   "package": "com.shazwan.idash",
   "min_sdk": 26,
   "target_sdk": 35,
-  "file": "iDash-0.1.2-preview.apk",
-  "size_bytes": 4593140,
-  "sha256": "f2f07cf41ee65ff8c099a1efbc7a9c5871b79e94a5ebcaa70aec45c7141038ee",
+  "file": "iDash-0.1.3-preview.apk",
+  "size_bytes": 4638611,
+  "sha256": "dcfc8c7050a08cc375d6a9bd73e7243b32c9f12d6d5e521623d81fe26c4857e8",
   "signer_sha256": "49f6adc61ce465f494ab7d86bf8adcc196b03189ab81f9e287d91328cd63de73",
   "native_libraries": 0,
   "build": "JDK17 / Gradle8.9 / SDK35",
   "lint": "PASS: 0 errors, 2 warnings",
-  "ui_result": "PASS: 33 iDash API27 layout/theme assertions",
+  "ui_result": "PASS: 43 iDash API27 layout/theme assertions",
   "test_environment": "Exact signed preview installed on disposable API27 x86_64 emulator,1024x600@160dpi; focused layoutOnly run",
   "physical_head_unit_tested": false,
   "limitations": [
@@ -23,11 +23,12 @@
     "Media widget/control integration not implemented"
   ],
   "test_notes": [
-    "Build, lint, signature and alignment passed",
-    "33 focused assertions include exact three-favorite order, lower row above dock, absence of removed favorites, old assignment migration, restart persistence,36 icon entries,24 wallpaper entries and bounded background decode",
-    "The focused layout/theme run intentionally skips unchanged Control Center/external Android Settings coverage; no full-suite pass is claimed",
-    "Original0.1.0 and0.1.1 evidence retained separately; physical-head-unit testing remains outstanding",
-    "Known emulator System UI ANR obscured the first post-test capture; the exact system dialog was dismissed after the tests before final capture, not counted as an iDash fix"
+    "Build, lint, APK signature and alignment passed",
+    "Exact signed preview passed43 focused layout/theme assertions on API27, including no Power, one shortcut copy in dock, official365-day cache parsing, Malay date parsing, Malaysia date boundary, no expired-year reuse, zone loading and JAKIM visibility",
+    "All four JAKIM data files match their source.json SHA256;365 rows each",
+    "No live JAKIM HTTP endpoint or physical-head-unit test was run; no alarm, GPS time or countdown certification",
+    "Control Center/external Settings remain outside this focused run",
+    "Known emulator System UI ANR was visible after testing; that exact system dialog was dismissed before the final screenshot"
   ],
   "visual_assets": [
     "All36 ic_ios_*.png icons and24 wallpaper images from owner MRiOS V2; original hashes in docs/qa/mrios-visual-assets.json",
@@ -35,5 +36,21 @@
     "Separate third-party rights/provenance in NOTICE"
   ],
   "mrios_engine_ported": false,
-  "wallpaper_decode_max_edge": 1280
+  "wallpaper_decode_max_edge": 1280,
+  "jakim": {
+    "data_source": "Official e-Solat JAKIM annual data reused from NexaDash",
+    "bundled_zones": [
+      "SGR01",
+      "SGR02",
+      "SGR03",
+      "WLY01"
+    ],
+    "bundled_year": 2026,
+    "zone_selected_by_user": true,
+    "date_timezone": "Asia/Kuala_Lumpur",
+    "device_time_verified": false,
+    "live_refresh_tested": false,
+    "refresh_response_limit_bytes": 2097152,
+    "parser_attribution": "docs/licenses/NexaDash-MIT.txt"
+  }
 }

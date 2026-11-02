@@ -6,7 +6,7 @@ An Android car launcher with iOS-inspired visual hierarchy: rounded icon tiles, 
 
 ## First layout
 
-Use a compact status strip, a main widget area and a detached bottom dock. Primary widgets are clock/date, calendar and power. The owner requested three favorites in one row: Bluetooth, Files and YouTube, positioned low above the dock and mirrored in the dock. Settings and Apps follow them in the dock. Shortcuts open installed apps; they are not embedded activities.
+Use a compact status strip, a main widget area and a detached bottom dock. Primary widgets are clock/date, Gregorian calendar and the JAKIM calendar/prayer widget replacing Power. The owner removed dashboard Favorites; Bluetooth, Files and YouTube remain in the dock only. Settings and Apps follow them in the dock. Shortcuts open installed apps; they are not embedded activities.
 
 The app drawer shows actual installed launchable activities with labels and icons. Dock assignments persist locally. System controls must either use available Android APIs or open the matching settings page; do not show unsupported controls as functional.
 

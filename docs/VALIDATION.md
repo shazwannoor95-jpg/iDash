@@ -1,6 +1,6 @@
 # Preview validation
 
-Build target: iDash0.1.2, package com.shazwan.idash, minAPI26/target35. Java/native Android views; no bundled native code, therefore no ARM64-only dependency. Actual ARM32/head-unit runtime and1GB performance are still untested.
+Build target: iDash0.1.3, package com.shazwan.idash, minAPI26/target35. Java/native Android views; no bundled native code, therefore no ARM64-only dependency. Actual ARM32/head-unit runtime and1GB performance are still untested.
 
 Build checks: assembleDebug, assembleDebugAndroidTest and lintDebug passed using JDK17, Gradle8.9 and SDK35. Lint: zero errors, two warnings (intentional landscape activity and modern Android data-extraction declaration). Signature v2/v3 and ZIP alignment verified for the downloadable, independently signed iDash preview.
 
@@ -34,3 +34,5 @@ After the0.1.1 layout precursor run, the final build adds vibrant original vecto
 0.1.2: the exact signed preview passed33 focused API27 layout/theme assertions (`-e layoutOnly true`). This run checks the lower favorites row, imported icon/wallpaper counts, bounded background decode, discovery/search, assignment migration and persistence. It intentionally skips unchanged Control Center and external Settings checks; do not label it a full37-assertion pass. All60 imported image files match the source manifest hashes. Build, lint, APK signature and alignment passed.
 
 After the0.1.2 focused run passed, the known emulator System UI ANR obscured the first dashboard capture. That specific system dialog was dismissed after testing and the dashboard was recaptured. This is not a resolution or certification of the emulator System UI issue.
+
+0.1.3: the exact signed APK passed43 focused API27 assertions. New coverage: dashboard shortcuts exist only once in the dock; Power is absent; JAKIM widget is present;365 official cache rows parse;2026-11-02 is available;2027 dates are not filled from2026; Malay date/month and Malaysia midnight boundary parse correctly; zone selection loads off the UI thread and JAKIM visibility persists. All four bundled zone files match the recorded source hashes. Build/lint/signature/alignment passed. Live HTTP refresh and physical-head-unit behavior remain untested. The known emulator System UI ANR was visible after the suite; it was dismissed after testing before capturing the dashboard. The screenshot uses explicitly selected SGR02 test preferences; fresh installs ask the user to choose a zone.
