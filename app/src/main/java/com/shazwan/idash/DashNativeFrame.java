@@ -23,7 +23,7 @@ final class DashNativeFrame extends LinearLayout implements SurfaceHolder.Callba
         Target(String l,String p,String a,String s,String required){label=l;pkg=p;activity=a;service=s;permission=required;}
     }
     static final Target[] TARGETS={
-        new Target("TizenTube · iDash companion","com.shazwan.idash.tizentube","dev.cobalt.app.MainActivity","com.shazwan.nexapanel.Bridge"),
+        new Target("SmartTube · iDash companion","com.shazwan.idash.smarttube","com.liskovsoft.smartyoutubetv2.tv.ui.main.SplashActivity","com.shazwan.nexapanel.Bridge"),
         new Target("Native test fixture","com.shazwan.idash.test.a","com.shazwan.idash.test.Main","com.shazwan.idash.test.Bridge")
     };
     static final Map<String,WeakReference<DashNativeFrame>> HOSTS=new HashMap<>();
@@ -57,10 +57,10 @@ final class DashNativeFrame extends LinearLayout implements SurfaceHolder.Callba
         super(owner);this.owner=owner;panelKey="vehicle".equals(panel)?"vehicle":"media".equals(panel)?"media":"standalone";setOrientation(VERTICAL);
         int pad=Math.max(3,Math.round(4*owner.getResources().getDisplayMetrics().density));
         status=new TextView(owner);status.setTextSize(11);status.setTextColor(0xffdcefff);status.setMaxLines(2);status.setEllipsize(android.text.TextUtils.TruncateAt.END);
-        status.setText("Install the iDash TizenTube companion, then press Start.");addView(status,new LayoutParams(-1,-2));
+        status.setText("Install the iDash SmartTube companion, then press Start.");addView(status,new LayoutParams(-1,-2));
         LinearLayout toolbar=new LinearLayout(owner);
         target=TARGETS[0];
-        choose=button("TizenTube",()->{
+        choose=button("SmartTube",()->{
             ArrayList<Integer> indices=new ArrayList<>();ArrayList<String> labels=new ArrayList<>();
             for(int i=0;i<TARGETS.length;i++){
                 if(i==1)try{owner.getPackageManager().getApplicationInfo(TARGETS[i].pkg,0);}catch(PackageManager.NameNotFoundException absent){continue;}
@@ -102,7 +102,7 @@ final class DashNativeFrame extends LinearLayout implements SurfaceHolder.Callba
     private Button button(String label,Runnable run){Button b=new Button(owner);b.setText(label);b.setTypeface(IosStyle.font(owner,false));b.setTextSize(11);int touch=Math.round(48*owner.getResources().getDisplayMetrics().density);b.setMinHeight(touch);b.setMinimumHeight(touch);b.setMinWidth(touch);b.setMinimumWidth(touch);b.setPadding(4,2,4,2);b.setOnClickListener(v->run.run());return b;}
     private void openOutside(){try{owner.startActivity(new Intent(Intent.ACTION_MAIN).setComponent(new ComponentName(target.pkg,target.activity)));}catch(RuntimeException missing){note("Companion not installed or unavailable.");}}
     void setOnTargetSelected(java.util.function.IntConsumer listener){targetListener=listener;}
-    void select(int index){stop();int actual=Math.max(0,Math.min(TARGETS.length-1,index));target=TARGETS[actual];choose.setText(actual==0?"TizenTube":"Test fixture");note("Selected "+target.label+". Press Start; Open outside panel is separate.");if(targetListener!=null)targetListener.accept(actual);}
+    void select(int index){stop();int actual=Math.max(0,Math.min(TARGETS.length-1,index));target=TARGETS[actual];choose.setText(actual==0?"SmartTube":"Test fixture");note("Selected "+target.label+". Press Start; Open outside panel is separate.");if(targetListener!=null)targetListener.accept(actual);}
     private boolean duplicateActiveTarget(){
         for(WeakReference<DashNativeFrame> ref:HOSTS.values()){
             DashNativeFrame other=ref.get();if(other!=null&&other!=this&&other.owner==owner&&!other.closed&&other.wanted&&other.target.pkg.equals(target.pkg))return true;
@@ -169,7 +169,7 @@ final class DashNativeFrame extends LinearLayout implements SurfaceHolder.Callba
             if(!a.exported||!a.enabled||(a.flags&0x80000000)==0)return "Companion activity has not opted into native display hosting.";
             if(!s.exported||!s.enabled||!target.permission.equals(s.permission))return "Matching signature-protected companion service is missing.";
             if(pm.checkPermission(target.permission,owner.getPackageName())!=PackageManager.PERMISSION_GRANTED)return "Install the companion first, then install/update this launcher again to grant its signature permission.";
-        }catch(PackageManager.NameNotFoundException absent){return target.label+" companion not installed. "+"Install TizenTube-iDash-arm32.apk; NexaDash companions use a different identity.";}
+        }catch(PackageManager.NameNotFoundException absent){return target.label+" companion not installed. "+"Install SmartTube-iDash.apk; NexaDash companions use a different identity.";}
         return null;
     }
     void start(){

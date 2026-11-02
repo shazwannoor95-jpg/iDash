@@ -1,0 +1,92 @@
+{
+  "name": "iDash",
+  "version_name": "0.1.5",
+  "version_code": 6,
+  "kind": "preview",
+  "package": "com.shazwan.idash",
+  "min_sdk": 26,
+  "target_sdk": 35,
+  "file": "iDash-0.1.5-preview.apk",
+  "size_bytes": 6486424,
+  "sha256": "44ae3bd2e487b432e282c012a35044d56e39685bd7c309466569b5be6c01797d",
+  "signer_sha256": "49f6adc61ce465f494ab7d86bf8adcc196b03189ab81f9e287d91328cd63de73",
+  "native_libraries": 0,
+  "build": "JDK17 / Gradle8.9 / SDK35",
+  "lint": "PASS:0 errors,37 warnings",
+  "ui_result": "PASS:45 iDash API27 layout/theme assertions",
+  "test_environment": "Exact signed preview installed on disposable API27 x86_64 emulator,1024x600@160dpi; focused layoutOnly run",
+  "physical_head_unit_tested": false,
+  "limitations": [
+    "No pixel-perfect iOS27 certification",
+    "Only the matching-key SmartTube companion and test fixture support the cooperative native path; no Maps or arbitrary app hosting",
+    "No physical iDash FM/audio, ARM SmartTube playback, live YouTube or1GB performance certification",
+    "SmartTube upstream reports build-environment compromise; candidate input has no independent malware clearance",
+    "Glass uses API26 fills; device emoji and third-party UI are unchanged"
+  ],
+  "test_notes": [
+    "Build/lint/signature/alignment passed",
+    "45 focused layout/theme assertions passed on the exact signed preview",
+    "21 final panel assertions passed: native display/touch/release, web waits for Start, FM idle/missing-service failure/48dp measured transport height, car bound/reset/wrap/disposal",
+    "Intermediate FM transport assertion exposed44dp touch areas after margins; rows enlarged to52dp for48dp actual targets",
+    "No original user archives, private diagnostics or signing keys are included",
+    "SmartTube original3DEX/8native libraries preserved with a separate bridge DEX; static byte preservation is not malware or runtime clearance"
+  ],
+  "visual_assets": [
+    "All36 ic_ios_*.png icons and24 wallpaper images from owner MRiOS V2; original hashes in docs/qa/mrios-visual-assets.json",
+    "Bluetooth and YouTube original vector marks retained; Files/Settings source images reused",
+    "Separate third-party rights/provenance in NOTICE"
+  ],
+  "mrios_engine_ported": false,
+  "wallpaper_decode_max_edge": 1280,
+  "jakim": {
+    "data_source": "Official e-Solat JAKIM annual data reused from NexaDash",
+    "bundled_zones": [
+      "SGR01",
+      "SGR02",
+      "SGR03",
+      "WLY01"
+    ],
+    "bundled_year": 2026,
+    "zone_selected_by_user": true,
+    "date_timezone": "Asia/Kuala_Lumpur",
+    "device_time_verified": false,
+    "live_refresh_tested": false,
+    "refresh_response_limit_bytes": 2097152,
+    "parser_attribution": "docs/licenses/NexaDash-MIT.txt"
+  },
+  "panel_result": "PASS:21 iDash panel assertions (real separate-UID fixture; no ARM SmartTube/live web certification)",
+  "optional_panel": {
+    "default_hidden": true,
+    "auto_start": false,
+    "modes": [
+      "YouTube web",
+      "Radio FM antenna",
+      "Kereta \u00b7 Saga image angles",
+      "SmartTube native companion"
+    ],
+    "native_targets": [
+      "com.shazwan.idash.smarttube"
+    ],
+    "fixture_target": "com.shazwan.idash.test.a",
+    "test_environment": "API27 x86_64 writable-system emulator overlay advertising secondary-display apps, matching TEST9278B feature report",
+    "physical_smarttube_tested": false,
+    "physical_idash_fm_tested": false,
+    "previous_nexadash_fm_owner_confirmed": true,
+    "live_web_playback_tested": false,
+    "car": "One <=2MiB decoded atlas while active; release on pause/hide; image angles not live3D or telemetry",
+    "background_cleanup_test": "Fixture lifecycle callbacks and hide verify release; no physical task-switch certification"
+  },
+  "typography": {
+    "source": "MRiOS V2.apk",
+    "family": "SF Pro Display",
+    "bundled_weights": 4,
+    "emoji_font_found": false,
+    "emoji_behavior": "Android device fallback"
+  },
+  "appearance": [
+    "Glass",
+    "Transparent",
+    "Solid"
+  ],
+  "transitions": "Optional180ms view/dialog fade/slide and supported launcher handoff fades; no global OS replacement"
+}

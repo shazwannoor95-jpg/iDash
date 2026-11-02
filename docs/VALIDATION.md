@@ -1,6 +1,6 @@
 # Preview validation
 
-Build target: iDash0.1.4, package com.shazwan.idash, minAPI26/target35. Java/native Android views; no bundled native code, therefore no ARM64-only dependency. Actual ARM32/head-unit runtime and1GB performance are still untested.
+Build target: iDash0.1.5, package com.shazwan.idash, minAPI26/target35. Java/native Android views; no bundled native code, therefore no ARM64-only dependency. Actual ARM32/head-unit runtime and1GB performance are still untested.
 
 Build checks: assembleDebug, assembleDebugAndroidTest and lintDebug passed using JDK17, Gradle8.9 and SDK35. Lint: zero errors, two warnings (intentional landscape activity and modern Android data-extraction declaration). Signature v2/v3 and ZIP alignment verified for the downloadable, independently signed iDash preview.
 
@@ -48,3 +48,12 @@ Run the suites serially. Build/install the default SmokeChecks test APK for -e l
 The final search field initially clipped its hint under the imported font; padding/gravity were corrected. The exact final release was then rebuilt/re-signed and both45 layout checks and11 native-panel fixture checks passed again. No live web video or ARM32 TizenTube playback was introduced into that evidence.
 
 The final panel rectangle starts above the left clock card, using the freed upper-right heading area from the annotated layout; left widget positioning is preserved. After this viewport adjustment the exact distributed APK again passed45 layout assertions and11 separate-UID panel assertions. Tests remain scoped as described above.
+
+
+0.1.5 replaces the active native TizenTube target with a separately namespaced SmartTube candidate, and ports the firmware-specific FM adapter and bounded Saga image viewer. The three requested apps remain dock-only. Current results/hashes are in dist/artifact.json. FM failure without OEM service, no autoplay, mode disposal, car decode/reset/wrapping and bitmap release are covered by PanelChecks. A real separate-UID fixture covers native display confirmation, forwarded touch and release; it is not SmartTube playback evidence. Run PanelChecks by building instrumentation with -PidashRunner=com.shazwan.idash.PanelChecks and signing both target/tests with the same key. Do not install OEM radio fixture doubles on a real head unit.
+
+SmartTube input/output signatures, alignment, manifest and original DEX/native byte preservation are checked separately. The downloaded official stable32.68 APK is not independently cleared after the upstream build-environment compromise; see SMARTTUBE_REVIEW.md. No ARM runtime, stream/login flow or physical audio result is claimed. The owner's previously successful NexaDash FM test is evidence for the original adapter, not a completed iDash hardware test.
+
+An intermediate FM touch-size assertion exposed44dp controls inside48dp rows after margins. Transport/tuning/preset rows were enlarged to52dp, retaining48dp actual targets; the final PanelChecks suite includes a measured transport-height assertion. The intermediate assertion failure was not treated as a passing release result.
+
+Final0.1.5 exact signed preview:45 focused layout/theme assertions and21 panel assertions PASS on API27. Build/lint (zero errors,37 warnings), v2/v3 signing and ZIP alignment pass. ARM SmartTube and physical iDash FM remain untested.

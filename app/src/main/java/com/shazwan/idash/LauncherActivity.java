@@ -31,7 +31,7 @@ public class LauncherActivity extends Activity {
     String page = "home", query = "";
     boolean loaded, destroyed, resumed, foregroundVisible; ImageView wallpaperView; View wallpaperShade;
     int theme;
-    boolean panelVisible; LinearLayout panelBox; DashNativeFrame nativePanel; DashWebPlayer webPanel;
+    boolean panelVisible; LinearLayout panelBox; DashNativeFrame nativePanel; DashWebPlayer webPanel; DashFmPanel fmPanel; SagaAngleView carPanel;
     Bitmap wallpaperBitmap; String requestedWallpaper; int wallpaperGeneration;
     final Runnable ticker = new Runnable() { public void run() { updateClock(); if (foregroundVisible) main.postDelayed(this, 1000); } };
 
@@ -41,7 +41,7 @@ public class LauncherActivity extends Activity {
     }
     int dp(float n) { return Math.round(n * getResources().getDisplayMetrics().density); }
     @Override public void onCreate(Bundle state) {
-        super.onCreate(state); prefs=getSharedPreferences("idash",MODE_PRIVATE); theme=prefs.getInt("theme",0); migrateFavorites();
+        super.onCreate(state); prefs=getSharedPreferences("idash",MODE_PRIVATE); theme=prefs.getInt("theme",0); migrateFavorites(); migratePanelPreferences();
         if(!prefs.contains("wallpaper"))prefs.edit().putString("wallpaper",theme==1?"":"mrios/wallpapers/47.jpg").apply();
         if(state!=null) { panelVisible=state.getBoolean("panel",false); page=state.getString("page","home"); query=state.getString("query",""); }
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
@@ -49,9 +49,9 @@ public class LauncherActivity extends Activity {
     }
     void immersive() { getWindow().getDecorView().setSystemUiVisibility(5894); }
     @Override protected void onStart(){super.onStart();foregroundVisible=true;}
-    @Override protected void onStop(){foregroundVisible=false;if(nativePanel!=null)nativePanel.pause();if(webPanel!=null)webPanel.pause();main.removeCallbacks(ticker);super.onStop();}
-    @Override protected void onResume() { super.onResume(); resumed=true; main.removeCallbacks(ticker); ticker.run(); immersive();if(nativePanel!=null)nativePanel.resume();if(webPanel!=null)webPanel.resume(); }
-    @Override protected void onPause() { resumed=false;if(nativePanel==null||!nativePanel.wanted){if(nativePanel!=null)nativePanel.pause();main.removeCallbacks(ticker);}if(webPanel!=null)webPanel.pause(); super.onPause(); }
+    @Override protected void onStop(){foregroundVisible=false;if(nativePanel!=null)nativePanel.pause();if(webPanel!=null)webPanel.pause();if(fmPanel!=null)fmPanel.pause();if(carPanel!=null)carPanel.pause();main.removeCallbacks(ticker);super.onStop();}
+    @Override protected void onResume() { super.onResume(); resumed=true; main.removeCallbacks(ticker); ticker.run(); immersive();if(nativePanel!=null)nativePanel.resume();if(webPanel!=null)webPanel.resume();if(fmPanel!=null)fmPanel.resume();if(carPanel!=null)carPanel.resume(); }
+    @Override protected void onPause() { resumed=false;if(nativePanel==null||!nativePanel.wanted){if(nativePanel!=null)nativePanel.pause();main.removeCallbacks(ticker);}if(webPanel!=null)webPanel.pause();if(fmPanel!=null)fmPanel.pause();if(carPanel!=null)carPanel.pause(); super.onPause(); }
     @Override protected void onDestroy() { destroyed=true;disposePanel(); main.removeCallbacksAndMessages(null); worker.shutdownNow(); super.onDestroy(); }
     @Override protected void onSaveInstanceState(Bundle out) { out.putBoolean("panel",panelVisible);out.putString("page",page); out.putString("query",query); super.onSaveInstanceState(out); }
     @Override public void onConfigurationChanged(Configuration config) { super.onConfigurationChanged(config); render(); }
@@ -190,8 +190,15 @@ public class LauncherActivity extends Activity {
         if(video!=null&&(video.getPackageName().equals("com.google.android.youtube")||video.getPackageName().equals("com.shazwan.nexadash.tizentube.next")))edit.putString("favorite_YouTube",oldVideo);
         edit.putBoolean("three_favorites",true).apply();
     }
+    void migratePanelPreferences(){
+        if(prefs.getBoolean("panel_modes_v2",false))return;
+        android.content.SharedPreferences.Editor edit=prefs.edit().putInt("panel_mode",prefs.getInt("panel_mode",0)==1?3:0).putBoolean("panel_modes_v2",true);
+        ComponentName previous=ComponentName.unflattenFromString(prefs.getString("favorite_YouTube",""));
+        if(previous!=null&&"com.shazwan.idash.tizentube".equals(previous.getPackageName()))edit.putString("favorite_YouTube",new ComponentName("com.shazwan.idash.smarttube","com.liskovsoft.smartyoutubetv2.tv.ui.main.SplashActivity").flattenToString());
+        edit.apply();
+    }
     void seedFavorites() {
-        String[][] hints={{"com.autochips.bluetooth"},{"com.android.documentsui","com.google.android.documentsui"},{"com.google.android.youtube","com.shazwan.idash.tizentube","com.shazwan.nexadash.tizentube.next"}};
+        String[][] hints={{"com.autochips.bluetooth"},{"com.android.documentsui","com.google.android.documentsui"},{"com.google.android.youtube","com.shazwan.idash.smarttube","org.smarttube.stable"}};
         android.content.SharedPreferences.Editor e=prefs.edit();for(int slot=0;slot<slots.length;slot++){if(prefs.contains("favorite_"+slots[slot]))continue;boolean done=false;for(String pkg:hints[slot]){for(App a:apps)if(ComponentName.unflattenFromString(a.component).getPackageName().equals(pkg)){e.putString("favorite_"+slots[slot],a.component);done=true;break;}if(done)break;}}e.apply();
     }
     void openSettings(String action) {try{startActivity(new Intent(action));}catch(RuntimeException unavailable){try{startActivity(new Intent(Settings.ACTION_SETTINGS));}catch(RuntimeException absent){Toast.makeText(this,"Settings unavailable on this device",Toast.LENGTH_SHORT).show();}}}
@@ -210,10 +217,12 @@ public class LauncherActivity extends Activity {
     View headerAction(String label,int icon,Runnable action){LinearLayout item=row();item.setGravity(Gravity.CENTER);item.setPadding(dp(10),0,dp(10),0);item.setBackground(glass(0x55e1eaff,20));item.setContentDescription(label);item.setMinimumHeight(dp(48));item.addView(new IosStyle.Icon(this,icon),new LinearLayout.LayoutParams(dp(22),dp(22)));TextView title=text(label,12,Color.WHITE);title.setPadding(dp(5),0,0,0);item.addView(title);item.setOnClickListener(v->action.run());LinearLayout.LayoutParams lp=new LinearLayout.LayoutParams(-2,dp(48));lp.leftMargin=dp(6);item.setLayoutParams(lp);return item;}
     View controlTile(String label,int icon,int color,Runnable action){LinearLayout tile=column();tile.setGravity(Gravity.CENTER);FrameLayout disc=new FrameLayout(this);GradientDrawable fill=new GradientDrawable(GradientDrawable.Orientation.TL_BR,new int[]{color,0xcc000000|(color&0xffffff)});fill.setCornerRadius(dp(18));disc.setBackground(fill);disc.addView(new IosStyle.Icon(this,icon),new FrameLayout.LayoutParams(-1,-1));tile.addView(disc,new LinearLayout.LayoutParams(dp(48),dp(48)));TextView caption=text(label,13,Color.WHITE);caption.setGravity(Gravity.CENTER);tile.addView(caption,new LinearLayout.LayoutParams(-1,dp(28)));tile.setContentDescription(label+" settings");tile.setOnClickListener(v->action.run());return tile;}
     void appearancePicker(){new AlertDialog.Builder(this).setTitle("Appearance").setItems(new String[]{"Glass","Transparent","Solid · high contrast","Wallpapers"},(d,index)->{if(index==3){wallpaperPicker();return;}prefs.edit().putInt("glass_style",index).apply();render();}).setNegativeButton("Cancel",null).show();}
-    void disposePanel(){if(nativePanel!=null){nativePanel.close();nativePanel=null;}if(webPanel!=null){webPanel.close();webPanel=null;}panelBox=null;}
+    void disposePanel(){if(nativePanel!=null){nativePanel.close();nativePanel=null;}if(webPanel!=null){webPanel.close();webPanel=null;}if(fmPanel!=null){fmPanel.close();fmPanel=null;}if(carPanel!=null){carPanel.pause();carPanel=null;}panelBox=null;}
     void buildPanel(){
-        LinearLayout header=row();TextView title=text("Media panel",15,Color.WHITE);header.addView(title,new LinearLayout.LayoutParams(0,dp(48),1));header.addView(button("Mode",()->new AlertDialog.Builder(this).setTitle("Panel mode").setItems(new String[]{"YouTube web","TizenTube · native companion"},(d,i)->{prefs.edit().putInt("panel_mode",i).apply();render();}).show()));header.addView(button("Close",()->{panelVisible=false;render();}));panelBox.addView(header);
-        if(prefs.getInt("panel_mode",0)==1){nativePanel=new DashNativeFrame(this,"standalone");panelBox.addView(nativePanel,new LinearLayout.LayoutParams(-1,0,1));if(resumed)nativePanel.resume();}
+        LinearLayout header=row();TextView title=text("Media panel",15,Color.WHITE);header.addView(title,new LinearLayout.LayoutParams(0,dp(48),1));header.addView(button("Mode",()->new AlertDialog.Builder(this).setTitle("Panel mode").setItems(new String[]{"YouTube web","Radio FM · antenna","Kereta · Saga","SmartTube · native companion"},(d,i)->{prefs.edit().putInt("panel_mode",i).apply();render();}).show()));header.addView(button("Close",()->{panelVisible=false;render();}));panelBox.addView(header);
+        if(prefs.getInt("panel_mode",0)==3){nativePanel=new DashNativeFrame(this,"standalone");panelBox.addView(nativePanel,new LinearLayout.LayoutParams(-1,0,1));if(resumed)nativePanel.resume();}
+        else if(prefs.getInt("panel_mode",0)==1){fmPanel=new DashFmPanel(this,getResources().getDisplayMetrics().density,()->new AlertDialog.Builder(this).setTitle("FM diagnostics").setMessage(DashFmController.report(this)).setPositiveButton("Close",null).show());panelBox.addView(fmPanel,new LinearLayout.LayoutParams(-1,0,1));if(resumed)fmPanel.resume();}
+        else if(prefs.getInt("panel_mode",0)==2){carPanel=new SagaAngleView(this,worker,getSharedPreferences("vehicle",MODE_PRIVATE));carPanel.setContentDescription("Saga preview; drag to rotate, pinch to zoom");panelBox.addView(carPanel,new LinearLayout.LayoutParams(-1,0,1));TextView hint=text("Drag to rotate · Pinch to zoom · Double tap to reset",12,0xffc7d8ed);hint.setGravity(Gravity.CENTER);panelBox.addView(hint);if(resumed)carPanel.resume();}
         else {webPanel=new DashWebPlayer(this);panelBox.addView(webPanel,new LinearLayout.LayoutParams(-1,0,1));if(resumed)webPanel.resume();}
     }
     void wallpaperPicker() {

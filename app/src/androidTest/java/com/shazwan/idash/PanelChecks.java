@@ -1,6 +1,6 @@
 package com.shazwan.idash;
 import android.app.*;import android.os.*;import android.content.*;import android.view.*;
-/** Separate-UID fixture checks. Never claims TizenTube or live YouTube playback. */
+/** Separate-UID fixture checks. Never claims SmartTube or live YouTube playback. */
 public class PanelChecks extends Instrumentation {
  int count;LauncherActivity a;
  void check(boolean value,String message){if(!value)throw new AssertionError(message);count++;}
@@ -8,7 +8,7 @@ public class PanelChecks extends Instrumentation {
  public void onCreate(Bundle b){super.onCreate(b);start();}
  public void onStart(){Bundle result=new Bundle();try{
   a=(LauncherActivity)startActivitySync(new Intent(getTargetContext(),LauncherActivity.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));waitForIdleSync();long deadline=SystemClock.elapsedRealtime()+20000;while(!a.loaded&&SystemClock.elapsedRealtime()<deadline)Thread.sleep(100);
-  runOnMainSync(()->{check(!a.panelVisible&&a.panelBox==null&&a.nativePanel==null&&a.webPanel==null,"panel hidden and unallocated initially");a.panelVisible=true;a.prefs.edit().putInt("panel_mode",1).apply();a.render();});waitForIdleSync();
+  runOnMainSync(()->{check(!a.panelVisible&&a.panelBox==null&&a.nativePanel==null&&a.webPanel==null,"panel hidden and unallocated initially");a.panelVisible=true;a.prefs.edit().putInt("panel_mode",3).apply();a.render();});waitForIdleSync();
   final DashNativeFrame[] frame={null};runOnMainSync(()->{frame[0]=a.nativePanel;check(frame[0]!=null&&frame[0].display==null,"show panel does not auto-start native app");frame[0].select(1);frame[0].resume();frame[0].start();});
   deadline=SystemClock.elapsedRealtime()+65000;while(!frame[0].targetConfirmed&&frame[0].wanted&&SystemClock.elapsedRealtime()<deadline)Thread.sleep(200);
   check(frame[0].targetConfirmed,"actual companion confirms requested native display: "+frame[0].status.getText());check(frame[0].requestedDisplay>0&&frame[0].requestedDisplay==frame[0].lastObservedDisplay,"fixture runs on requested secondary display");check(frame[0].display!=null,"native display allocated");
@@ -16,6 +16,10 @@ public class PanelChecks extends Instrumentation {
   deadline=SystemClock.elapsedRealtime()+10000;int after=before;while(after==before&&SystemClock.elapsedRealtime()<deadline){Thread.sleep(200);after=fixtureCount(frame[0]);}check(after>before,"scaled surface touch reaches separate native Activity");
   runOnMainSync(()->{a.prefs.edit().putInt("glass_style",1).apply();check(frame[0]==a.nativePanel&&frame[0].targetConfirmed,"preference alone does not restart native session");a.onStop();check(frame[0].display==null&&!frame[0].wanted&&frame[0].inputThread==null,"background stop releases native resources");a.panelVisible=false;a.render();check(a.nativePanel==null&&frame[0].closed,"hide disposes native host");a.onStart();a.onResume();});
   runOnMainSync(()->{a.prefs.edit().putInt("panel_mode",0).apply();a.panelVisible=true;a.render();check(a.webPanel!=null&&a.webPanel.web==null,"web panel waits for explicit Start");a.panelVisible=false;a.render();check(a.webPanel==null,"hide disposes browser");a.prefs.edit().putInt("glass_style",0).apply();});
-  result.putString("stream","PASS: "+count+" iDash panel assertions (real separate-UID fixture; no ARM TizenTube/live web certification)\n");finish(Activity.RESULT_OK,result);
+  final DashFmPanel[] fm={null}; final SagaAngleView[] car={null};
+  runOnMainSync(()->{a.panelVisible=true;a.prefs.edit().putInt("panel_mode",1).apply();a.render();fm[0]=a.fmPanel;check(fm[0]!=null&&!fm[0].controller.owned,"FM does not auto-start");check(a.nativePanel==null&&a.webPanel==null,"FM mode allocates no native host/browser");fm[0].controller.source("internal");fm[0].controller.start();check(!fm[0].controller.owned&&"error".equals(fm[0].controller.phase),"missing OEM FM service fails gracefully");});waitForIdleSync();runOnMainSync(()->{check(fm[0].power.getHeight()>=a.dp(48),"FM transport touch height is at least48dp");a.prefs.edit().putInt("panel_mode",2).apply();a.render();car[0]=a.carPanel;check(car[0]!=null&&car[0].active,"car mode activates viewer");check(a.fmPanel==null,"switch disposes FM");car[0].setFrame(9);check(car[0].frame()==1,"car angles wrap");car[0].reset();check(car[0].frame()==SagaAngleView.DEFAULT_FRAME,"car reset restores default");});
+  deadline=SystemClock.elapsedRealtime()+15000;while(car[0].atlas==null&&SystemClock.elapsedRealtime()<deadline)Thread.sleep(100);
+  runOnMainSync(()->{check(car[0].atlas!=null&&car[0].atlas.getAllocationByteCount()<=2*1024*1024,"car decodes one bounded atlas");a.panelVisible=false;a.render();check(a.carPanel==null&&!car[0].active&&car[0].atlas==null,"hide releases car atlas");});
+  result.putString("stream","PASS: "+count+" iDash panel assertions (real separate-UID fixture; no ARM SmartTube/live web certification)\n");finish(Activity.RESULT_OK,result);
  }catch(Throwable failure){result.putString("stream","FAIL after "+count+": "+failure+"\n");finish(Activity.RESULT_CANCELED,result);}finally{if(a!=null)runOnMainSync(()->a.finish());}}
 }

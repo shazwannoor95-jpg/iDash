@@ -1,38 +1,35 @@
 {
   "name": "iDash",
-  "version_name": "0.1.4",
-  "version_code": 5,
+  "version_name": "0.1.5",
+  "version_code": 6,
   "kind": "preview",
   "package": "com.shazwan.idash",
   "min_sdk": 26,
   "target_sdk": 35,
-  "file": "iDash-0.1.4-preview.apk",
-  "size_bytes": 5237061,
-  "sha256": "2844619be386a504434a180e3506b45c63a752cf0ab2fb98f370db58c3d56ec6",
+  "file": "iDash-0.1.5-preview.apk",
+  "size_bytes": 6486424,
+  "sha256": "44ae3bd2e487b432e282c012a35044d56e39685bd7c309466569b5be6c01797d",
   "signer_sha256": "49f6adc61ce465f494ab7d86bf8adcc196b03189ab81f9e287d91328cd63de73",
   "native_libraries": 0,
   "build": "JDK17 / Gradle8.9 / SDK35",
-  "lint": "PASS:0 errors,30 warnings (inherited programmatic-view/SDK-guard/localization/accessibility notices)",
-  "ui_result": "PASS: 45 iDash API27 layout/theme assertions",
+  "lint": "PASS:0 errors,37 warnings",
+  "ui_result": "PASS:45 iDash API27 layout/theme assertions",
   "test_environment": "Exact signed preview installed on disposable API27 x86_64 emulator,1024x600@160dpi; focused layoutOnly run",
   "physical_head_unit_tested": false,
   "limitations": [
     "No pixel-perfect iOS27 certification",
-    "Only cooperative matching-key TizenTube companion and a test fixture can use the native path; arbitrary installed apps and Maps are not supported",
-    "No physical head-unit, TizenTube ARM playback, live YouTube, hardware-volume or1GB performance certification",
-    "Glass/transparency uses API26 fills, not a ported MRiOS refraction engine; emoji/system/third-party app UI remains device/app-owned"
+    "Only the matching-key SmartTube companion and test fixture support the cooperative native path; no Maps or arbitrary app hosting",
+    "No physical iDash FM/audio, ARM SmartTube playback, live YouTube or1GB performance certification",
+    "SmartTube upstream reports build-environment compromise; candidate input has no independent malware clearance",
+    "Glass uses API26 fills; device emoji and third-party UI are unchanged"
   ],
   "test_notes": [
-    "Build, lint, signing and alignment passed",
-    "45 focused layout/theme checks passed on exact final preview",
-    "11 panel checks passed using an actual separate-package/UID fixture signed with the same iDash key; scaled SurfaceView touch incremented its own Activity counter",
-    "First panel runner registration attempt was unavailable; explicit -PidashRunner selects the correct test runner",
-    "Stock emulator lacked advertised secondary-display apps; the existing writable-system test overlay advertises the same feature as TEST9278B; production feature/signature gates stayed intact",
-    "System UI ANR was present on the overlay; it was dismissed after tests before screenshots, not counted as an iDash fix",
-    "TizenTube ARM32 companion preserved original4DEX/2native libraries; no ARM playback/setup/audio or physical-head-unit certification",
-    "No separate emoji font exists in the reference input; PremiumMods repository contains update metadata rather than launcher source",
-    "Final release reran both suites after correcting the clipped web search field and recognizing the iDash companion for dock defaults",
-    "Final upper-right rectangle uses the freed heading area while preserving left widget positions; both final suites passed again after the viewport sizing change"
+    "Build/lint/signature/alignment passed",
+    "45 focused layout/theme assertions passed on the exact signed preview",
+    "21 final panel assertions passed: native display/touch/release, web waits for Start, FM idle/missing-service failure/48dp measured transport height, car bound/reset/wrap/disposal",
+    "Intermediate FM transport assertion exposed44dp touch areas after margins; rows enlarged to52dp for48dp actual targets",
+    "No original user archives, private diagnostics or signing keys are included",
+    "SmartTube original3DEX/8native libraries preserved with a separate bridge DEX; static byte preservation is not malware or runtime clearance"
   ],
   "visual_assets": [
     "All36 ic_ios_*.png icons and24 wallpaper images from owner MRiOS V2; original hashes in docs/qa/mrios-visual-assets.json",
@@ -57,23 +54,27 @@
     "refresh_response_limit_bytes": 2097152,
     "parser_attribution": "docs/licenses/NexaDash-MIT.txt"
   },
-  "panel_result": "PASS: 11 iDash panel assertions (real separate-UID fixture; no ARM TizenTube/live web certification)",
+  "panel_result": "PASS:21 iDash panel assertions (real separate-UID fixture; no ARM SmartTube/live web certification)",
   "optional_panel": {
     "default_hidden": true,
     "auto_start": false,
     "modes": [
       "YouTube web",
-      "iDash TizenTube native companion"
+      "Radio FM antenna",
+      "Kereta \u00b7 Saga image angles",
+      "SmartTube native companion"
     ],
     "native_targets": [
-      "com.shazwan.idash.tizentube"
+      "com.shazwan.idash.smarttube"
     ],
     "fixture_target": "com.shazwan.idash.test.a",
-    "test_environment": "API27 x86_64 writable-system emulator overlay advertising secondary-display apps, matching owner TEST9278B feature report",
-    "first_native_attempt": "Stopped at feature gate on stock non-writable emulator; no native start attempted",
-    "physical_tizentube_tested": false,
+    "test_environment": "API27 x86_64 writable-system emulator overlay advertising secondary-display apps, matching TEST9278B feature report",
+    "physical_smarttube_tested": false,
+    "physical_idash_fm_tested": false,
+    "previous_nexadash_fm_owner_confirmed": true,
     "live_web_playback_tested": false,
-    "background_cleanup_test": "Fixture invokes onStop callback, verifies native display/input-thread release; hide closes/disposes host"
+    "car": "One <=2MiB decoded atlas while active; release on pause/hide; image angles not live3D or telemetry",
+    "background_cleanup_test": "Fixture lifecycle callbacks and hide verify release; no physical task-switch certification"
   },
   "typography": {
     "source": "MRiOS V2.apk",

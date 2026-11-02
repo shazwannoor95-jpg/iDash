@@ -1,0 +1,6 @@
+package com.shazwan.nexapanel;
+import android.app.*;import android.os.Bundle;import android.content.*;import android.widget.*;
+/** User-opened local metadata report. No screenshot, map data or automatic upload. */
+public class RendererReport extends Activity {
+ public void onCreate(Bundle state){setTheme(android.R.style.Theme_Material_Light_NoActionBar);super.onCreate(state);LinearLayout root=new LinearLayout(this);root.setOrientation(1);root.setPadding(20,20,20,20);TextView heading=new TextView(this);heading.setText("Maps renderer report · metadata only");root.addView(heading);ScrollView scroll=new ScrollView(this);TextView body=new TextView(this);body.setTextIsSelectable(true);body.setText(Init.cachedReport());scroll.addView(body);root.addView(scroll,new LinearLayout.LayoutParams(-1,0,1));Button copy=new Button(this);copy.setText("Copy report");copy.setOnClickListener(v->{((ClipboardManager)getSystemService(CLIPBOARD_SERVICE)).setPrimaryClip(ClipData.newPlainText("Maps renderer metadata",body.getText()));Toast.makeText(this,"Metadata copied",Toast.LENGTH_SHORT).show();});root.addView(copy);Button close=new Button(this);close.setText("Close");close.setOnClickListener(v->finish());root.addView(close);setContentView(root);}
+}

@@ -4,13 +4,13 @@ An iPad-inspired Android launcher for landscape car head units. Floating glass d
 
 ![iDash dashboard](docs/dashboard.png)
 
-[Optional panel preview](docs/optional-panel.png)
+[Optional web panel preview](docs/optional-panel.png) · [FM panel preview](docs/fm-panel.png)
 
 [MRiOS-themed App Library preview (0.1.2)](docs/app-library.png) · [Icon Control Center preview (0.1.4)](docs/control-center.png)
 
 ## Try the preview
 
-[Download iDash 0.1.4 preview](dist/iDash-0.1.4-preview.apk?raw=true) · Android8.0/API26 or newer · package `com.shazwan.idash`
+[Download iDash 0.1.5 preview](dist/iDash-0.1.5-preview.apk?raw=true) · Android8.0/API26 or newer · package `com.shazwan.idash`
 
 Install alongside your existing launcher. Open **iDash** from the app list first. To make it your home app, open **Control Center → Choose default launcher** and select iDash yourself. Retain the original launcher as a fallback. Android installation may ask you to allow installs from your file manager/browser.
 
@@ -23,7 +23,7 @@ Install alongside your existing launcher. Open **iDash** from the app list first
 - Icon-based Control Center with Android Wi-Fi, Bluetooth, display, sound and default-home settings links, plus a real media-volume slider. OEM hardware may handle volume differently.
 - Customize: calendar/JAKIM visibility,24/12-hour time, MRiOS icon theme, Wallpapers gallery, Glass/Transparent/Solid appearance and optional short transitions. MRiOS wallpaper47 is the default unless a rose gradient was previously selected. Supported App Library apps use the MRiOS image theme; unmatched apps retain their own icons.
 
-External apps open normally in their own screens. The optional cooperative native-panel candidate is described below; Maps rendering, OEM radio driver, media-session playback controls, weather service and privileged system toggles are not implemented. Dock shortcuts launch an installed app. No runtime permission prompts, root or ADB grants are needed for normal launcher use; the manifest requests normal audio-settings and Internet permissions. Internet is used when you request a JAKIM refresh or explicitly start the YouTube web panel.
+External apps open normally in their own screens. The optional cooperative native-panel candidate is described below; Maps rendering, media-session playback controls, weather service and privileged system toggles are not implemented. The FM panel uses existing, firmware-specific OEM tuner services; it does not supply a radio driver. Dock shortcuts launch an installed app. No runtime permission prompts, root or ADB grants are needed for normal launcher use; the manifest requests normal audio-settings and Internet permissions. Internet is used when you request a JAKIM refresh or explicitly start the YouTube web panel.
 
 This is an original iOS/iPadOS-inspired design adapted for a head unit. It is not a verified pixel-perfect reproduction of an iOS27.2/iPadOS27 release. The36 iOS-style PNG icons and24 wallpaper images are extracted from the owner-supplied MRiOS V2 APK; see docs/MRIOS_REVIEW.md and NOTICE for their separate provenance. Preview screenshots use a disposable Android emulator, not an Apple device or a physical head-unit result.
 
@@ -51,9 +51,9 @@ Online refresh validates zone/status, dates and time ordering, limits responses 
 
 ## Optional panel and typography
 
-The header groups **Panel**, **Customize** and **Control Center**. Panel starts hidden; tap it to open YouTube web or the cooperative native TizenTube mode. Both require explicit Start. Hiding/backgrounding releases their resources. See [panel setup and limits](docs/OPTIONAL_PANEL.md).
+The header groups **Panel**, **Customize** and **Control Center**. Panel starts hidden; tap it to open four modes: **YouTube web, Radio FM (antenna), Kereta and SmartTube native**. Web, FM and native playback require explicit Start. Kereta is an eight-angle Saga image preview with drag/zoom/reset. Hiding/backgrounding releases their resources. See [panel setup and limits](docs/OPTIONAL_PANEL.md).
 
-[Download the separate TizenTube iDash ARM32 companion](dist/companions/TizenTube-iDash-arm32.apk?raw=true). It uses a distinct package and preserves existing NexaDash apps/data. ARM playback/setup/audio on the actual head unit still needs testing; source preservation and an independent native fixture are different evidence. Ordinary apps cannot be embedded through this path.
+[Download the experimental SmartTube iDash companion](dist/companions/SmartTube-iDash.apk?raw=true). It has a distinct package and supports ARM32/ARM64. Native playback, setup and touch navigation on the head unit remain unverified. **Upstream SmartTube reports a past build-environment compromise; the downloaded stable32.68 input has not been independently cleared for malware here.** See [provenance and security limits](docs/SMARTTUBE_REVIEW.md) before installing this candidate. The iDash launcher itself contains no SmartTube executable code. Ordinary apps cannot use this cooperative native path.
 
 Four SF Pro Display files extracted from MRiOS provide launcher typography; regular is also used by the Android dialog theme. No separate Apple color-emoji font was found in the reviewed APK, so device emoji fallback remains in use. Glass/transparency uses lightweight API26 gradient fills, and optional180ms fades/slides are scoped to iDash views/dialogs plus supported launch transitions. Other apps' internal windows, fonts, animations and system emoji are not globally replaced. The transitions toggle and Android's animator scale are respected. These styles are implemented in iDash; no MRiOS executable theme engine or modern refraction/blur shader is imported.
 

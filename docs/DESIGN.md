@@ -26,7 +26,7 @@ The initial device has1GB RAM and an API27 runtime. Prefer gradients/translucent
 
 ## Deferred research
 
-Two simultaneous native app panels, embedded Google Maps, OEM antenna-radio integration, CAN bus/vehicle controls and privileged system toggles require separate evidence and device-specific work. Do not route anything through DiAuto. Do not transplant experimental NexaDash host behavior and describe it as working in iDash.
+Two simultaneous native app panels, embedded Google Maps, CAN bus/vehicle controls and privileged system toggles require separate evidence and device-specific work. Do not route anything through DiAuto. Do not transplant experimental NexaDash host behavior and describe it as working in iDash.
 
 ## Project boundary
 
@@ -35,3 +35,5 @@ NexaDash is paused. Do not modify its repository, signing keys, releases or inst
 The0.1.2 visual theme bundles36 portable MRiOS PNG icons and24 wallpapers with separate third-party provenance (NOTICE). The launcher logic remains iDash-native. Do not describe the asset import as the full MRiOS executable engine or all of its widgets/gestures.
 
 0.1.4: Panel, Customize and Control Center are adjacent header actions. The optional panel occupies the right-side blank area and starts hidden. Dock shortcuts are42dp icons within at-least48dp touch tiles. Glass/Transparent/Solid styles and short scoped transitions are iDash rendering. Four source SF Pro files are included; system emoji is retained because the input has no emoji-font payload. Initial panel modes are YouTube web and the isolated iDash TizenTube companion; see OPTIONAL_PANEL.md.
+
+0.1.5 panel modes: YouTube web, firmware-specific antenna FM, eight-angle Saga preview, and SmartTube cooperative candidate replacing TizenTube. Dock-only shortcuts remain unchanged. Native and FM physical validation are explicitly separate from fixture/UI checks.
