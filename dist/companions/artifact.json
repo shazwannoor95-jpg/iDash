@@ -16,5 +16,8 @@
   "signer_sha256": "49f6adc61ce465f494ab7d86bf8adcc196b03189ab81f9e287d91328cd63de73",
   "min_sdk": 26,
   "security_status": "Experimental candidate; upstream build compromise reported; no independent malware clearance established",
-  "runtime_status": "Not executed on head unit or x86 emulator; no playback/display continuity/touch certification"
+  "runtime_status": "Not executed on head unit or x86 emulator; no playback/display continuity/touch certification",
+  "official_stable_rechecked_utc": "2026-11-02T04:19:03.997518+00:00",
+  "official_stable_url": "https://github.com/yuliskov/SmartTube/releases/download/latest/smarttube_stable.apk",
+  "latest_link_result": "32.68/code2458; freshly downloaded hash matches pinned original input"
 }

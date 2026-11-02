@@ -1,6 +1,6 @@
 # Preview validation
 
-Build target: iDash0.1.6, package com.shazwan.idash, minAPI26/target35. Java/native Android views; no bundled native code, therefore no ARM64-only dependency. Actual ARM32/head-unit runtime and1GB performance are still untested.
+Build target: iDash0.1.7, package com.shazwan.idash, minAPI26/target35. Java/native Android views; no bundled native code, therefore no ARM64-only dependency. Actual ARM32/head-unit runtime and1GB performance are still untested.
 
 Build checks: assembleDebug, assembleDebugAndroidTest and lintDebug passed using JDK17, Gradle8.9 and SDK35. Lint: zero errors, two warnings (intentional landscape activity and modern Android data-extraction declaration). Signature v2/v3 and ZIP alignment verified for the downloadable, independently signed iDash preview.
 
@@ -61,3 +61,11 @@ Final0.1.5 exact signed preview:45 focused layout/theme assertions and21 panel a
 0.1.6 verification targets the revised glass, thumbnail gallery, custom image import,60dp dock and pinned prayer card. WallpaperChecks uses a generated solid-color image on a disposable emulator to verify exact-byte copying, bounded decode, backdrop update, invalid/oversized input preservation, gallery entries/dismissal and panel-view preservation. It does not import owner images. An early dismissal assertion ran before Android's posted OnDismiss callback; it now waits for idle before checking cleanup. SmokeChecks adds deterministic next-prayer/after-midnight/missing-coverage cases plus on-screen card/dock checks, including a1024×480/font-scale1.3 profile. Current results/hashes are recorded in dist/artifact.json. The native player/FM adapter are unchanged from0.1.5; their prior fixture pass is historical, not a new physical test.
 
 Final0.1.6:53 focused layout/prayer assertions PASS at1024×600 and53 PASS at1024×480/font-scale1.3;13 wallpaper assertions PASS on the exact signed preview. Build/lint, signature and alignment pass. Physical performance remains unmeasured. The inline owner red/orange wallpaper is not bundled; Choose from Files supports that image from the device.
+
+Follow-up to owner screenshot: the independent pinned prayer card left a short clock scroll viewport, visibly cutting the clock card. The source now places clock, prayers and calendar in one scroll flow, with prayers before calendar. On short screens scroll to see lower content. This follow-up is not included in the published0.1.6 APK; its earlier pinned-card tests do not certify this new layout.
+
+0.1.7 release fixes the separate scroll/pinned-card cut-off shown by the owner. Clock, JAKIM and calendar now share one scroll container, with JAKIM before calendar; the scroll bar is enabled. Short screens may require scrolling to lower cards. Updated checks assert shared parent and non-overlapping clock/prayer bounds, while retaining dock touch checks and prayer date/countdown coverage. Current results are in dist/artifact.json. Native/FM/car and wallpaper pipelines are unchanged; their earlier suite results remain historical.
+
+The official SmartTube stable URL was downloaded again:32.68/code2458 and original SHA25645a36e62110bcb866527ba8e9ab876f4122e1143647bbd0a97362d13803f6b94, identical to the companion input. No new upstream version was found at that official stable link. Its security warning remains. This is static provenance/ABI/minimum-SDK evidence, not physical playback or malware certification. tools/package-bundle.py verifies each signed APK hash before ZIP packaging and excludes private inputs.
+
+Final0.1.7 exact signed APK:54 focused layout/prayer assertions PASS at1024×600 and54 PASS at1024×480/font-scale1.3. Build/lint (zero errors,37 warnings), signing/alignment pass. No new physical-player certification.

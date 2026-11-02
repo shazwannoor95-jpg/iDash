@@ -39,3 +39,5 @@ The0.1.2 visual theme bundles36 portable MRiOS PNG icons and24 wallpapers with s
 0.1.5 panel modes: YouTube web, firmware-specific antenna FM, eight-angle Saga preview, and SmartTube cooperative candidate replacing TizenTube. Dock-only shortcuts remain unchanged. Native and FM physical validation are explicitly separate from fixture/UI checks.
 
 0.1.6: Static glass materials use cached fill/highlight/rim shaders; no live blur or backdrop capture. Wallpaper gallery provides small thumbnails and a private document-picker import. Dock60dp/icons34dp; the next-prayer JAKIM card is pinned above the dock, outside the scrollable clock/calendar area. The greeting fits one line. Compact height and enlarged-font validation covers card visibility.
+
+0.1.7 supersedes the independently pinned prayer layout: clock, prayers, calendar share one scroll flow, with visible scrollbar support. Short displays scroll instead of reserving a separate viewport that cuts the clock card.

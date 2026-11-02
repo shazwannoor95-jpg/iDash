@@ -1,0 +1,10 @@
+{
+  "file": "iDash-0.1.7-SmartTube-preview.zip",
+  "sha256": "a7dd26621008a1883bcd7e41744c746735f7117eac6b80e4057bb3fa0e8d83f8",
+  "size_bytes": 41481242,
+  "idash": "0.1.7",
+  "smarttube": "32.68-idash1",
+  "install": "Extract ZIP and approve APK installations separately; companion optional",
+  "security_status": "Experimental candidate; upstream build compromise reported; no independent malware clearance established",
+  "physical_head_unit_tested": false
+}

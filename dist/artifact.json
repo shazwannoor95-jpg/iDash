@@ -1,20 +1,20 @@
 {
   "name": "iDash",
-  "version_name": "0.1.6",
-  "version_code": 7,
+  "version_name": "0.1.7",
+  "version_code": 8,
   "kind": "preview",
   "package": "com.shazwan.idash",
   "min_sdk": 26,
   "target_sdk": 35,
-  "file": "iDash-0.1.6-preview.apk",
-  "size_bytes": 6498712,
-  "sha256": "bd91a8b71d5ec508ea78efe00ad4eba87a87a3641fa359e82b7ac07d03e18bfa",
+  "file": "iDash-0.1.7-preview.apk",
+  "size_bytes": 6416792,
+  "sha256": "54775a969ddf1e6e7f6077ab360c4a79d8df8151115d48c07daab6a90a613fb2",
   "signer_sha256": "49f6adc61ce465f494ab7d86bf8adcc196b03189ab81f9e287d91328cd63de73",
   "native_libraries": 0,
   "build": "JDK17 / Gradle8.9 / SDK35",
   "lint": "PASS:0 errors,37 warnings",
-  "ui_result": "PASS:53 layout/prayer assertions at1024x600;53 at1024x480/font-scale1.3",
-  "test_environment": "Exact signed0.1.6 preview; disposable API27 x86_64 emulator,1024x600@160dpi and1024x480/font-scale1.3",
+  "ui_result": "PASS:54 layout/prayer assertions at1024x600 and54 at1024x480/font-scale1.3",
+  "test_environment": "Exact signed0.1.7 preview on disposable API27 x86_64 emulator;1024x600 and1024x480/font-scale1.3",
   "physical_head_unit_tested": false,
   "limitations": [
     "No pixel-perfect iOS27 certification",
@@ -24,14 +24,12 @@
     "Glass uses API26 fills; device emoji and third-party UI are unchanged"
   ],
   "test_notes": [
-    "Build/lint/signature/alignment passed; zero errors,37 lint warnings",
-    "53 layout/theme/prayer assertions pass on each of two display/font profiles",
-    "13 wallpaper assertions PASS: exact-byte private import, bounded decode, corrupt/oversized preservation, actual backdrop, gallery entries/dismissal and panel-view preservation",
-    "Prayer card stays fully visible above the60dp dock; clock/calendar remain scrollable",
-    "Next-prayer checks cover dawn, exclusion of sunrise, after-Isyak transition and missing coverage",
-    "Glass is cached fill/highlight/rim shading with no backdrop capture or live blur",
-    "Existing optional panel native/FM/car adapters are unchanged; prior0.1.5 fixture result is historical",
-    "No physical-head-unit, ARM SmartTube, live stream or1GB performance certification"
+    "Build/lint/signature/alignment passed",
+    "54 assertions PASS in each profile, including shared scroll parent and disjoint clock/prayer bounds",
+    "Clock, prayers and calendar share one scroll container with non-overlapping bounds; short screens scroll",
+    "Official SmartTube stable link freshly fetched:32.68/code2458, input SHA256 unchanged",
+    "Existing SmartTube companion remains optional experimental candidate, not malware-cleared or physical-head-unit tested",
+    "ZIP includes separate APKs, installation guide, input/security review, notices and SHA256SUMS; no silent installer"
   ],
   "visual_assets": [
     "All36 ic_ios_*.png icons and24 wallpaper images from owner MRiOS V2; original hashes in docs/qa/mrios-visual-assets.json",
@@ -55,9 +53,10 @@
     "live_refresh_tested": false,
     "refresh_response_limit_bytes": 2097152,
     "parser_attribution": "docs/licenses/NexaDash-MIT.txt",
-    "pinned_above_dock": true,
+    "pinned_above_dock": false,
     "next_prayer_countdown": "Malaysia time; five prayers, sunrise excluded; next-day cached row required after Isyak",
-    "visibility_restored_once_on_update": true
+    "visibility_restored_once_on_update": true,
+    "layout": "Clock -> prayers -> calendar in a single scroll container"
   },
   "panel_result": "Historical0.1.5:21 native/FM/car panel assertions; unchanged adapters, not rerun for0.1.6",
   "optional_panel": {
@@ -116,5 +115,6 @@
       "Apps"
     ]
   },
-  "wallpaper_result": "PASS:13 iDash wallpaper assertions"
+  "wallpaper_result": "Historical0.1.6:13 import/gallery checks PASS; unchanged wallpaper implementation, not rerun for0.1.7",
+  "bundle": "bundles/iDash-0.1.7-SmartTube-preview.zip"
 }

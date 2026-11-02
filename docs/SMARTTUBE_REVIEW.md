@@ -21,3 +21,5 @@ bash tools/smarttube-idash/build.sh /path/to/pinned/smarttube_stable.apk
 ```
 
 Patch source and complete added bridge source are included in tools/smarttube-idash. The upstream app is binary-preserved, not rebuilt from source here. Result metadata/hashes are in dist/companions/artifact.json. ARM playback cannot be certified on the x86 API27 fixture emulator. Physical setup, account flow, navigation, actual video/audio and memory remain pending. No private signing material is included.
+
+For iDash0.1.7 packaging, the official stable URL and README were fetched again on2026-11-02. The input remained32.68/code2458 with the same SHA256 and certificate recorded above; the compromised-build-environment announcement remains. The existing byte-preserving iDash companion is therefore reused, not presented as a newly released upstream build or newly cleared binary.

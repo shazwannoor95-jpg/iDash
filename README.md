@@ -10,14 +10,14 @@ An iPad-inspired Android launcher for landscape car head units. Floating glass d
 
 ## Try the preview
 
-[Download iDash 0.1.6 preview](dist/iDash-0.1.6-preview.apk?raw=true) · Android8.0/API26 or newer · package `com.shazwan.idash`
+[Download iDash 0.1.7 preview](dist/iDash-0.1.7-preview.apk?raw=true) · Android8.0/API26 or newer · package `com.shazwan.idash`
 
 Install alongside your existing launcher. Open **iDash** from the app list first. To make it your home app, open **Control Center → Choose default launcher** and select iDash yourself. Retain the original launcher as a fallback. Android installation may ask you to allow installs from your file manager/browser.
 
 ## Included
 
 - Landscape dashboard without a Favorites section, with translucent rounded cards,24 MRiOS wallpapers and two original gradient palettes.
-- Compact local clock/date, a browsable Gregorian calendar and a pinned official JAKIM prayer-times widget with next-prayer countdown, replacing Power. The prayer card stays above the dock while the clock/calendar area can scroll. Select your zone explicitly; no GPS permission is requested.
+- Compact local clock/date, a browsable Gregorian calendar and an official JAKIM prayer-times widget with next-prayer countdown, replacing Power. Clock, prayers and calendar share one scroll area; prayers come before the calendar. Scroll on shorter displays. Select your zone explicitly; no GPS permission is requested.
 - Three shortcuts — Bluetooth, Files, YouTube — in the floating dock only. Hold a favorite to select its app, or hold an App Library icon to assign it. Assignments persist across restarts.
 - App Library with installed application icons, live name search, Refresh and Back/Done navigation.
 - Icon-based Control Center with Android Wi-Fi, Bluetooth, display, sound and default-home settings links, plus a real media-volume slider. OEM hardware may handle volume differently.
@@ -64,3 +64,11 @@ The user-linked [PremiumMods repository review](docs/reviews/PREMIUMMODS.md) fou
 Tap **Customize → Appearance / Wallpapers → Wallpapers**. Choose a thumbnail from the24 MRiOS images, or tap **Choose from Files** to select your own JPG/PNG/WebP through Android's document picker. Selection applies immediately and is saved without Apply. A custom image is copied to app-private storage, validated, limited to16MiB and decoded to a maximum1280px edge. It is never uploaded or included in this repository; no broad storage permission is requested. Invalid/oversized input retains the previous saved image. Reopen the gallery to use the saved custom image again. Existing wallpaper choices remain unchanged by this update.
 
 0.1.6 shortens the dock from83dp to60dp, with34dp icons and touch tiles at least48dp high. JAKIM visibility is restored once for this update at the owner's request; it remains optional in Customize afterwards. Select your correct zone explicitly if it is unset. Countdown uses available official timetable rows and Malaysia time, excludes sunrise as a prayer, and uses the next day's row after Isyak. It does not invent times outside cached coverage or schedule alarms.
+
+## Installation bundle
+
+[Download iDash0.1.7 + SmartTube preview ZIP](dist/bundles/iDash-0.1.7-SmartTube-preview.zip?raw=true). Extract it, read INSTALL-ME-FIRST.txt, install iDash, then optionally install SmartTube-iDash.apk after reading the security note. Android requires separate installation approval; iDash does not silently install a companion. Source builds and an ordinary official SmartTube APK have different signatures and cannot replace this matching-key cooperative companion. Keep using the same iDash signing identity for updates.
+
+The official stable download was fetched again for this bundle:32.68/code2458, exactly the same pinned input hash as the existing companion. Upstream's build-environment compromise warning remains in its README; this recheck is not an independent malware clearance. The ZIP includes that warning and attribution. Physical SmartTube playback/panel compatibility remain unverified.
+
+0.1.7 corrects the cut-off clock appearance on short screens by using one scroll container for **clock → prayers → calendar**. The old independently pinned prayer-card layout is removed. The compact dock and wallpaper choices are retained.

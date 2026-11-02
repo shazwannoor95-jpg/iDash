@@ -93,7 +93,7 @@ public class LauncherActivity extends Activity {
         TextView greeting=text("Make yourself at home.",24,Color.WHITE);greeting.setTypeface(IosStyle.font(this,true));greeting.setMaxLines(1);greeting.setEllipsize(TextUtils.TruncateAt.END);greeting.setAutoSizeTextTypeUniformWithConfiguration(14,24,1,android.util.TypedValue.COMPLEX_UNIT_SP);words.addView(greeting);TextView intro=text("Your drive. Your space.",12,0xcce6eaff);intro.setPadding(0,dp(3),0,dp(10));words.addView(intro); heading.addView(words,new LinearLayout.LayoutParams(0,-2,1));
         LinearLayout.LayoutParams hp=new LinearLayout.LayoutParams(-1,-2);hp.bottomMargin=dp(6);
         LinearLayout content=row(); content.setGravity(Gravity.TOP); body.addView(content,new LinearLayout.LayoutParams(-1,0,1));
-        ScrollView widgetScroll=new ScrollView(this); widgetScroll.setFillViewport(false); widgetScroll.setVerticalScrollBarEnabled(false);
+        ScrollView widgetScroll=new ScrollView(this); widgetScroll.setFillViewport(false); widgetScroll.setVerticalScrollBarEnabled(true);
         LinearLayout widgets=column(); widgetScroll.addView(widgets); LinearLayout left=column();LinearLayout.LayoutParams wp=new LinearLayout.LayoutParams(0,-1,0.37f);wp.rightMargin=dp(24);content.addView(left,wp);left.addView(heading,hp);left.addView(widgetScroll,new LinearLayout.LayoutParams(-1,0,1));
         LinearLayout timeCard=column(); timeCard.setPadding(dp(20),dp(10),dp(20),dp(10)); timeCard.setBackground(glass(0x7c20395d,28));
         TextView eyebrow=text("LOCAL TIME",10,0xffbaceeb); eyebrow.setLetterSpacing(.16f);timeCard.addView(eyebrow);
@@ -108,7 +108,7 @@ public class LauncherActivity extends Activity {
         }
         if(prefs.getBoolean("jakim",true)) {
             LinearLayout card=column();card.setPadding(dp(18),dp(12),dp(18),dp(12));card.setBackground(glass(0x682b426a,24));card.setContentDescription("JAKIM calendar widget");
-            jakimNext=text("Waktu solat",17,Color.WHITE);jakimNext.setTypeface(IosStyle.font(this,true));jakimNext.setMaxLines(1);jakimNext.setAutoSizeTextTypeUniformWithConfiguration(12,17,1,android.util.TypedValue.COMPLEX_UNIT_SP);card.addView(jakimNext,new LinearLayout.LayoutParams(-1,dp(26)));jakimText=text("",12,Color.WHITE);card.addView(jakimText);card.setOnClickListener(v->jakimDialog());LinearLayout.LayoutParams jp=new LinearLayout.LayoutParams(-1,-2);jp.topMargin=dp(8);left.addView(card,jp);updateJakim();loadJakim(false);
+            jakimNext=text("Waktu solat",17,Color.WHITE);jakimNext.setTypeface(IosStyle.font(this,true));jakimNext.setMaxLines(1);jakimNext.setAutoSizeTextTypeUniformWithConfiguration(12,17,1,android.util.TypedValue.COMPLEX_UNIT_SP);card.addView(jakimNext,new LinearLayout.LayoutParams(-1,dp(26)));jakimText=text("",12,Color.WHITE);card.addView(jakimText);card.setOnClickListener(v->jakimDialog());LinearLayout.LayoutParams jp=new LinearLayout.LayoutParams(-1,-2);jp.topMargin=dp(8);widgets.addView(card,Math.min(1,widgets.getChildCount()),jp);updateJakim();loadJakim(false);
         }
         if(panelVisible){panelBox=column();panelBox.setPadding(dp(10),dp(8),dp(10),dp(8));panelBox.setBackground(glass(0x77324461,24));panelBox.setContentDescription("Optional media panel");LinearLayout.LayoutParams pp=new LinearLayout.LayoutParams(0,-1,.63f);pp.topMargin=dp(24);content.addView(panelBox,pp);buildPanel();}
         else content.addView(new View(this),new LinearLayout.LayoutParams(0,-1,.63f));
