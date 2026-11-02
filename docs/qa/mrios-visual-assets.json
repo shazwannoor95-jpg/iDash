@@ -361,5 +361,38 @@
       "sha256": "3f2d3c7a22a49847cb914523155d11f9d25b4478c3c703a24cfac73998987c05",
       "size": 63625
     }
-  ]
+  ],
+  "fonts": [
+    {
+      "source": "res/font/sf_pro_display_bold.ttf",
+      "asset": "fonts/sf_pro_display_bold.ttf",
+      "size": 337512,
+      "sha256": "c672b517c693558fbf9660039f7a249744250045c7522443c82501ab0eead2c7"
+    },
+    {
+      "source": "res/font/sf_pro_display_medium.ttf",
+      "asset": "fonts/sf_pro_display_medium.ttf",
+      "size": 335420,
+      "sha256": "52a96a0039c283867dbe80b1856c44de9244521e3502b1d6f2d667cd8df6c4ab"
+    },
+    {
+      "source": "res/font/sf_pro_display_regular.ttf",
+      "asset": "fonts/sf_pro_display_regular.ttf",
+      "size": 334724,
+      "sha256": "997d34f18eb31ffbd26f563d6cabdf54f6c0a7171dc76eec234a8241754a8f39"
+    },
+    {
+      "source": "res/font/sf_pro_display_semi_bold.ttf",
+      "asset": "fonts/sf_pro_display_semi_bold.ttf",
+      "size": 336264,
+      "sha256": "433d306431345534c7e9dcc5fd26dae81bc68df6abddc491a5e3e5e1b9d5a6ad"
+    }
+  ],
+  "emoji_font_found": false,
+  "font_families": "Four SF Pro Display weights; no COLR/CPAL/CBDT/CBLC/sbix color tables",
+  "android_font_resource": {
+    "source": "res/font/sf_pro_display_regular.ttf",
+    "path": "app/src/main/res/font/mrios_regular.ttf",
+    "sha256": "997d34f18eb31ffbd26f563d6cabdf54f6c0a7171dc76eec234a8241754a8f39"
+  }
 }

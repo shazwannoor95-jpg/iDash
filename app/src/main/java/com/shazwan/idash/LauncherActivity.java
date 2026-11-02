@@ -29,10 +29,11 @@ public class LauncherActivity extends Activity {
     Map<String,JakimCalendar.Day> jakimDays=Collections.emptyMap();String loadedZone="",jakimDayKey=""; boolean jakimLoading;
     android.content.SharedPreferences prefs;
     String page = "home", query = "";
-    boolean loaded, destroyed, resumed;
+    boolean loaded, destroyed, resumed, foregroundVisible; ImageView wallpaperView; View wallpaperShade;
     int theme;
+    boolean panelVisible; LinearLayout panelBox; DashNativeFrame nativePanel; DashWebPlayer webPanel;
     Bitmap wallpaperBitmap; String requestedWallpaper; int wallpaperGeneration;
-    final Runnable ticker = new Runnable() { public void run() { updateClock(); if (resumed) main.postDelayed(this, 1000); } };
+    final Runnable ticker = new Runnable() { public void run() { updateClock(); if (foregroundVisible) main.postDelayed(this, 1000); } };
 
     static final class App {
         String label, component; Bitmap icon;
@@ -42,58 +43,61 @@ public class LauncherActivity extends Activity {
     @Override public void onCreate(Bundle state) {
         super.onCreate(state); prefs=getSharedPreferences("idash",MODE_PRIVATE); theme=prefs.getInt("theme",0); migrateFavorites();
         if(!prefs.contains("wallpaper"))prefs.edit().putString("wallpaper",theme==1?"":"mrios/wallpapers/47.jpg").apply();
-        if(state!=null) { page=state.getString("page","home"); query=state.getString("query",""); }
+        if(state!=null) { panelVisible=state.getBoolean("panel",false); page=state.getString("page","home"); query=state.getString("query",""); }
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
         immersive(); render(); loadApps();
     }
     void immersive() { getWindow().getDecorView().setSystemUiVisibility(5894); }
-    @Override protected void onResume() { super.onResume(); resumed=true; main.removeCallbacks(ticker); ticker.run(); immersive(); }
-    @Override protected void onPause() { resumed=false; main.removeCallbacks(ticker); super.onPause(); }
-    @Override protected void onDestroy() { destroyed=true; main.removeCallbacksAndMessages(null); worker.shutdownNow(); super.onDestroy(); }
-    @Override protected void onSaveInstanceState(Bundle out) { out.putString("page",page); out.putString("query",query); super.onSaveInstanceState(out); }
+    @Override protected void onStart(){super.onStart();foregroundVisible=true;}
+    @Override protected void onStop(){foregroundVisible=false;if(nativePanel!=null)nativePanel.pause();if(webPanel!=null)webPanel.pause();main.removeCallbacks(ticker);super.onStop();}
+    @Override protected void onResume() { super.onResume(); resumed=true; main.removeCallbacks(ticker); ticker.run(); immersive();if(nativePanel!=null)nativePanel.resume();if(webPanel!=null)webPanel.resume(); }
+    @Override protected void onPause() { resumed=false;if(nativePanel==null||!nativePanel.wanted){if(nativePanel!=null)nativePanel.pause();main.removeCallbacks(ticker);}if(webPanel!=null)webPanel.pause(); super.onPause(); }
+    @Override protected void onDestroy() { destroyed=true;disposePanel(); main.removeCallbacksAndMessages(null); worker.shutdownNow(); super.onDestroy(); }
+    @Override protected void onSaveInstanceState(Bundle out) { out.putBoolean("panel",panelVisible);out.putString("page",page); out.putString("query",query); super.onSaveInstanceState(out); }
     @Override public void onConfigurationChanged(Configuration config) { super.onConfigurationChanged(config); render(); }
     @Override protected void onNewIntent(Intent intent) { super.onNewIntent(intent); page="home"; query=""; render(); }
-    @Override public void onBackPressed() { if(!"home".equals(page)) { page="home"; query=""; hideKeyboard(); render(); } }
+    @Override public void onBackPressed() { if(webPanel!=null&&webPanel.exitFullscreen())return;if(!"home".equals(page)) { page="home"; query=""; hideKeyboard(); render(); }else if(panelVisible){panelVisible=false;render();} }
     void hideKeyboard() { ((android.view.inputmethod.InputMethodManager)getSystemService(INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(shell.getWindowToken(),0); }
 
     GradientDrawable glass(int color, int radius) {
-        GradientDrawable d=new GradientDrawable(GradientDrawable.Orientation.TL_BR,new int[]{color, (color & 0x00ffffff)|0x27000000});
-        d.setCornerRadius(dp(radius)); d.setStroke(dp(1),0x32ffffff); return d;
+        return IosStyle.glass(this,color,radius);
     }
     LinearLayout row() { LinearLayout l=new LinearLayout(this); l.setOrientation(LinearLayout.HORIZONTAL); l.setGravity(Gravity.CENTER_VERTICAL); return l; }
     LinearLayout column() { LinearLayout l=new LinearLayout(this); l.setOrientation(LinearLayout.VERTICAL); return l; }
-    TextView text(String value, float size, int color) { TextView t=new TextView(this); t.setText(value); t.setTextSize(size); t.setTextColor(color); t.setFontFeatureSettings("tnum"); return t; }
+    TextView text(String value, float size, int color) { TextView t=new TextView(this); t.setText(value); t.setTextSize(size); t.setTextColor(color); t.setTypeface(IosStyle.font(this,false));t.setFontFeatureSettings("tnum"); return t; }
     TextView button(String label, Runnable action) {
         TextView t=text(label,14,Color.WHITE); t.setGravity(Gravity.CENTER); t.setMinHeight(dp(48)); t.setPadding(dp(16),0,dp(16),0);
         t.setBackground(glass(0x39ffffff,22)); t.setContentDescription(label); t.setOnClickListener(v->action.run()); return t;
     }
-    void title(LinearLayout target,String value,String subtitle) { TextView t=text(value,26,Color.WHITE); t.setTypeface(null,Typeface.BOLD); target.addView(t); TextView sub=text(subtitle,12,0xcce6eaff); sub.setPadding(0,dp(3),0,dp(12)); target.addView(sub); }
+    void title(LinearLayout target,String value,String subtitle) { TextView t=text(value,26,Color.WHITE); t.setTypeface(IosStyle.font(this,true)); target.addView(t); TextView sub=text(subtitle,12,0xcce6eaff); sub.setPadding(0,dp(3),0,dp(12)); target.addView(sub); }
     void render() {
-        clock=null;date=null;jakimText=null;search=null;grid=null;
+        disposePanel();clock=null;date=null;jakimText=null;search=null;grid=null;
         stage=new FrameLayout(this); stage.addView(new Wallpaper(this),new FrameLayout.LayoutParams(-1,-1));
-        if(wallpaperBitmap!=null){ImageView backdrop=new ImageView(this);backdrop.setScaleType(ImageView.ScaleType.CENTER_CROP);backdrop.setImageBitmap(wallpaperBitmap);stage.addView(backdrop,new FrameLayout.LayoutParams(-1,-1));View shade=new View(this);shade.setBackgroundColor(0x35000000);stage.addView(shade,new FrameLayout.LayoutParams(-1,-1));}
+        wallpaperView=new ImageView(this);wallpaperView.setScaleType(ImageView.ScaleType.CENTER_CROP);stage.addView(wallpaperView,new FrameLayout.LayoutParams(-1,-1));wallpaperShade=new View(this);wallpaperShade.setBackgroundColor(0x35000000);stage.addView(wallpaperShade,new FrameLayout.LayoutParams(-1,-1));updateBackdrop();
         ensureWallpaper();
         shell=column(); shell.setPadding(dp(28),dp(12),dp(28),dp(10));
         stage.addView(shell,new FrameLayout.LayoutParams(-1,-1)); setContentView(stage);
         // API35 edge-to-edge insets, also works on older devices with immersive bars.
         stage.setOnApplyWindowInsetsListener((v,insets)-> { shell.setPadding(dp(28)+insets.getSystemWindowInsetLeft(),dp(12)+insets.getSystemWindowInsetTop(),dp(28)+insets.getSystemWindowInsetRight(),dp(10)+insets.getSystemWindowInsetBottom()); return insets; });
-        LinearLayout status=row(); statusTime=text("",13,Color.WHITE); statusTime.setTypeface(null,Typeface.BOLD); status.addView(statusTime,new LinearLayout.LayoutParams(0,dp(48),1)); statusTime.setGravity(Gravity.CENTER_VERTICAL);
+        LinearLayout status=row(); statusTime=text("",13,Color.WHITE); statusTime.setTypeface(IosStyle.font(this,true)); status.addView(statusTime,new LinearLayout.LayoutParams(0,dp(48),1)); statusTime.setGravity(Gravity.CENTER_VERTICAL);
         TextView brand=text("iDash",13,0xcce6eaff); brand.setGravity(Gravity.CENTER); status.addView(brand,new LinearLayout.LayoutParams(dp(90),dp(48)));
-        TextView controls=button("◉  Control Center",this::controlCenter); status.addView(controls); shell.addView(status);
+        status.addView(headerAction("Panel",4,()->{panelVisible=!panelVisible;page="home";render();}));
+        status.addView(headerAction("Customize",5,this::customize));
+        status.addView(headerAction("Control Center",6,this::controlCenter)); shell.addView(status);
         body=column(); shell.addView(body,new LinearLayout.LayoutParams(-1,0,1));
         if("apps".equals(page)) buildDrawer(); else buildHome();
-        buildDock(); updateClock();
+        buildDock(); updateClock();IosStyle.enter(body);
     }
     void buildHome() {
         LinearLayout heading=row(); LinearLayout words=column();
         title(words,"Make yourself at home.","Your drive. Your space."); heading.addView(words,new LinearLayout.LayoutParams(0,-2,1));
-        heading.addView(button("Customize",this::customize)); LinearLayout.LayoutParams hp=new LinearLayout.LayoutParams(-1,-2);hp.bottomMargin=dp(6);body.addView(heading,hp);
+        LinearLayout.LayoutParams hp=new LinearLayout.LayoutParams(-1,-2);hp.bottomMargin=dp(6);
         LinearLayout content=row(); content.setGravity(Gravity.TOP); body.addView(content,new LinearLayout.LayoutParams(-1,0,1));
         ScrollView widgetScroll=new ScrollView(this); widgetScroll.setFillViewport(false); widgetScroll.setVerticalScrollBarEnabled(false);
-        LinearLayout widgets=column(); widgetScroll.addView(widgets); LinearLayout.LayoutParams wp=new LinearLayout.LayoutParams(0,-1,0.37f);wp.rightMargin=dp(24); content.addView(widgetScroll,wp);
+        LinearLayout widgets=column(); widgetScroll.addView(widgets); LinearLayout left=column();LinearLayout.LayoutParams wp=new LinearLayout.LayoutParams(0,-1,0.37f);wp.rightMargin=dp(24);content.addView(left,wp);left.addView(heading,hp);left.addView(widgetScroll,new LinearLayout.LayoutParams(-1,0,1));
         LinearLayout timeCard=column(); timeCard.setPadding(dp(22),dp(14),dp(22),dp(14)); timeCard.setBackground(glass(0x7c20395d,28));
         TextView eyebrow=text("LOCAL TIME",10,0xffbaceeb); eyebrow.setLetterSpacing(.16f);timeCard.addView(eyebrow);
-        clock=text("",50,Color.WHITE); clock.setTypeface(android.graphics.Typeface.create("sans-serif-light",Typeface.NORMAL));timeCard.addView(clock);
+        clock=text("",50,Color.WHITE); clock.setTypeface(IosStyle.font(this,false));timeCard.addView(clock);
         date=text("",14,0xffe0eaff); timeCard.addView(date); timeCard.setContentDescription("Clock widget"); timeCard.setOnClickListener(v->openSettings(Settings.ACTION_DATE_SETTINGS)); widgets.addView(timeCard,new LinearLayout.LayoutParams(-1,-2));
         if(prefs.getBoolean("calendar",true)) {
             LinearLayout calendar=column(); calendar.setPadding(dp(20),dp(14),dp(20),dp(14)); calendar.setBackground(glass(0x65ffffff,24));
@@ -106,11 +110,12 @@ public class LauncherActivity extends Activity {
             LinearLayout card=column();card.setPadding(dp(18),dp(12),dp(18),dp(12));card.setBackground(glass(0x682b426a,24));card.setContentDescription("JAKIM calendar widget");
             jakimText=text("",13,Color.WHITE);card.addView(jakimText);card.setOnClickListener(v->jakimDialog());LinearLayout.LayoutParams jp=new LinearLayout.LayoutParams(-1,-2);jp.topMargin=dp(12);widgets.addView(card,jp);updateJakim();loadJakim(false);
         }
-        content.addView(new View(this),new LinearLayout.LayoutParams(0,-1,.63f));
+        if(panelVisible){panelBox=column();panelBox.setPadding(dp(10),dp(8),dp(10),dp(8));panelBox.setBackground(glass(0x77324461,24));panelBox.setContentDescription("Optional media panel");LinearLayout.LayoutParams pp=new LinearLayout.LayoutParams(0,-1,.63f);pp.topMargin=dp(24);content.addView(panelBox,pp);buildPanel();}
+        else content.addView(new View(this),new LinearLayout.LayoutParams(0,-1,.63f));
     }
     View shortcut(int slot,boolean dock) {
         LinearLayout tile=column(); tile.setGravity(Gravity.CENTER);tile.setPadding(dp(4),dp(5),dp(4),dp(5));
-        App app=assigned(slot); int size=dock?46:62;
+        App app=assigned(slot); int size=dock?42:54;
         FrameLayout icon=new FrameLayout(this);
         int[] tops={0xff36b4ff,0xff48baff,0xffff4c6c};
         int[] bottoms={0xff0055ee,0xff0660ed,0xffe60027};
@@ -120,21 +125,21 @@ public class LauncherActivity extends Activity {
         else icon.addView(new FavoriteGlyph(this,slot),new FrameLayout.LayoutParams(-1,-1));
         tile.addView(icon,new LinearLayout.LayoutParams(dp(size),dp(size)));
         TextView label=text(slots[slot],dock?10:12,Color.WHITE); label.setMaxLines(1);label.setEllipsize(TextUtils.TruncateAt.END);label.setGravity(Gravity.CENTER);LinearLayout.LayoutParams lp=new LinearLayout.LayoutParams(-1,dp(22));lp.topMargin=dp(3);tile.addView(label,lp);
-        tile.setContentDescription("Favorite "+slots[slot]);tile.setOnClickListener(v->{if(app==null)pick(slot);else launch(app);});tile.setOnLongClickListener(v->{pick(slot);return true;});return tile;
+        tile.setContentDescription("Favorite "+slots[slot]);tile.setOnClickListener(v->{App current=assigned(slot);if(current==null)pick(slot);else launch(current);});tile.setOnLongClickListener(v->{pick(slot);return true;});return tile;
     }
     void buildDock() {
-        LinearLayout outer=row();outer.setGravity(Gravity.CENTER);LinearLayout.LayoutParams op=new LinearLayout.LayoutParams(-1,dp(91));op.topMargin=dp(8);shell.addView(outer,op);
+        LinearLayout outer=row();outer.setGravity(Gravity.CENTER);LinearLayout.LayoutParams op=new LinearLayout.LayoutParams(-1,dp(83));op.topMargin=dp(8);shell.addView(outer,op);
         LinearLayout dock=row();dock.setGravity(Gravity.CENTER);dock.setPadding(dp(12),dp(3),dp(12),dp(3));dock.setBackground(glass(0x75e5eaff,28));dock.setElevation(dp(8));outer.addView(dock,new LinearLayout.LayoutParams(-2,-1));
-        for(int i=0;i<slots.length;i++) dock.addView(shortcut(i,true),new LinearLayout.LayoutParams(dp(72),-1));
+        for(int i=0;i<slots.length;i++) dock.addView(shortcut(i,true),new LinearLayout.LayoutParams(dp(66),-1));
         View divider=new View(this);divider.setBackgroundColor(0x40ffffff);LinearLayout.LayoutParams d=new LinearLayout.LayoutParams(dp(1),dp(42));d.setMargins(dp(9),0,dp(9),0);dock.addView(divider,d);
-        dock.addView(dockAction("⚙","Settings",()->openSettings(Settings.ACTION_SETTINGS)),new LinearLayout.LayoutParams(dp(72),-1));
-        dock.addView(dockAction("▦","Apps",()-> {if("apps".equals(page)){page="home";query="";hideKeyboard();render();}else showApps();}),new LinearLayout.LayoutParams(dp(72),-1));
+        dock.addView(dockAction("⚙","Settings",()->openSettings(Settings.ACTION_SETTINGS)),new LinearLayout.LayoutParams(dp(66),-1));
+        dock.addView(dockAction("▦","Apps",()-> {if("apps".equals(page)){page="home";query="";hideKeyboard();render();}else showApps();}),new LinearLayout.LayoutParams(dp(66),-1));
     }
     View dockAction(String glyph,String label,Runnable action) {
         LinearLayout l=column();l.setGravity(Gravity.CENTER);View icon;
         if("Settings".equals(label)){ImageView image=new ImageView(this);image.setImageResource(R.drawable.mrios_settings);icon=image;}
         else {TextView mark=text(glyph,27,Color.WHITE);mark.setGravity(Gravity.CENTER);mark.setBackground(glass(0x70ffffff,15));icon=mark;}
-        l.addView(icon,new LinearLayout.LayoutParams(dp(46),dp(46)));TextView name=text(label,10,Color.WHITE);name.setGravity(Gravity.CENTER);l.addView(name,new LinearLayout.LayoutParams(-1,dp(25)));l.setContentDescription(label);l.setOnClickListener(v->action.run());return l;
+        l.addView(icon,new LinearLayout.LayoutParams(dp(42),dp(42)));TextView name=text(label,10,Color.WHITE);name.setGravity(Gravity.CENTER);l.addView(name,new LinearLayout.LayoutParams(-1,dp(25)));l.setContentDescription(label);l.setOnClickListener(v->action.run());return l;
     }
     void showApps() {page="apps";render();}
     void buildDrawer() {
@@ -158,7 +163,7 @@ public class LauncherActivity extends Activity {
         String[] labels=new String[apps.size()+1];labels[0]="Clear favorite";for(int i=0;i<apps.size();i++)labels[i+1]=apps.get(i).label;
         new AlertDialog.Builder(this).setTitle("Choose "+slots[slot]+" app").setItems(labels,(d,which)->{if(which==0){prefs.edit().putString("favorite_"+slots[slot],"").apply();render();}else assign(slot,apps.get(which-1));}).setNegativeButton("Cancel",null).show();
     }
-    void launch(App a) {try{startActivity(new Intent(Intent.ACTION_MAIN).addCategory(Intent.CATEGORY_LAUNCHER).setComponent(ComponentName.unflattenFromString(a.component)).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED));}catch(RuntimeException e){Toast.makeText(this,"App unavailable. Hold the favorite to choose another.",Toast.LENGTH_LONG).show();loadApps();}}
+    void launch(App a) {try{startActivity(new Intent(Intent.ACTION_MAIN).addCategory(Intent.CATEGORY_LAUNCHER).setComponent(ComponentName.unflattenFromString(a.component)).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED));if(IosStyle.motion(this))overridePendingTransition(android.R.anim.fade_in,android.R.anim.fade_out);}catch(RuntimeException e){Toast.makeText(this,"App unavailable. Hold the favorite to choose another.",Toast.LENGTH_LONG).show();loadApps();}}
     void loadApps() {
         if(worker.isShutdown())return;
         worker.execute(()->{
@@ -172,7 +177,7 @@ public class LauncherActivity extends Activity {
                     found.add(new App(info.loadLabel(pm).toString(),key,bitmap));}catch(RuntimeException unavailable){/* Removed packages are skipped. */}
             }
             found.sort((a,b)->a.label.compareToIgnoreCase(b.label));
-            main.post(()->{if(destroyed)return;apps.clear();apps.addAll(found);loaded=true;seedFavorites();if("apps".equals(page))filter();else render();});
+            main.post(()->{if(destroyed)return;apps.clear();apps.addAll(found);loaded=true;seedFavorites();if("apps".equals(page))filter();else if(!panelVisible)render();});
         });
     }
     void migrateFavorites() {
@@ -186,33 +191,43 @@ public class LauncherActivity extends Activity {
         edit.putBoolean("three_favorites",true).apply();
     }
     void seedFavorites() {
-        String[][] hints={{"com.autochips.bluetooth"},{"com.android.documentsui","com.google.android.documentsui"},{"com.google.android.youtube","com.shazwan.nexadash.tizentube.next"}};
+        String[][] hints={{"com.autochips.bluetooth"},{"com.android.documentsui","com.google.android.documentsui"},{"com.google.android.youtube","com.shazwan.idash.tizentube","com.shazwan.nexadash.tizentube.next"}};
         android.content.SharedPreferences.Editor e=prefs.edit();for(int slot=0;slot<slots.length;slot++){if(prefs.contains("favorite_"+slots[slot]))continue;boolean done=false;for(String pkg:hints[slot]){for(App a:apps)if(ComponentName.unflattenFromString(a.component).getPackageName().equals(pkg)){e.putString("favorite_"+slots[slot],a.component);done=true;break;}if(done)break;}}e.apply();
     }
     void openSettings(String action) {try{startActivity(new Intent(action));}catch(RuntimeException unavailable){try{startActivity(new Intent(Settings.ACTION_SETTINGS));}catch(RuntimeException absent){Toast.makeText(this,"Settings unavailable on this device",Toast.LENGTH_SHORT).show();}}}
     void controlCenter() {
         LinearLayout panel=column();panel.setPadding(dp(20),dp(10),dp(20),dp(12));
-        LinearLayout links=row();links.addView(button("Wi-Fi",()->openSettings(Settings.ACTION_WIFI_SETTINGS)),new LinearLayout.LayoutParams(0,dp(56),1));links.addView(button("Bluetooth",()->openSettings(Settings.ACTION_BLUETOOTH_SETTINGS)),new LinearLayout.LayoutParams(0,dp(56),1));panel.addView(links);
-        LinearLayout links2=row();links2.addView(button("Display",()->openSettings(Settings.ACTION_DISPLAY_SETTINGS)),new LinearLayout.LayoutParams(0,dp(56),1));links2.addView(button("Sound",()->openSettings(Settings.ACTION_SOUND_SETTINGS)),new LinearLayout.LayoutParams(0,dp(56),1));panel.addView(links2);
+        LinearLayout links=row();links.addView(controlTile("Wi-Fi",0,0xff007aff,()->openSettings(Settings.ACTION_WIFI_SETTINGS)),new LinearLayout.LayoutParams(0,dp(96),1));links.addView(controlTile("Bluetooth",1,0xff007aff,()->openSettings(Settings.ACTION_BLUETOOTH_SETTINGS)),new LinearLayout.LayoutParams(0,dp(96),1));panel.addView(links);
+        LinearLayout links2=row();links2.addView(controlTile("Display",2,0xff9b65ed,()->openSettings(Settings.ACTION_DISPLAY_SETTINGS)),new LinearLayout.LayoutParams(0,dp(96),1));links2.addView(controlTile("Sound",3,0xffef4878,()->openSettings(Settings.ACTION_SOUND_SETTINGS)),new LinearLayout.LayoutParams(0,dp(96),1));panel.addView(links2);
         TextView volume=text("Media volume",16,Color.WHITE);volume.setPadding(0,dp(18),0,0);panel.addView(volume);AudioManager audio=(AudioManager)getSystemService(AUDIO_SERVICE);SeekBar slider=new SeekBar(this);slider.setContentDescription("Media volume");slider.setMax(audio.getStreamMaxVolume(AudioManager.STREAM_MUSIC));slider.setProgress(audio.getStreamVolume(AudioManager.STREAM_MUSIC));slider.setMinimumHeight(dp(56));slider.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener(){public void onProgressChanged(SeekBar b,int n,boolean user){if(user)try{audio.setStreamVolume(AudioManager.STREAM_MUSIC,n,0);}catch(SecurityException denied){Toast.makeText(LauncherActivity.this,"Use the head unit volume control",Toast.LENGTH_SHORT).show();}}public void onStartTrackingTouch(SeekBar b){}public void onStopTrackingTouch(SeekBar b){}});panel.addView(slider);
         panel.addView(button("Choose default launcher",()->openSettings(Settings.ACTION_HOME_SETTINGS)));
-        AlertDialog dialog=new AlertDialog.Builder(this).setTitle("Control Center").setView(panel).setPositiveButton("Done",null).create();dialog.show();if(dialog.getWindow()!=null){dialog.getWindow().setBackgroundDrawable(glass(0xf02b355d,28));dialog.getWindow().setLayout(dp(440),-2);}
+        AlertDialog dialog=new AlertDialog.Builder(this).setTitle("Control Center").setView(panel).setPositiveButton("Done",null).create();dialog.show();if(dialog.getWindow()!=null){GradientDrawable backdrop=new GradientDrawable();int glassStyle=prefs.getInt("glass_style",0);backdrop.setColor(glassStyle==1?0x9025324d:glassStyle==2?0xff25324d:0xe025324d);backdrop.setCornerRadius(dp(28));backdrop.setStroke(dp(1),0x70ffffff);dialog.getWindow().setBackgroundDrawable(backdrop);IosStyle.enter(dialog.getWindow().getDecorView());dialog.getWindow().setLayout(dp(440),-2);}
     }
     void customize() {
-        String[] options={"Calendar widget","Kalendar JAKIM","24-hour clock","Rose wallpaper","MRiOS icon theme"};boolean[] values={prefs.getBoolean("calendar",true),prefs.getBoolean("jakim",true),prefs.getBoolean("24h",true),theme==1,prefs.getBoolean("mrios_icons",true)};
-        new AlertDialog.Builder(this).setTitle("Make it yours").setNeutralButton("Wallpapers",(d,w)->wallpaperPicker()).setMultiChoiceItems(options,values,(d,index,checked)->values[index]=checked).setPositiveButton("Apply",(d,w)->{prefs.edit().putBoolean("calendar",values[0]).putBoolean("jakim",values[1]).putBoolean("24h",values[2]).putInt("theme",values[3]?1:0).putBoolean("mrios_icons",values[4]).apply();theme=values[3]?1:0;render();loadApps();}).setNegativeButton("Cancel",null).show();
+        String[] options={"Calendar widget","Kalendar JAKIM","24-hour clock","Rose wallpaper","MRiOS icon theme","Smooth transitions"};boolean[] values={prefs.getBoolean("calendar",true),prefs.getBoolean("jakim",true),prefs.getBoolean("24h",true),theme==1,prefs.getBoolean("mrios_icons",true),prefs.getBoolean("motion",true)};
+        new AlertDialog.Builder(this).setTitle("Make it yours").setNeutralButton("Appearance",(d,w)->appearancePicker()).setMultiChoiceItems(options,values,(d,index,checked)->values[index]=checked).setPositiveButton("Apply",(d,w)->{prefs.edit().putBoolean("calendar",values[0]).putBoolean("jakim",values[1]).putBoolean("24h",values[2]).putInt("theme",values[3]?1:0).putBoolean("mrios_icons",values[4]).putBoolean("motion",values[5]).apply();theme=values[3]?1:0;render();loadApps();}).setNegativeButton("Cancel",null).show();
+    }
+    View headerAction(String label,int icon,Runnable action){LinearLayout item=row();item.setGravity(Gravity.CENTER);item.setPadding(dp(10),0,dp(10),0);item.setBackground(glass(0x55e1eaff,20));item.setContentDescription(label);item.setMinimumHeight(dp(48));item.addView(new IosStyle.Icon(this,icon),new LinearLayout.LayoutParams(dp(22),dp(22)));TextView title=text(label,12,Color.WHITE);title.setPadding(dp(5),0,0,0);item.addView(title);item.setOnClickListener(v->action.run());LinearLayout.LayoutParams lp=new LinearLayout.LayoutParams(-2,dp(48));lp.leftMargin=dp(6);item.setLayoutParams(lp);return item;}
+    View controlTile(String label,int icon,int color,Runnable action){LinearLayout tile=column();tile.setGravity(Gravity.CENTER);FrameLayout disc=new FrameLayout(this);GradientDrawable fill=new GradientDrawable(GradientDrawable.Orientation.TL_BR,new int[]{color,0xcc000000|(color&0xffffff)});fill.setCornerRadius(dp(18));disc.setBackground(fill);disc.addView(new IosStyle.Icon(this,icon),new FrameLayout.LayoutParams(-1,-1));tile.addView(disc,new LinearLayout.LayoutParams(dp(48),dp(48)));TextView caption=text(label,13,Color.WHITE);caption.setGravity(Gravity.CENTER);tile.addView(caption,new LinearLayout.LayoutParams(-1,dp(28)));tile.setContentDescription(label+" settings");tile.setOnClickListener(v->action.run());return tile;}
+    void appearancePicker(){new AlertDialog.Builder(this).setTitle("Appearance").setItems(new String[]{"Glass","Transparent","Solid · high contrast","Wallpapers"},(d,index)->{if(index==3){wallpaperPicker();return;}prefs.edit().putInt("glass_style",index).apply();render();}).setNegativeButton("Cancel",null).show();}
+    void disposePanel(){if(nativePanel!=null){nativePanel.close();nativePanel=null;}if(webPanel!=null){webPanel.close();webPanel=null;}panelBox=null;}
+    void buildPanel(){
+        LinearLayout header=row();TextView title=text("Media panel",15,Color.WHITE);header.addView(title,new LinearLayout.LayoutParams(0,dp(48),1));header.addView(button("Mode",()->new AlertDialog.Builder(this).setTitle("Panel mode").setItems(new String[]{"YouTube web","TizenTube · native companion"},(d,i)->{prefs.edit().putInt("panel_mode",i).apply();render();}).show()));header.addView(button("Close",()->{panelVisible=false;render();}));panelBox.addView(header);
+        if(prefs.getInt("panel_mode",0)==1){nativePanel=new DashNativeFrame(this,"standalone");panelBox.addView(nativePanel,new LinearLayout.LayoutParams(-1,0,1));if(resumed)nativePanel.resume();}
+        else {webPanel=new DashWebPlayer(this);panelBox.addView(webPanel,new LinearLayout.LayoutParams(-1,0,1));if(resumed)webPanel.resume();}
     }
     void wallpaperPicker() {
         try {String[] files=MrIosTheme.wallpapers(getAssets());String[] labels=new String[files.length+1];labels[0]="iDash gradient";for(int i=0;i<files.length;i++)labels[i+1]="MRiOS · "+files[i].replaceFirst("\\.[^.]+$","");
             new AlertDialog.Builder(this).setTitle("MRiOS wallpapers").setItems(labels,(d,index)->{prefs.edit().putString("wallpaper",index==0?"":"mrios/wallpapers/"+files[index-1]).apply();ensureWallpaper();render();}).setNegativeButton("Cancel",null).show();
         }catch(java.io.IOException unavailable){Toast.makeText(this,"Wallpaper gallery unavailable",Toast.LENGTH_SHORT).show();}
     }
+    void updateBackdrop(){if(wallpaperView!=null){wallpaperView.setImageBitmap(wallpaperBitmap);wallpaperView.setVisibility(wallpaperBitmap==null?View.GONE:View.VISIBLE);}if(wallpaperShade!=null)wallpaperShade.setVisibility(wallpaperBitmap==null?View.GONE:View.VISIBLE);}
     void ensureWallpaper() {
         String path=prefs.getString("wallpaper","");if(path.equals(requestedWallpaper))return;requestedWallpaper=path;int generation=++wallpaperGeneration;
-        if(path.isEmpty()){wallpaperBitmap=null;return;}
+        if(path.isEmpty()){wallpaperBitmap=null;updateBackdrop();return;}
         if(worker.isShutdown())return;
         worker.execute(()->{Bitmap image=null;try{image=MrIosTheme.decode(getAssets(),path,1280);}catch(java.io.IOException ignored){}final Bitmap decoded=image;
-            main.post(()->{if(destroyed||generation!=wallpaperGeneration)return;wallpaperBitmap=decoded;render();});});
+            main.post(()->{if(destroyed||generation!=wallpaperGeneration)return;wallpaperBitmap=decoded;updateBackdrop();});});
     }
     void showCalendar() {Calendar c=Calendar.getInstance();DatePickerDialog dialog=new DatePickerDialog(this,(v,y,m,d)->{},c.get(Calendar.YEAR),c.get(Calendar.MONTH),c.get(Calendar.DAY_OF_MONTH));dialog.setTitle("Calendar");dialog.show();}
     void updateClock() {Date now=new Date();if(!JakimCalendar.key(now.getTime()).equals(jakimDayKey))updateJakim();boolean h24=prefs.getBoolean("24h",true);if(clock!=null)clock.setText(new SimpleDateFormat(h24?"HH:mm":"h:mm a",Locale.getDefault()).format(now));if(date!=null)date.setText(new SimpleDateFormat("EEEE, d MMMM",Locale.getDefault()).format(now));if(statusTime!=null)statusTime.setText(new SimpleDateFormat(h24?"HH:mm  ·  EEE, d MMM":"h:mm a  ·  EEE, d MMM",Locale.getDefault()).format(now));}

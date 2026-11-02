@@ -1,8 +1,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
     <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
     <uses-permission android:name="android.permission.INTERNET"/>
-    <queries><intent><action android:name="android.intent.action.MAIN"/><category android:name="android.intent.category.LAUNCHER"/></intent></queries>
+    <permission android:name="com.shazwan.idash.permission.CONTROL" android:protectionLevel="signature"/>
+    <uses-permission android:name="com.shazwan.idash.permission.CONTROL"/>
+    <queries><package android:name="com.shazwan.idash.tizentube"/><package android:name="com.shazwan.idash.test.a"/><intent><action android:name="android.intent.action.MAIN"/><category android:name="android.intent.category.LAUNCHER"/></intent></queries>
     <application android:label="iDash" android:icon="@drawable/ic_launcher" android:theme="@style/AppTheme" android:allowBackup="false" android:supportsRtl="true">
+        <activity android:name=".DashNativeProxy" android:exported="false" android:resizeableActivity="true" android:allowEmbedded="true" android:theme="@android:style/Theme.Material.NoActionBar"/>
         <activity android:name=".LauncherActivity" android:exported="true" android:launchMode="singleTask" android:screenOrientation="sensorLandscape" android:configChanges="orientation|screenSize|keyboardHidden">
             <intent-filter><action android:name="android.intent.action.MAIN"/><category android:name="android.intent.category.HOME"/><category android:name="android.intent.category.DEFAULT"/></intent-filter>
             <intent-filter><action android:name="android.intent.action.MAIN"/><category android:name="android.intent.category.LAUNCHER"/></intent-filter>

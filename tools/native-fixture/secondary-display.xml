@@ -1,0 +1,3 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Disposable emulator fixture only. Does not add missing framework support. -->
+<permissions><feature name="android.software.activities_on_secondary_displays"/></permissions>

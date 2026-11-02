@@ -24,3 +24,16 @@ from the owner-provided MRiOS V2.apk at the owner's explicit request. They
 are excluded from the MIT license. Original rights remain with the respective
 rights holders; no redistribution license was established from the binary.
 Exact original filenames and hashes: docs/qa/mrios-visual-assets.json.
+
+DashNativeFrame.java, DashNativeProxy.java, DashNativeGeometry.java and
+DashWebPlayer.java, the native fixture and companion patch tooling are adapted
+from NexaDash's corresponding source/tools under its MIT license. Original
+copyright (c)2026 Adam Suchi Hafizullah; see docs/licenses/NexaDash-MIT.txt.
+TizenTube/Cobalt companion notices: dist/companions/TizenTube-NOTICE.txt.
+
+The four SF Pro Display files under app/src/main/assets/mrios/fonts/ and
+app/src/main/res/font/mrios_regular.ttf are extracted from the same
+owner-provided MRiOS V2.apk. They are third-party assets excluded from the MIT
+license; original rights remain with the respective rights holders. A font
+redistribution license was not established from the binary input. Exact input
+paths and SHA256 hashes are in docs/qa/mrios-visual-assets.json.

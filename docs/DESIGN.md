@@ -33,3 +33,5 @@ Two simultaneous native app panels, embedded Google Maps, OEM antenna-radio inte
 NexaDash is paused. Do not modify its repository, signing keys, releases or installed package while developing iDash. Keep raw APK archives, owner reports/photos, account details and signing material out of this repository. Any future reused source must retain its applicable license and attribution.
 
 The0.1.2 visual theme bundles36 portable MRiOS PNG icons and24 wallpapers with separate third-party provenance (NOTICE). The launcher logic remains iDash-native. Do not describe the asset import as the full MRiOS executable engine or all of its widgets/gestures.
+
+0.1.4: Panel, Customize and Control Center are adjacent header actions. The optional panel occupies the right-side blank area and starts hidden. Dock shortcuts are42dp icons within at-least48dp touch tiles. Glass/Transparent/Solid styles and short scoped transitions are iDash rendering. Four source SF Pro files are included; system emoji is retained because the input has no emoji-font payload. Initial panel modes are YouTube web and the isolated iDash TizenTube companion; see OPTIONAL_PANEL.md.

@@ -1,0 +1,15 @@
+{
+  "file": "TizenTube-iDash-arm32.apk",
+  "package": "com.shazwan.idash.tizentube",
+  "version_name": "2.0.3-idash1",
+  "version_code": 205,
+  "control_permission": "com.shazwan.idash.permission.CONTROL",
+  "size_bytes": 80690523,
+  "sha256": "105257d0f84fc316331788076194689bce8048d35c5c66a26b66503397085e67",
+  "original_input_sha256": "48260595ac9b87c2699d5f90435789dbe16a876e498cff8f891e7f693257b1f5",
+  "dex_preserved": 4,
+  "native_libs_preserved": 2,
+  "runtime_status": "ARM32 build; not run on physical head unit or x86 emulator; no TizenTube playback certification",
+  "replaces_nexadash_package": false,
+  "signer_sha256": "49f6adc61ce465f494ab7d86bf8adcc196b03189ab81f9e287d91328cd63de73"
+}
