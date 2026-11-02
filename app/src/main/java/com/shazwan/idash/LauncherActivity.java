@@ -30,6 +30,7 @@ public class LauncherActivity extends Activity {
     String page = "home", query = "";
     boolean loaded, destroyed, resumed;
     int theme;
+    Bitmap wallpaperBitmap; String requestedWallpaper; int wallpaperGeneration;
     final Runnable ticker = new Runnable() { public void run() { updateClock(); if (resumed) main.postDelayed(this, 1000); } };
 
     static final class App {
@@ -39,6 +40,7 @@ public class LauncherActivity extends Activity {
     int dp(float n) { return Math.round(n * getResources().getDisplayMetrics().density); }
     @Override public void onCreate(Bundle state) {
         super.onCreate(state); prefs=getSharedPreferences("idash",MODE_PRIVATE); theme=prefs.getInt("theme",0); migrateFavorites();
+        if(!prefs.contains("wallpaper"))prefs.edit().putString("wallpaper",theme==1?"":"mrios/wallpapers/47.jpg").apply();
         if(state!=null) { page=state.getString("page","home"); query=state.getString("query",""); }
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
         immersive(); render(); loadApps();
@@ -68,6 +70,8 @@ public class LauncherActivity extends Activity {
     void render() {
         clock=null;date=null;batteryLabel=null;search=null;grid=null;
         stage=new FrameLayout(this); stage.addView(new Wallpaper(this),new FrameLayout.LayoutParams(-1,-1));
+        if(wallpaperBitmap!=null){ImageView backdrop=new ImageView(this);backdrop.setScaleType(ImageView.ScaleType.CENTER_CROP);backdrop.setImageBitmap(wallpaperBitmap);stage.addView(backdrop,new FrameLayout.LayoutParams(-1,-1));View shade=new View(this);shade.setBackgroundColor(0x35000000);stage.addView(shade,new FrameLayout.LayoutParams(-1,-1));}
+        ensureWallpaper();
         shell=column(); shell.setPadding(dp(28),dp(12),dp(28),dp(10));
         stage.addView(shell,new FrameLayout.LayoutParams(-1,-1)); setContentView(stage);
         // API35 edge-to-edge insets, also works on older devices with immersive bars.
@@ -104,7 +108,8 @@ public class LauncherActivity extends Activity {
         }
         LinearLayout right=column(); content.addView(right,new LinearLayout.LayoutParams(0,-1,.63f));
         LinearLayout quickTitle=row();TextView label=text("FAVORITES",11,0xffe0e6ff); label.setLetterSpacing(.16f);quickTitle.addView(label,new LinearLayout.LayoutParams(0,dp(28),1));quickTitle.addView(button("All apps  ›",()->showApps()));right.addView(quickTitle);
-        LinearLayout appRow=row(); appRow.setGravity(Gravity.CENTER);right.addView(appRow,new LinearLayout.LayoutParams(-1,0,1));
+        right.addView(new View(this),new LinearLayout.LayoutParams(-1,0,1));
+        LinearLayout appRow=row(); appRow.setGravity(Gravity.CENTER);right.addView(appRow,new LinearLayout.LayoutParams(-1,dp(110)));
         for(int i=0;i<slots.length;i++) { final int slot=i; appRow.addView(shortcut(slot,false),new LinearLayout.LayoutParams(0,-1,1)); }
         TextView hint=text("Touch and hold a favorite to change its app",11,0xbbbfcdec);hint.setGravity(Gravity.CENTER);right.addView(hint,new LinearLayout.LayoutParams(-1,dp(24)));
     }
@@ -166,7 +171,10 @@ public class LauncherActivity extends Activity {
             for(ResolveInfo info:pm.queryIntentActivities(new Intent(Intent.ACTION_MAIN).addCategory(Intent.CATEGORY_LAUNCHER),0)) {
                 if(Thread.currentThread().isInterrupted())return;if(info.activityInfo.packageName.equals(getPackageName()))continue;
                 String key=new ComponentName(info.activityInfo.packageName,info.activityInfo.name).flattenToString();if(!seen.add(key))continue;
-                try{Drawable d=info.loadIcon(pm);Bitmap bitmap=Bitmap.createBitmap(dp(48),dp(48),Bitmap.Config.ARGB_8888);d.setBounds(0,0,bitmap.getWidth(),bitmap.getHeight());d.draw(new Canvas(bitmap));found.add(new App(info.loadLabel(pm).toString(),key,bitmap));}catch(RuntimeException unavailable){/* Removed packages are skipped. */}
+                try{Drawable d=info.loadIcon(pm);Bitmap bitmap=Bitmap.createBitmap(dp(48),dp(48),Bitmap.Config.ARGB_8888);d.setBounds(0,0,bitmap.getWidth(),bitmap.getHeight());d.draw(new Canvas(bitmap));
+                    String themed=MrIosTheme.icon(info.activityInfo.packageName);
+                    if(prefs.getBoolean("mrios_icons",true)&&themed!=null)try{bitmap=MrIosTheme.decode(getAssets(),themed,dp(64));}catch(java.io.IOException ignored){}
+                    found.add(new App(info.loadLabel(pm).toString(),key,bitmap));}catch(RuntimeException unavailable){/* Removed packages are skipped. */}
             }
             found.sort((a,b)->a.label.compareToIgnoreCase(b.label));
             main.post(()->{if(destroyed)return;apps.clear();apps.addAll(found);loaded=true;seedFavorites();if("apps".equals(page))filter();else render();});
@@ -196,8 +204,20 @@ public class LauncherActivity extends Activity {
         AlertDialog dialog=new AlertDialog.Builder(this).setTitle("Control Center").setView(panel).setPositiveButton("Done",null).create();dialog.show();if(dialog.getWindow()!=null){dialog.getWindow().setBackgroundDrawable(glass(0xf02b355d,28));dialog.getWindow().setLayout(dp(440),-2);}
     }
     void customize() {
-        String[] options={"Calendar widget","Power widget","24-hour clock","Rose wallpaper"};boolean[] values={prefs.getBoolean("calendar",true),prefs.getBoolean("battery",true),prefs.getBoolean("24h",true),theme==1};
-        new AlertDialog.Builder(this).setTitle("Make it yours").setMultiChoiceItems(options,values,(d,index,checked)->values[index]=checked).setPositiveButton("Apply",(d,w)->{prefs.edit().putBoolean("calendar",values[0]).putBoolean("battery",values[1]).putBoolean("24h",values[2]).putInt("theme",values[3]?1:0).apply();theme=values[3]?1:0;render();}).setNegativeButton("Cancel",null).show();
+        String[] options={"Calendar widget","Power widget","24-hour clock","Rose wallpaper","MRiOS icon theme"};boolean[] values={prefs.getBoolean("calendar",true),prefs.getBoolean("battery",true),prefs.getBoolean("24h",true),theme==1,prefs.getBoolean("mrios_icons",true)};
+        new AlertDialog.Builder(this).setTitle("Make it yours").setNeutralButton("Wallpapers",(d,w)->wallpaperPicker()).setMultiChoiceItems(options,values,(d,index,checked)->values[index]=checked).setPositiveButton("Apply",(d,w)->{prefs.edit().putBoolean("calendar",values[0]).putBoolean("battery",values[1]).putBoolean("24h",values[2]).putInt("theme",values[3]?1:0).putBoolean("mrios_icons",values[4]).apply();theme=values[3]?1:0;render();loadApps();}).setNegativeButton("Cancel",null).show();
+    }
+    void wallpaperPicker() {
+        try {String[] files=MrIosTheme.wallpapers(getAssets());String[] labels=new String[files.length+1];labels[0]="iDash gradient";for(int i=0;i<files.length;i++)labels[i+1]="MRiOS · "+files[i].replaceFirst("\\.[^.]+$","");
+            new AlertDialog.Builder(this).setTitle("MRiOS wallpapers").setItems(labels,(d,index)->{prefs.edit().putString("wallpaper",index==0?"":"mrios/wallpapers/"+files[index-1]).apply();ensureWallpaper();render();}).setNegativeButton("Cancel",null).show();
+        }catch(java.io.IOException unavailable){Toast.makeText(this,"Wallpaper gallery unavailable",Toast.LENGTH_SHORT).show();}
+    }
+    void ensureWallpaper() {
+        String path=prefs.getString("wallpaper","");if(path.equals(requestedWallpaper))return;requestedWallpaper=path;int generation=++wallpaperGeneration;
+        if(path.isEmpty()){wallpaperBitmap=null;return;}
+        if(worker.isShutdown())return;
+        worker.execute(()->{Bitmap image=null;try{image=MrIosTheme.decode(getAssets(),path,1280);}catch(java.io.IOException ignored){}final Bitmap decoded=image;
+            main.post(()->{if(destroyed||generation!=wallpaperGeneration)return;wallpaperBitmap=decoded;render();});});
     }
     void showCalendar() {Calendar c=Calendar.getInstance();DatePickerDialog dialog=new DatePickerDialog(this,(v,y,m,d)->{},c.get(Calendar.YEAR),c.get(Calendar.MONTH),c.get(Calendar.DAY_OF_MONTH));dialog.setTitle("Calendar");dialog.show();}
     String batteryText() {Intent i=registerReceiver(null,new IntentFilter(Intent.ACTION_BATTERY_CHANGED));if(i==null)return "Power · unavailable";int scale=i.getIntExtra(BatteryManager.EXTRA_SCALE,0),level=i.getIntExtra(BatteryManager.EXTRA_LEVEL,-1);return scale<=0||level<0?"Power · unavailable":"Power  "+(level*100/scale)+"%"+(i.getIntExtra(BatteryManager.EXTRA_PLUGGED,0)>0?"  ·  Connected":"");}

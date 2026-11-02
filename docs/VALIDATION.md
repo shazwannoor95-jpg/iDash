@@ -1,6 +1,6 @@
 # Preview validation
 
-Build target: iDash0.1.1, package com.shazwan.idash, minAPI26/target35. Java/native Android views; no bundled native code, therefore no ARM64-only dependency. Actual ARM32/head-unit runtime and1GB performance are still untested.
+Build target: iDash0.1.2, package com.shazwan.idash, minAPI26/target35. Java/native Android views; no bundled native code, therefore no ARM64-only dependency. Actual ARM32/head-unit runtime and1GB performance are still untested.
 
 Build checks: assembleDebug, assembleDebugAndroidTest and lintDebug passed using JDK17, Gradle8.9 and SDK35. Lint: zero errors, two warnings (intentional landscape activity and modern Android data-extraction declaration). Signature v2/v3 and ZIP alignment verified for the downloadable, independently signed iDash preview.
 
@@ -30,3 +30,7 @@ The expanded test runner first hit a cross-app INJECT_EVENTS restriction and the
 0.1.1 verification: build/lint/signature/alignment pass. Both UI runs reached29 assertions, including the requested order, absence of removed favorites, migration and persistence. The full suite failed on Control Center accessibility visibility while an emulator System UI ANR was observed in front; the isolated retry used stock Home. Do not report a full33-assertion pass for0.1.1. The known system dialog was dismissed after the test stopped to inspect the dashboard.
 
 After the0.1.1 layout precursor run, the final build adds vibrant original vector marks and the two MRiOS PNGs documented in MRIOS_REVIEW.md. Build/lint/signature/alignment passed again; that final signed APK was installed and visually inspected on API27 and its dashboard screenshot updated. The full functional suite was not rerun on this asset/palette revision.
+
+0.1.2: the exact signed preview passed33 focused API27 layout/theme assertions (`-e layoutOnly true`). This run checks the lower favorites row, imported icon/wallpaper counts, bounded background decode, discovery/search, assignment migration and persistence. It intentionally skips unchanged Control Center and external Settings checks; do not label it a full37-assertion pass. All60 imported image files match the source manifest hashes. Build, lint, APK signature and alignment passed.
+
+After the0.1.2 focused run passed, the known emulator System UI ANR obscured the first dashboard capture. That specific system dialog was dismissed after testing and the dashboard was recaptured. This is not a resolution or certification of the emulator System UI issue.

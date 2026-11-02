@@ -4,26 +4,26 @@ An iPad-inspired Android launcher for landscape car head units. Floating glass d
 
 ![iDash dashboard](docs/dashboard.png)
 
-[Earlier App Library preview (0.1.0)](docs/app-library.png) · [Earlier Control Center preview (0.1.0)](docs/control-center.png)
+[MRiOS-themed App Library preview (0.1.2)](docs/app-library.png) · [Earlier Control Center preview (0.1.0)](docs/control-center.png)
 
 ## Try the preview
 
-[Download iDash 0.1.1 preview](dist/iDash-0.1.1-preview.apk?raw=true) · Android8.0/API26 or newer · package `com.shazwan.idash`
+[Download iDash 0.1.2 preview](dist/iDash-0.1.2-preview.apk?raw=true) · Android8.0/API26 or newer · package `com.shazwan.idash`
 
 Install alongside your existing launcher. Open **iDash** from the app list first. To make it your home app, open **Control Center → Choose default launcher** and select iDash yourself. Retain the original launcher as a fallback. Android installation may ask you to allow installs from your file manager/browser.
 
 ## Included
 
-- Landscape dashboard with an original gradient wallpaper and translucent rounded cards.
+- Landscape dashboard with a lower favorites row, translucent rounded cards,24 MRiOS wallpapers and two original gradient palettes.
 - Local clock/date, a browsable calendar and a power widget based on Android battery status. Some head units report a fixed battery value; this is not vehicle battery voltage.
 - Three favorites — Bluetooth, Files, YouTube — mirrored on the floating dock. Hold a favorite to select its app, or hold an App Library icon to assign it. Assignments persist across restarts.
 - App Library with installed application icons, live name search, Refresh and Back/Done navigation.
 - Control Center with Android Wi-Fi, Bluetooth, display, sound and default-home settings links, plus a real media-volume slider. OEM hardware may handle volume differently.
-- Customize: calendar/power visibility,24/12-hour time and two wallpaper palettes.
+- Customize: calendar/power visibility,24/12-hour time, MRiOS icon theme and Wallpapers gallery. MRiOS wallpaper47 is the default unless a rose gradient was previously selected. Supported App Library apps use the MRiOS image theme; unmatched apps retain their own icons.
 
 External apps open normally in their own screens. No native app embedding, Maps rendering, OEM radio driver, media-session playback controls, weather service or privileged system toggles are implemented in this preview. Radio/Maps favorites launch an installed app. No permissions, root or ADB grants are needed for normal launcher use; the manifest requests only normal audio-settings permission.
 
-This is an original iOS/iPadOS-inspired design adapted for a head unit. It is not a verified pixel-perfect reproduction of an iOS27.2/iPadOS27 release. The Files and Settings images are extracted from the owner-supplied MRiOS V2 APK; see docs/MRIOS_REVIEW.md and NOTICE for their separate provenance. Preview screenshots use a disposable Android emulator, not an Apple device or a physical head-unit result.
+This is an original iOS/iPadOS-inspired design adapted for a head unit. It is not a verified pixel-perfect reproduction of an iOS27.2/iPadOS27 release. The36 iOS-style PNG icons and24 wallpaper images are extracted from the owner-supplied MRiOS V2 APK; see docs/MRIOS_REVIEW.md and NOTICE for their separate provenance. Preview screenshots use a disposable Android emulator, not an Apple device or a physical head-unit result.
 
 ## Build
 

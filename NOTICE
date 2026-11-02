@@ -12,3 +12,10 @@ under the project's MIT license; original rights remain with their respective
 owners. A redistribution license was not established from the binary input.
 No MRiOS executable code, native libraries, licensing code or advertising SDKs
 are incorporated. See docs/MRIOS_REVIEW.md for the exact scope.
+
+All36 PNG images under app/src/main/assets/mrios/icons/ and24 wallpaper
+images under app/src/main/assets/mrios/wallpapers/ are likewise extracted
+from the owner-provided MRiOS V2.apk at the owner's explicit request. They
+are excluded from the MIT license. Original rights remain with the respective
+rights holders; no redistribution license was established from the binary.
+Exact original filenames and hashes: docs/qa/mrios-visual-assets.json.

@@ -30,3 +30,13 @@ The images have separate provenance and are excluded from the MIT license in NOT
 No MRiOS executable DEX/native library, advertising, billing, notification listener or licensing code was merged into iDash. No source protection or license checks were modified. Full MRiOS widgets, gestures, animation and Control Center were not ported or runtime-tested. Those features need separate source/API work, rather than copying a resource filename or lowering a manifest version.
 
 The original APK remains local and is not included in the repository. This report records static evidence and the two actual asset integrations; it does not claim a completed MRiOS-to-API27 port or an exact iOS27 clone.
+
+## Expanded visual theme in iDash0.1.2
+
+At the owner's request, all36 `ic_ios_*.png` images and all24 wallpaper images were extracted byte-for-byte. See qa/mrios-visual-assets.json for exact paths, sizes and hashes. This imports all portable assets in those two identified visual groups, not every resource or executable component of the APK. App Library applies matching icons for supported Android app packages; unmatched apps retain their own icons. The full icon group is bundled even when the corresponding Android app is absent.
+
+Customize → Wallpapers selects a source wallpaper or the iDash gradient. A single background is decoded asynchronously, bounded to1280px longest edge. Wallpaper47 is the initial default; selecting another wallpaper persists locally. Bluetooth → Files → YouTube is positioned low in the right-side space, above the dock.
+
+Notification badges, MRiOS widgets, gestures, animations, menu logic and its launcher engine are still not ported. No source dependency graph or full runtime compatibility with MRiOS is claimed. This release reuses its portable imagery with separate rights/provenance, and implements display/selection in iDash's API26-compatible code.
+
+Clock/calendar App Library artwork is static PNG imagery from the pack, not MRiOS dynamic icon code. The iDash clock/date widgets continue to show actual local Android time.

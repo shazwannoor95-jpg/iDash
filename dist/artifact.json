@@ -1,20 +1,20 @@
 {
   "name": "iDash",
-  "version_name": "0.1.1",
-  "version_code": 2,
+  "version_name": "0.1.2",
+  "version_code": 3,
   "kind": "preview",
   "package": "com.shazwan.idash",
   "min_sdk": 26,
   "target_sdk": 35,
-  "file": "iDash-0.1.1-preview.apk",
-  "size_bytes": 181025,
-  "sha256": "71776877a279072d5c2fbaeee4783bd55aef5b54053b5a53bbd3c97f1b14c1a2",
+  "file": "iDash-0.1.2-preview.apk",
+  "size_bytes": 4593140,
+  "sha256": "f2f07cf41ee65ff8c099a1efbc7a9c5871b79e94a5ebcaa70aec45c7141038ee",
   "signer_sha256": "49f6adc61ce465f494ab7d86bf8adcc196b03189ab81f9e287d91328cd63de73",
   "native_libraries": 0,
   "build": "JDK17 / Gradle8.9 / SDK35",
   "lint": "PASS: 0 errors, 2 warnings",
-  "ui_result": "Layout precursor:29 assertions passed before emulator System UI ANR obscured Control Center; final vibrant/asset build installed and visually inspected on API27, full suite not rerun",
-  "test_environment": "Disposable API27 x86_64 emulator,1024x600 at160dpi; precursor functional suite plus final signed APK install/visual verification",
+  "ui_result": "PASS: 33 iDash API27 layout/theme assertions",
+  "test_environment": "Exact signed preview installed on disposable API27 x86_64 emulator,1024x600@160dpi; focused layoutOnly run",
   "physical_head_unit_tested": false,
   "limitations": [
     "Original iPad-inspired Android design; exact iOS27.2/iPadOS27 appearance not verified",
@@ -23,14 +23,17 @@
     "Media widget/control integration not implemented"
   ],
   "test_notes": [
-    "Build, lint, signing and alignment passed",
-    "Both UI attempts reached29 assertions; requested layout and migration checks passed, but Control Center visibility check was obscured by an emulator System UI ANR",
-    "Stock Home used on isolated retry after experimental launcher pause/stop timeout",
-    "No physical head-unit verification; original0.1.0 full30-assertion result is preserved in docs/qa/preview-0.1.0.json",
-    "Final build/lint/signature/alignment passed after vibrant palette and two MRiOS asset integrations; final dashboard captured from installed APK"
+    "Build, lint, signature and alignment passed",
+    "33 focused assertions include exact three-favorite order, lower row above dock, absence of removed favorites, old assignment migration, restart persistence,36 icon entries,24 wallpaper entries and bounded background decode",
+    "The focused layout/theme run intentionally skips unchanged Control Center/external Android Settings coverage; no full-suite pass is claimed",
+    "Original0.1.0 and0.1.1 evidence retained separately; physical-head-unit testing remains outstanding",
+    "Known emulator System UI ANR obscured the first post-test capture; the exact system dialog was dismissed after the tests before final capture, not counted as an iDash fix"
   ],
   "visual_assets": [
-    "Original Bluetooth and YouTube vector marks with vibrant opaque gradients",
-    "Files and Settings PNGs extracted from owner MRiOS V2 input; separate provenance in NOTICE and docs/MRIOS_REVIEW.md"
-  ]
+    "All36 ic_ios_*.png icons and24 wallpaper images from owner MRiOS V2; original hashes in docs/qa/mrios-visual-assets.json",
+    "Bluetooth and YouTube original vector marks retained; Files/Settings source images reused",
+    "Separate third-party rights/provenance in NOTICE"
+  ],
+  "mrios_engine_ported": false,
+  "wallpaper_decode_max_edge": 1280
 }
