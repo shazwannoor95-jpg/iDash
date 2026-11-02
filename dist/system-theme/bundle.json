@@ -1,0 +1,6 @@
+{
+  "file": "iDash-system-palette-0.1-preview.zip",
+  "sha256": "6709b0d36ad7cc21518111f241c0dbae91b1c6900eff68b8ebe4ae9afe938040",
+  "size_bytes": 15820,
+  "status": "RESEARCH CANDIDATE; rootless activation failed on API27 emulator; owner firmware untested"
+}

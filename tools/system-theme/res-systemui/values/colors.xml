@@ -1,0 +1,10 @@
+<resources>
+    <color name="accent_material_dark">#FF0A84FF</color>
+    <color name="accent_material_light">#FF007AFF</color>
+    <color name="qs_background_dark">#FF182337</color>
+    <color name="notification_panel_solid_background">#FF182337</color>
+    <color name="notification_shade_background_color">#FF182337</color>
+    <color name="notification_material_background_color">#FFF2F2F7</color>
+    <color name="notification_material_background_low_priority_color">#FFE5E5EA</color>
+    <color name="notification_divider_color">#FFCBD0DA</color>
+</resources>

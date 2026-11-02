@@ -1,0 +1,8 @@
+<resources>
+    <color name="accent_material_light">#FF007AFF</color>
+    <color name="accent_material_dark">#FF0A84FF</color>
+    <color name="background_material_light">#FFF2F2F7</color>
+    <color name="background_floating_material_light">#FFFFFFFF</color>
+    <color name="background_material_dark">#FF182337</color>
+    <color name="background_floating_material_dark">#FF25344B</color>
+</resources>

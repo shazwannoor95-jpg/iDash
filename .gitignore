@@ -20,3 +20,5 @@ __pycache__/
 !dist/*.apk
 *.idsig
 !dist/companions/*.apk
+
+!dist/system-theme/*.apk

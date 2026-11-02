@@ -72,3 +72,7 @@ Tap **Customize → Appearance / Wallpapers → Wallpapers**. Choose a thumbnail
 The official stable download was fetched again for this bundle:32.68/code2458, exactly the same pinned input hash as the existing companion. Upstream's build-environment compromise warning remains in its README; this recheck is not an independent malware clearance. The ZIP includes that warning and attribution. Physical SmartTube playback/panel compatibility remain unverified.
 
 0.1.7 corrects the cut-off clock appearance on short screens by using one scroll container for **clock → prayers → calendar**. The old independently pinned prayer-card layout is removed. The compact dock and wallpaper choices are retained.
+
+## Experimental system palette (no-root ADB route)
+
+[Separate overlay preview ZIP](dist/system-theme/iDash-system-palette-0.1-preview.zip?raw=true) · [Setup, limits and rollback](tools/system-theme/README.md). Optional resource-only Settings/SystemUI palette candidates for the reviewed API27 firmware. No-root activation uses ADB if vendor Overlay Manager policy permits it. Installing iDash or the palette APKs alone does not activate a system theme. This is a color palette experiment, not a full iOS UI conversion; no physical-head-unit acceptance is established. The API27 emulator accepted installation but did not register/activate these overlays through shell OMS; this route remains unproven on the owner firmware. Run the bundled read-only preflight before considering a physical trial, and keep rollback commands available.

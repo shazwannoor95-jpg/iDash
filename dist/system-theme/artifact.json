@@ -1,0 +1,51 @@
+{
+  "version": "0.1-experimental",
+  "activation": "dynamic RRO through shell OMS; acceptance on owner firmware unverified",
+  "root_required_by_tools": false,
+  "scope": "Palette only; no full iOS layout, blur, gesture, fonts or app-code replacement",
+  "targets": {
+    "settings": {
+      "package": "com.android.settings",
+      "target_apk_sha256": "eed3eccadf9fe2c65b487eefb42ddeffc1410cc429e8f576dfd6fe906d142342",
+      "overlay_file": "iDash-settings-overlay.apk",
+      "sha256": "fe3fe8b530d7c17ce8d5cca42b97f2c38740b745c793d2c42d45ea225eae6e0e",
+      "colors": [
+        "accent_material_light",
+        "accent_material_dark",
+        "background_material_light",
+        "background_floating_material_light",
+        "background_material_dark",
+        "background_floating_material_dark"
+      ],
+      "code_or_native_libraries": 0
+    },
+    "systemui": {
+      "package": "com.android.systemui",
+      "target_apk_sha256": "e15c1684ca8470e9e31ebd3b3513213fa369e040b41ca50df72a14269ccd7276",
+      "overlay_file": "iDash-systemui-overlay.apk",
+      "sha256": "155761e7bcae847a996153e3793f925f24d7ee3a3df5ee4b7596abc27bd47fec",
+      "colors": [
+        "accent_material_dark",
+        "accent_material_light",
+        "qs_background_dark",
+        "notification_panel_solid_background",
+        "notification_shade_background_color",
+        "notification_material_background_color",
+        "notification_material_background_low_priority_color",
+        "notification_divider_color"
+      ],
+      "code_or_native_libraries": 0
+    }
+  },
+  "emulator_test": {
+    "api": 27,
+    "adb_uid": "2000(shell)",
+    "adb_root_used": false,
+    "installation": "both APKs installed successfully",
+    "oms_registration": "neither iDash package listed",
+    "settings_enable_exit": 1,
+    "systemui_enable_exit": 1,
+    "activation": "FAILED; no applied/visual theme claim",
+    "rollback": "both candidates uninstalled; stock overlay list retained"
+  }
+}
