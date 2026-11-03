@@ -1,0 +1,47 @@
+iDash application source is MIT licensed. The Gradle wrapper scripts and JAR
+are generated Gradle tooling, distributed under Apache License2.0; their
+original notices remain in the scripts. See gradle/wrapper/LICENSE.
+Android SDK/platform components are build dependencies, not project source.
+JakimCalendar.java date/timetable parsing is adapted from the NexaDash
+JakimSchedule.java implementation, distributed under MIT. Original copyright:
+(c) 2026 Adam Suchi Hafizullah. Full license: docs/licenses/NexaDash-MIT.txt.
+The four official JAKIM caches and their retrieval/hash metadata are reused
+from NexaDash assets/jakim; source: JAKIM e-Solat, retrieved2026-10-25.
+NexaDash itself was not modified by this iDash update.
+
+app/src/main/res/drawable-nodpi/mrios_files.png and mrios_settings.png were
+extracted from the owner-supplied MRiOS V2.apk at the owner's request.
+Their original names were res/drawable/ic_ios_files.png and
+res/drawable/ic_ios_settings.png. These third-party images are NOT licensed
+under the project's MIT license; original rights remain with their respective
+owners. A redistribution license was not established from the binary input.
+No MRiOS executable code, native libraries, licensing code or advertising SDKs
+are incorporated. See docs/MRIOS_REVIEW.md for the exact scope.
+
+All36 PNG images under app/src/main/assets/mrios/icons/ and24 wallpaper
+images under app/src/main/assets/mrios/wallpapers/ are likewise extracted
+from the owner-provided MRiOS V2.apk at the owner's explicit request. They
+are excluded from the MIT license. Original rights remain with the respective
+rights holders; no redistribution license was established from the binary.
+Exact original filenames and hashes: docs/qa/mrios-visual-assets.json.
+
+DashNativeFrame.java, DashNativeProxy.java, DashNativeGeometry.java and
+DashWebPlayer.java, the native fixture and companion patch tooling are adapted
+from NexaDash's corresponding source/tools under its MIT license. Original
+copyright (c)2026 Adam Suchi Hafizullah; see docs/licenses/NexaDash-MIT.txt.
+SmartTube companion upstream MIT notice: docs/licenses/SmartTube-MIT.txt.
+Bundled dependency rights remain with their respective owners.
+The separately namespaced SmartTube derivative and bridge are experimental;
+provenance/security limits: docs/SMARTTUBE_REVIEW.md.
+
+The four SF Pro Display files under app/src/main/assets/mrios/fonts/ and
+app/src/main/res/font/mrios_regular.ttf are extracted from the same
+owner-provided MRiOS V2.apk. They are third-party assets excluded from the MIT
+license; original rights remain with the respective rights holders. A font
+redistribution license was not established from the binary input. Exact input
+paths and SHA256 hashes are in docs/qa/mrios-visual-assets.json.
+
+DashFmPanel, DashFmController, DashFmBand, DashRadioBackend, SagaAngleView
+and the angle atlas are reused/adapted from NexaDash with its MIT notice.
+Original copyright (c)2026 Adam Suchi Hafizullah. The owner explicitly
+requested reuse of the existing plate-bearing application car artwork.

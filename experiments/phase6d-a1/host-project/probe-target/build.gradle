@@ -1,0 +1,11 @@
+plugins { id 'com.android.application' }
+android {
+ namespace 'com.shazwan.idash.a1lab.target'
+ compileSdk 35
+ defaultConfig { applicationId 'com.shazwan.idash.a1lab.target'; minSdk 26; targetSdk 27; versionCode 1; versionName '0.1-6d-a1'; testInstrumentationRunner 'com.shazwan.idash.a1lab.target.TargetChecks' }
+ lint { disable 'ExpiredTargetSdkVersion' } // Local API27 lab, not a Play Store release.
+ buildFeatures { buildConfig true }
+ compileOptions { sourceCompatibility JavaVersion.VERSION_1_8; targetCompatibility JavaVersion.VERSION_1_8 }
+ signingConfigs { lab { storeFile file(System.getenv('A1LAB_KEYSTORE')); storePassword System.getenv('A1LAB_STORE_PASSWORD'); keyAlias 'a1lab'; keyPassword System.getenv('A1LAB_STORE_PASSWORD') } }
+ buildTypes { debug { signingConfig signingConfigs.lab }; release { minifyEnabled false; signingConfig signingConfigs.lab } }
+}

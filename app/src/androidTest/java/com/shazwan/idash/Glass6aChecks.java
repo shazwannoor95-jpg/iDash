@@ -1,0 +1,37 @@
+package com.shazwan.idash;
+import android.app.*;import android.content.*;import android.graphics.*;import android.os.*;import android.view.*;import android.widget.*;import java.io.*;import java.util.*;import java.util.concurrent.*;
+/** Real Activity captures. Run unchanged against saved Phase5A APK and refined APK. */
+public class Glass6aChecks extends Instrumentation {
+ LauncherActivity a;Bundle args;int count;StringBuilder report=new StringBuilder();Map<String,?> saved;SharedPreferences prefs;
+ public void onCreate(Bundle b){super.onCreate(b);args=b;start();}
+ void ui(Runnable r){Throwable[] fail={null};runOnMainSync(()->{try{r.run();}catch(Throwable t){fail[0]=t;}});waitForIdleSync();if(fail[0]!=null)throw new AssertionError(fail[0]);}
+ void check(boolean ok,String label){if(!ok)throw new AssertionError(label);count++;}
+ void save(Bitmap b,String name)throws Exception{try(OutputStream out=new FileOutputStream(new File(a.getFilesDir(),name))){b.compress(Bitmap.CompressFormat.PNG,100,out);}}
+ void textViews(View v,List<View> out){if(v instanceof TextView&&!((TextView)v).getText().toString().isEmpty())out.add(v);if(v instanceof ControlGlyph)out.add(v);if(v instanceof ViewGroup){ViewGroup g=(ViewGroup)v;for(int i=0;i<g.getChildCount();i++)textViews(g.getChildAt(i),out);}}
+ boolean enabled(View v){for(View n=v;n!=null;){if(!n.isEnabled()||n.getVisibility()!=View.VISIBLE)return false;android.view.ViewParent p=n.getParent();n=p instanceof View?(View)p:null;}return true;}
+ public void onStart(){Bundle result=new Bundle();int code=Activity.RESULT_CANCELED;Bitmap original=null;GlassBackdrop.Frame prior=null;try{
+  prefs=getTargetContext().getSharedPreferences("idash",0);saved=new HashMap<>(prefs.getAll());a=(LauncherActivity)startActivitySync(new Intent(getTargetContext(),LauncherActivity.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));CountDownLatch ready=new CountDownLatch(1);a.worker.execute(()->a.main.post(ready::countDown));check(ready.await(40,TimeUnit.SECONDS),"load barrier");waitForIdleSync();original=a.wallpaperBitmap;prior=IosStyle.backdrop(a).frame;
+  String phase=args.getString("phase","after");int transparency=Integer.parseInt(args.getString("transparency","20"));int w=a.getResources().getDisplayMetrics().widthPixels,h=a.getResources().getDisplayMetrics().heightPixels;
+  for(int palette=0;palette<3;palette++)for(int tone=0;tone<3;tone++){
+   if(args.containsKey("tone")&&tone!=Integer.parseInt(args.getString("tone")))continue;if(args.containsKey("palette")&&palette!=Integer.parseInt(args.getString("palette")))continue;
+   Bitmap wall=Bitmap.createBitmap(w,h,Bitmap.Config.ARGB_8888);Canvas c=new Canvas(wall);Paint paint=new Paint(3);
+   int[] colors=palette==0?new int[]{0xff173257,0xff7bb9ea,0xff183350}:palette==1?new int[]{0xff512c4e,0xfff1c7dd,0xffb56e9c}:new int[]{0xff242930,0xffe7e5de,0xff7b858f};
+   paint.setShader(new LinearGradient(0,0,w,h,colors,null,Shader.TileMode.CLAMP));c.drawPaint(paint);paint.setShader(null);paint.setColor(0x65ffffff);for(int x=0;x<w;x+=w/5)c.drawCircle(x,h*.38f,h*.12f,paint);
+   GlassBackdrop.Frame frame=GlassBackdrop.prepare(wall,1);final int mode=tone;ui(()->{if(a.quickControls!=null)a.quickControls.close();new GlassAppearance(mode,transparency,1,0,1,false,true).save(a);a.wallpaperBitmap=wall;a.updateBackdrop();IosStyle.publishGlass(a,frame);a.controlCenter();});Thread.sleep(1200);waitForIdleSync();
+   String name="6a-"+phase+"-t"+transparency+"-"+(palette==0?"blue":palette==1?"pink":"neutral")+"-"+(tone==0?"adaptive":tone==1?"light":"dark")+"-"+w+"x"+h;
+   Bitmap shot=getUiAutomation().takeScreenshot();check(shot!=null&&shot.getWidth()==w&&shot.getHeight()==h,"actual screenshot size");save(shot,name+".png");shot.recycle();
+   List<View> views=new ArrayList<>();textViews(a.quickControls.dialog.getWindow().getDecorView(),views);int[] ink=new int[views.size()];
+   ui(()->{for(int i=0;i<views.size();i++){View v=views.get(i);ink[i]=v instanceof TextView?((TextView)v).getCurrentTextColor():((ControlGlyph)v).color;if(v instanceof TextView)((TextView)v).setTextColor(Color.TRANSPARENT);else{((ControlGlyph)v).color=Color.TRANSPARENT;v.invalidate();}}});Thread.sleep(1000);waitForIdleSync();Bitmap bg=getUiAutomation().takeScreenshot();double minText=100,minIcon=100;String worst="",worstIcon="";
+   for(int i=0;i<views.size();i++){View v=views.get(i);if(!enabled(v))continue;int[] at=new int[2];v.getLocationOnScreen(at);float x=at[0],y=at[1],vw=v.getWidth(),vh=v.getHeight(),alpha=v.getAlpha()*Color.alpha(ink[i])/255f;
+    if(v instanceof TextView){TextView label=(TextView)v;android.text.Layout layout=label.getLayout();if(layout==null)continue;int available=label.getHeight()-label.getExtendedPaddingTop()-label.getExtendedPaddingBottom(),gravity=label.getGravity()&Gravity.VERTICAL_GRAVITY_MASK;float dy=label.getExtendedPaddingTop()+(gravity==Gravity.CENTER_VERTICAL?Math.max(0,available-layout.getHeight())/2f:gravity==Gravity.BOTTOM?Math.max(0,available-layout.getHeight()):0);x+=label.getCompoundPaddingLeft()+layout.getLineLeft(0);y+=dy;vw=layout.getLineRight(0)-layout.getLineLeft(0);vh=layout.getLineBottom(0);}
+    if(v instanceof ControlGlyph){float scale=IosStyle.CC_ICON_SCALE;x+=vw*(1-scale)/2;y+=vh*(1-scale)/2;vw*=scale;vh*=scale;}
+    double low=100;for(int row=1;row<=3;row++)for(int col=1;col<=3;col++){int pixel=bg.getPixel(Math.max(0,Math.min(w-1,(int)(x+vw*((col-1)*.4f+.1f)))),Math.max(0,Math.min(h-1,(int)(y+vh*((row-1)*.4f+.1f)))));int effective=Color.rgb(Math.round(Color.red(ink[i])*alpha+Color.red(pixel)*(1-alpha)),Math.round(Color.green(ink[i])*alpha+Color.green(pixel)*(1-alpha)),Math.round(Color.blue(ink[i])*alpha+Color.blue(pixel)*(1-alpha)));double a1=Color.luminance(effective),a2=Color.luminance(pixel);low=Math.min(low,(Math.max(a1,a2)+.05)/(Math.min(a1,a2)+.05));}if(v instanceof TextView){if(low<minText){minText=low;worst=((TextView)v).getText().toString();}}else if(low<minIcon){minIcon=low;worstIcon="type="+((ControlGlyph)v).type+" color="+Integer.toHexString(ink[i])+" at="+x+","+y;}}
+   report.append(name).append(" text_min=").append(String.format(Locale.US,"%.2f",minText)).append(" icon_min=").append(String.format(Locale.US,"%.2f",minIcon)).append(" worst_icon=").append(worstIcon).append(" worst=").append(worst).append('\n');
+   ui(()->{for(int i=0;i<views.size();i++){View v=views.get(i);if(v instanceof TextView)((TextView)v).setTextColor(ink[i]);else{((ControlGlyph)v).color=ink[i];v.invalidate();}}a.quickControls.close();});bg.recycle();
+   if(!phase.equals("before")){check(minText>=4.5,"text contrast "+name+" "+minText+" "+worst);check(minIcon>=3,"icon contrast "+name+" "+minIcon);}
+   Bitmap old=original;GlassBackdrop.Frame priorFrame=prior;ui(()->{a.wallpaperBitmap=old;a.updateBackdrop();IosStyle.publishGlass(a,priorFrame);});wall.recycle();frame.bitmap.recycle();
+  }
+  try(Writer out=new FileWriter(new File(a.getFilesDir(),"6a-"+phase+"-t"+transparency+"-"+w+"x"+h+".txt"))){out.write(report.toString());}
+  result.putString("stream","PASS: "+count+" real glass6a checks\n"+report);code=Activity.RESULT_OK;
+ }catch(Throwable t){result.putString("stream","FAIL after "+count+": "+t+"\n"+report);}finally{if(prefs!=null&&saved!=null)AppearanceChecks.restore(prefs,saved);if(a!=null){Bitmap old=original;GlassBackdrop.Frame oldFrame=prior;ui(()->{if(a.quickControls!=null)a.quickControls.close();a.wallpaperBitmap=old;a.updateBackdrop();if(oldFrame!=null)IosStyle.publishGlass(a,oldFrame);a.finish();});}}finish(code,result);}
+}

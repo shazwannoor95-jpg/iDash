@@ -25,10 +25,12 @@ public class LauncherActivity extends Activity {
     final int[] colors = {0xff007aff,0xff168cff,0xffff163d};
     final String[] symbols = {"ᛒ", "▤", "▶"};
     LinearLayout shell, body, grid; FrameLayout stage; EditText search;
-    TextView clock, date, statusTime, drawerCount, jakimText, jakimNext;
+    TextView clock, date, calendarDay, statusTime, drawerCount, jakimText, jakimNext;
+    private final Date clockMoment=new Date();private SimpleDateFormat clockFormat,dayFormat,statusFormat;
+    private Locale clockLocale;private TimeZone clockZone;private boolean clock24;private long clockMinute=Long.MIN_VALUE;
     Map<String,JakimCalendar.Day> jakimDays=Collections.emptyMap();String loadedZone="",jakimDayKey=""; long jakimMinute=-1; boolean jakimLoading;
     android.content.SharedPreferences prefs;
-    String page = "home", query = "";
+    String page = "home", query = ""; String settingsSection=""; QuickControls quickControls;AppearanceEditor appearanceEditor;DashSettings settingsScreen;SettingsNavigation settingsNavigation;
     boolean loaded, destroyed, resumed, foregroundVisible; ImageView wallpaperView; View wallpaperShade;
     int theme;
     boolean panelVisible; LinearLayout panelBox; DashNativeFrame nativePanel; DashWebPlayer webPanel; DashFmPanel fmPanel; SagaAngleView carPanel;
@@ -43,20 +45,20 @@ public class LauncherActivity extends Activity {
     @Override public void onCreate(Bundle state) {
         super.onCreate(state); prefs=getSharedPreferences("idash",MODE_PRIVATE); theme=prefs.getInt("theme",0); migrateFavorites(); migratePanelPreferences();if(!prefs.getBoolean("prayer_visibility_v2",false))prefs.edit().putBoolean("jakim",true).putBoolean("prayer_visibility_v2",true).apply();
         if(!prefs.contains("wallpaper"))prefs.edit().putString("wallpaper",theme==1?"":"mrios/wallpapers/47.jpg").apply();
-        if(state!=null) { panelVisible=state.getBoolean("panel",false); page=state.getString("page","home"); query=state.getString("query",""); }
+        if(state!=null) { panelVisible=state.getBoolean("panel",false); page=state.getString("page","home"); query=state.getString("query","");settingsSection=state.getString("settings_section",""); }
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
         immersive(); render(); loadApps();
     }
     void immersive() { getWindow().getDecorView().setSystemUiVisibility(5894); }
     @Override protected void onStart(){super.onStart();foregroundVisible=true;}
-    @Override protected void onStop(){foregroundVisible=false;if(nativePanel!=null)nativePanel.pause();if(webPanel!=null)webPanel.pause();if(fmPanel!=null)fmPanel.pause();if(carPanel!=null)carPanel.pause();main.removeCallbacks(ticker);super.onStop();}
-    @Override protected void onResume() { super.onResume(); resumed=true; main.removeCallbacks(ticker); ticker.run(); immersive();if(nativePanel!=null)nativePanel.resume();if(webPanel!=null)webPanel.resume();if(fmPanel!=null)fmPanel.resume();if(carPanel!=null)carPanel.resume(); }
-    @Override protected void onPause() { resumed=false;if(nativePanel==null||!nativePanel.wanted){if(nativePanel!=null)nativePanel.pause();main.removeCallbacks(ticker);}if(webPanel!=null)webPanel.pause();if(fmPanel!=null)fmPanel.pause();if(carPanel!=null)carPanel.pause(); super.onPause(); }
-    @Override protected void onDestroy() { destroyed=true;if(wallpaperDialog!=null)wallpaperDialog.dismiss();disposePanel(); main.removeCallbacksAndMessages(null); worker.shutdownNow(); super.onDestroy(); }
-    @Override protected void onSaveInstanceState(Bundle out) { out.putBoolean("panel",panelVisible);out.putString("page",page); out.putString("query",query); super.onSaveInstanceState(out); }
+    @Override protected void onStop(){foregroundVisible=false;if(quickControls!=null)quickControls.pause();if(nativePanel!=null)nativePanel.pause();if(webPanel!=null)webPanel.pause();if(fmPanel!=null)fmPanel.pause();if(carPanel!=null)carPanel.pause();main.removeCallbacks(ticker);super.onStop();}
+    @Override protected void onResume() { super.onResume(); resumed=true;if(appearanceEditor!=null)appearanceEditor.resume();if(quickControls!=null)quickControls.resume(); main.removeCallbacks(ticker); ticker.run(); immersive();if(nativePanel!=null)nativePanel.resume();if(webPanel!=null)webPanel.resume();if(fmPanel!=null)fmPanel.resume();if(carPanel!=null)carPanel.resume(); }
+    @Override protected void onPause() { resumed=false;if(appearanceEditor!=null)appearanceEditor.pause();if(quickControls!=null)quickControls.pause();if(nativePanel==null||!nativePanel.wanted){if(nativePanel!=null)nativePanel.pause();main.removeCallbacks(ticker);}if(webPanel!=null)webPanel.pause();if(fmPanel!=null)fmPanel.pause();if(carPanel!=null)carPanel.pause(); super.onPause(); }
+    @Override protected void onDestroy() { destroyed=true;if(settingsNavigation!=null)settingsNavigation.close();if(settingsScreen!=null)settingsScreen.close();if(appearanceEditor!=null)appearanceEditor.close();IosStyle.releaseGlass(this);if(quickControls!=null){quickControls.close();}if(wallpaperDialog!=null)wallpaperDialog.dismiss();disposePanel(); main.removeCallbacksAndMessages(null); worker.shutdownNow(); super.onDestroy(); }
+    @Override protected void onSaveInstanceState(Bundle out) { out.putBoolean("panel",panelVisible);out.putString("page",page);out.putString("settings_section",settingsSection); out.putString("query",query); super.onSaveInstanceState(out); }
     @Override public void onConfigurationChanged(Configuration config) { super.onConfigurationChanged(config); render(); }
     @Override protected void onNewIntent(Intent intent) { super.onNewIntent(intent); page="home"; query=""; render(); }
-    @Override public void onBackPressed() { if(webPanel!=null&&webPanel.exitFullscreen())return;if(!"home".equals(page)) { page="home"; query=""; hideKeyboard(); render(); }else if(panelVisible){panelVisible=false;render();} }
+    @Override public void onBackPressed() { if(webPanel!=null&&webPanel.exitFullscreen())return;if("settings".equals(page)&&!settingsSection.isEmpty()){settingsSection="";render();return;}if(!"home".equals(page)) { page="home"; query=""; hideKeyboard(); render(); }else if(panelVisible){panelVisible=false;render();} }
     void hideKeyboard() { ((android.view.inputmethod.InputMethodManager)getSystemService(INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(shell.getWindowToken(),0); }
 
     Drawable glass(int color, int radius) {
@@ -71,51 +73,66 @@ public class LauncherActivity extends Activity {
     }
     void title(LinearLayout target,String value,String subtitle) { TextView t=text(value,26,Color.WHITE); t.setTypeface(IosStyle.font(this,true)); target.addView(t); TextView sub=text(subtitle,12,0xcce6eaff); sub.setPadding(0,dp(3),0,dp(12)); target.addView(sub); }
     void render() {
-        disposePanel();clock=null;date=null;jakimText=null;jakimNext=null;search=null;grid=null;
+        if(settingsNavigation==null)settingsNavigation=new SettingsNavigation(this);
+        if(settingsNavigation.defer())return;
+        if(settingsScreen!=null){settingsScreen.close();settingsScreen=null;}
+        if(appearanceEditor!=null)appearanceEditor.close();
+        disposePanel();clock=null;date=null;calendarDay=null;clockMinute=Long.MIN_VALUE;jakimText=null;jakimNext=null;search=null;grid=null;
         stage=new FrameLayout(this); stage.addView(new Wallpaper(this),new FrameLayout.LayoutParams(-1,-1));
         wallpaperView=new ImageView(this);wallpaperView.setScaleType(ImageView.ScaleType.CENTER_CROP);stage.addView(wallpaperView,new FrameLayout.LayoutParams(-1,-1));wallpaperShade=new View(this);wallpaperShade.setBackgroundColor(0x35000000);stage.addView(wallpaperShade,new FrameLayout.LayoutParams(-1,-1));updateBackdrop();
         ensureWallpaper();
-        shell=column(); shell.setPadding(dp(28),dp(12),dp(28),dp(10));
+        final boolean home="home".equals(page);final int edge=home?20:28,top=home?8:12,bottom=home?8:10;
+        shell=column(); shell.setPadding(dp(edge),dp(top),dp(edge),dp(bottom));
         stage.addView(shell,new FrameLayout.LayoutParams(-1,-1)); setContentView(stage);
         // API35 edge-to-edge insets, also works on older devices with immersive bars.
-        stage.setOnApplyWindowInsetsListener((v,insets)-> { shell.setPadding(dp(28)+insets.getSystemWindowInsetLeft(),dp(12)+insets.getSystemWindowInsetTop(),dp(28)+insets.getSystemWindowInsetRight(),dp(10)+insets.getSystemWindowInsetBottom()); return insets; });
+        if(home){
+            final FrameLayout homeStage=stage;final LinearLayout homeShell=shell;final int[] bars=new int[4],at=new int[2];
+            // Decor may already reserve a bar/overscan area. Only pad its remaining overlap.
+            final Runnable fitInsets=()->{if(destroyed||stage!=homeStage||!homeStage.isLaidOut())return;View decor=getWindow().getDecorView();homeStage.getLocationInWindow(at);
+                int l=dp(edge)+Math.max(0,bars[0]-Math.max(0,at[0])),t=dp(top)+Math.max(0,bars[1]-Math.max(0,at[1]));
+                int r=dp(edge)+Math.max(0,bars[2]-Math.max(0,decor.getWidth()-at[0]-homeStage.getWidth())),b=dp(bottom)+Math.max(0,bars[3]-Math.max(0,decor.getHeight()-at[1]-homeStage.getHeight()));
+                if(homeShell.getPaddingLeft()!=l||homeShell.getPaddingTop()!=t||homeShell.getPaddingRight()!=r||homeShell.getPaddingBottom()!=b)homeShell.setPadding(l,t,r,b);
+            };
+            homeStage.setOnApplyWindowInsetsListener((v,insets)->{bars[0]=insets.getSystemWindowInsetLeft();bars[1]=insets.getSystemWindowInsetTop();bars[2]=insets.getSystemWindowInsetRight();bars[3]=insets.getSystemWindowInsetBottom();homeStage.removeCallbacks(fitInsets);homeStage.post(fitInsets);return insets;});
+            homeStage.addOnLayoutChangeListener((v,l,t,r,b,oldL,oldT,oldR,oldB)->fitInsets.run());
+        }else stage.setOnApplyWindowInsetsListener((v,insets)-> { shell.setPadding(dp(edge)+insets.getSystemWindowInsetLeft(),dp(top)+insets.getSystemWindowInsetTop(),dp(edge)+insets.getSystemWindowInsetRight(),dp(bottom)+insets.getSystemWindowInsetBottom()); return insets; });
         LinearLayout status=row(); statusTime=text("",13,Color.WHITE); statusTime.setTypeface(IosStyle.font(this,true)); status.addView(statusTime,new LinearLayout.LayoutParams(0,dp(48),1)); statusTime.setGravity(Gravity.CENTER_VERTICAL);
         TextView brand=text("iDash",13,0xcce6eaff); brand.setGravity(Gravity.CENTER); status.addView(brand,new LinearLayout.LayoutParams(dp(90),dp(48)));
         status.addView(headerAction("Panel",4,()->{panelVisible=!panelVisible;page="home";render();}));
         status.addView(headerAction("Customize",5,this::customize));
         status.addView(headerAction("Control Center",6,this::controlCenter)); shell.addView(status);
         body=column(); shell.addView(body,new LinearLayout.LayoutParams(-1,0,1));
-        if("apps".equals(page)) buildDrawer(); else buildHome();
+        if("apps".equals(page)) buildDrawer();else if("settings".equals(page)){settingsScreen=new DashSettings(this);settingsScreen.build(body);}else buildHome();
         buildDock(); updateClock();IosStyle.enter(body);
     }
     void buildHome() {
+        boolean tightHeader=getResources().getConfiguration().screenHeightDp<=400&&getResources().getConfiguration().fontScale>1.10f;
         LinearLayout heading=row(); LinearLayout words=column();
-        TextView greeting=text("Make yourself at home.",24,Color.WHITE);greeting.setTypeface(IosStyle.font(this,true));greeting.setMaxLines(1);greeting.setEllipsize(TextUtils.TruncateAt.END);greeting.setAutoSizeTextTypeUniformWithConfiguration(14,24,1,android.util.TypedValue.COMPLEX_UNIT_SP);words.addView(greeting);TextView intro=text("Your drive. Your space.",12,0xcce6eaff);intro.setPadding(0,dp(3),0,dp(10));words.addView(intro); heading.addView(words,new LinearLayout.LayoutParams(0,-2,1));
-        LinearLayout.LayoutParams hp=new LinearLayout.LayoutParams(-1,-2);hp.bottomMargin=dp(6);
+        TextView greeting=text("Make yourself at home.",20,Color.WHITE);greeting.setTypeface(IosStyle.font(this,true));greeting.setIncludeFontPadding(false);greeting.setMaxLines(1);greeting.setEllipsize(TextUtils.TruncateAt.END);greeting.setAutoSizeTextTypeUniformWithConfiguration(14,20,1,android.util.TypedValue.COMPLEX_UNIT_SP);words.addView(greeting);TextView intro=text("Your drive. Your space.",11,0xcce6eaff);intro.setIncludeFontPadding(false);intro.setPadding(0,tightHeader?0:dp(2),0,tightHeader?0:dp(3));words.addView(intro); heading.addView(words,new LinearLayout.LayoutParams(0,-2,1));
+        LinearLayout.LayoutParams hp=new LinearLayout.LayoutParams(-1,-2);hp.bottomMargin=tightHeader?0:dp(4);
         LinearLayout content=row(); content.setGravity(Gravity.TOP); body.addView(content,new LinearLayout.LayoutParams(-1,0,1));
-        ScrollView widgetScroll=new ScrollView(this); widgetScroll.setFillViewport(false); widgetScroll.setVerticalScrollBarEnabled(true);
-        LinearLayout widgets=column(); widgetScroll.addView(widgets); LinearLayout left=column();LinearLayout.LayoutParams wp=new LinearLayout.LayoutParams(0,-1,0.37f);wp.rightMargin=dp(24);content.addView(left,wp);left.addView(heading,hp);left.addView(widgetScroll,new LinearLayout.LayoutParams(-1,0,1));
-        LinearLayout timeCard=column(); timeCard.setPadding(dp(20),dp(10),dp(20),dp(10)); timeCard.setBackground(glass(0x7c20395d,28));
-        TextView eyebrow=text("LOCAL TIME",10,0xffbaceeb); eyebrow.setLetterSpacing(.16f);timeCard.addView(eyebrow);
-        clock=text("",42,Color.WHITE); clock.setTypeface(IosStyle.font(this,false));timeCard.addView(clock);
-        date=text("",13,0xffe0eaff); timeCard.addView(date); timeCard.setContentDescription("Clock widget"); timeCard.setOnClickListener(v->openSettings(Settings.ACTION_DATE_SETTINGS)); widgets.addView(timeCard,new LinearLayout.LayoutParams(-1,-2));
+        HomeWidgets widgets=new HomeWidgets(this);LinearLayout left=column();LinearLayout.LayoutParams wp=new LinearLayout.LayoutParams(0,-1,0.37f);wp.rightMargin=dp(16);content.addView(left,wp);left.addView(heading,hp);left.addView(widgets,new LinearLayout.LayoutParams(-1,0,1));
+        LinearLayout timeCard=column();timeCard.setMinimumHeight(dp(56));timeCard.setBackground(glass(0x7c20395d,24));
+        TextView eyebrow=text("LOCAL TIME",10,0xffbaceeb);eyebrow.setLetterSpacing(.12f);timeCard.addView(eyebrow);widgets.fitText(eyebrow,10,9.5f);
+        clock=text("",32,Color.WHITE);clock.setMaxLines(1);clock.setAutoSizeTextTypeUniformWithConfiguration(26,32,1,android.util.TypedValue.COMPLEX_UNIT_SP);timeCard.addView(clock);widgets.fitText(clock,32,26);
+        date=text("",12,0xffe0eaff);date.setMaxLines(1);date.setAutoSizeTextTypeUniformWithConfiguration(11,12,1,android.util.TypedValue.COMPLEX_UNIT_SP);timeCard.addView(date);widgets.fitText(date,12,11);timeCard.setContentDescription("Clock widget");timeCard.setOnClickListener(v->openSettings(Settings.ACTION_DATE_SETTINGS));widgets.addView(timeCard,new LinearLayout.LayoutParams(-1,-2));
         if(prefs.getBoolean("calendar",true)) {
-            LinearLayout calendar=column(); calendar.setPadding(dp(20),dp(9),dp(20),dp(9)); calendar.setBackground(glass(0x65ffffff,24));
-            TextView label=text("TODAY",10,0xffe3cbff); label.setLetterSpacing(.16f); calendar.addView(label);
-            TextView day=text(new SimpleDateFormat("EEEE, d MMMM",Locale.getDefault()).format(new Date()),19,Color.WHITE); calendar.addView(day);
-            TextView hint=text("Tap to view your calendar",12,0xcce6eaff);calendar.addView(hint); calendar.setContentDescription("Calendar widget"); calendar.setOnClickListener(v->showCalendar());
-            LinearLayout.LayoutParams cp=new LinearLayout.LayoutParams(-1,-2);cp.topMargin=dp(12);widgets.addView(calendar,cp);
+            LinearLayout calendar=column();calendar.setMinimumHeight(dp(48));calendar.setBackground(glass(0x65ffffff,24));
+            TextView label=text("TODAY",10,0xffe3cbff);label.setLetterSpacing(.12f);calendar.addView(label);widgets.fitText(label,10,9.5f);
+            calendarDay=text("",16,Color.WHITE);calendarDay.setMaxLines(1);calendarDay.setAutoSizeTextTypeUniformWithConfiguration(12,16,1,android.util.TypedValue.COMPLEX_UNIT_SP);calendar.addView(calendarDay);widgets.fitText(calendarDay,16,12);
+            TextView hint=text("Tap to view your calendar",11,0xcce6eaff);calendar.addView(hint);widgets.fitText(hint,11,10.5f);calendar.setContentDescription("Calendar widget");calendar.setOnClickListener(v->showCalendar());
+            widgets.addView(calendar,new LinearLayout.LayoutParams(-1,-2));
         }
         if(prefs.getBoolean("jakim",true)) {
-            LinearLayout card=column();card.setPadding(dp(18),dp(12),dp(18),dp(12));card.setBackground(glass(0x682b426a,24));card.setContentDescription("JAKIM calendar widget");
-            jakimNext=text("Waktu solat",17,Color.WHITE);jakimNext.setTypeface(IosStyle.font(this,true));jakimNext.setMaxLines(1);jakimNext.setAutoSizeTextTypeUniformWithConfiguration(12,17,1,android.util.TypedValue.COMPLEX_UNIT_SP);card.addView(jakimNext,new LinearLayout.LayoutParams(-1,dp(26)));jakimText=text("",12,Color.WHITE);card.addView(jakimText);card.setOnClickListener(v->jakimDialog());LinearLayout.LayoutParams jp=new LinearLayout.LayoutParams(-1,-2);jp.topMargin=dp(8);widgets.addView(card,Math.min(1,widgets.getChildCount()),jp);updateJakim();loadJakim(false);
+            LinearLayout card=column();card.setMinimumHeight(dp(48));card.setBackground(glass(0x682b426a,24));card.setContentDescription("JAKIM calendar widget");
+            jakimNext=text("Waktu solat",15,Color.WHITE);jakimNext.setTypeface(IosStyle.font(this,true));jakimNext.setMaxLines(1);jakimNext.setAutoSizeTextTypeUniformWithConfiguration(12,15,1,android.util.TypedValue.COMPLEX_UNIT_SP);jakimNext.setVisibility(prefs.getBoolean("prayer_countdown",true)?View.VISIBLE:View.GONE);card.addView(jakimNext,new LinearLayout.LayoutParams(-1,-2));widgets.fitText(jakimNext,15,12);jakimText=text("",12,Color.WHITE);card.addView(jakimText);widgets.fitText(jakimText,12,11.5f);card.setOnClickListener(v->jakimDialog());widgets.addView(card,Math.min(1,widgets.getChildCount()),new LinearLayout.LayoutParams(-1,-2));updateJakim();loadJakim(false);
         }
         if(panelVisible){panelBox=column();panelBox.setPadding(dp(10),dp(8),dp(10),dp(8));panelBox.setBackground(glass(0x77324461,24));panelBox.setContentDescription("Optional media panel");LinearLayout.LayoutParams pp=new LinearLayout.LayoutParams(0,-1,.63f);pp.topMargin=dp(24);content.addView(panelBox,pp);buildPanel();}
         else content.addView(new View(this),new LinearLayout.LayoutParams(0,-1,.63f));
     }
     View shortcut(int slot,boolean dock) {
         LinearLayout tile=column(); tile.setGravity(Gravity.CENTER);tile.setPadding(dp(4),dp(2),dp(4),dp(2));
-        App app=assigned(slot); int size=dock?34:54;
+        App app=assigned(slot); int size=dock?(prefs.getInt("dock_size",0)==0?34:42):54;
         FrameLayout icon=new FrameLayout(this);
         int[] tops={0xff36b4ff,0xff48baff,0xffff4c6c};
         int[] bottoms={0xff0055ee,0xff0660ed,0xffe60027};
@@ -128,18 +145,18 @@ public class LauncherActivity extends Activity {
         tile.setContentDescription("Favorite "+slots[slot]);tile.setOnClickListener(v->{App current=assigned(slot);if(current==null)pick(slot);else launch(current);});tile.setOnLongClickListener(v->{pick(slot);return true;});return tile;
     }
     void buildDock() {
-        LinearLayout outer=row();outer.setGravity(Gravity.CENTER);LinearLayout.LayoutParams op=new LinearLayout.LayoutParams(-1,dp(60));op.topMargin=dp(8);shell.addView(outer,op);
+        LinearLayout outer=row();outer.setGravity(Gravity.CENTER);LinearLayout.LayoutParams op=new LinearLayout.LayoutParams(-1,dp(prefs.getInt("dock_size",0)==0?60:76));op.topMargin=dp(8);shell.addView(outer,op);
         LinearLayout dock=row();dock.setGravity(Gravity.CENTER);dock.setPadding(dp(10),dp(2),dp(10),dp(2));dock.setBackground(glass(0x75e5eaff,22));dock.setElevation(dp(8));outer.addView(dock,new LinearLayout.LayoutParams(-2,-1));
-        for(int i=0;i<slots.length;i++) dock.addView(shortcut(i,true),new LinearLayout.LayoutParams(dp(60),-1));
+        for(int i=0;i<slots.length;i++) dock.addView(shortcut(i,true),new LinearLayout.LayoutParams(dp(prefs.getInt("dock_size",0)==0?60:66),-1));
         View divider=new View(this);divider.setBackgroundColor(0x40ffffff);LinearLayout.LayoutParams d=new LinearLayout.LayoutParams(dp(1),dp(32));d.setMargins(dp(6),0,dp(6),0);dock.addView(divider,d);
-        dock.addView(dockAction("⚙","Settings",()->openSettings(Settings.ACTION_SETTINGS)),new LinearLayout.LayoutParams(dp(60),-1));
-        dock.addView(dockAction("▦","Apps",()-> {if("apps".equals(page)){page="home";query="";hideKeyboard();render();}else showApps();}),new LinearLayout.LayoutParams(dp(60),-1));
+        dock.addView(dockAction("⚙","Settings",()->{settingsSection="";page="settings";render();}),new LinearLayout.LayoutParams(dp(prefs.getInt("dock_size",0)==0?60:66),-1));
+        dock.addView(dockAction("▦","Apps",()-> {if("apps".equals(page)){page="home";query="";hideKeyboard();render();}else showApps();}),new LinearLayout.LayoutParams(dp(prefs.getInt("dock_size",0)==0?60:66),-1));
     }
     View dockAction(String glyph,String label,Runnable action) {
         LinearLayout l=column();l.setGravity(Gravity.CENTER);View icon;
         if("Settings".equals(label)){ImageView image=new ImageView(this);image.setImageResource(R.drawable.mrios_settings);icon=image;}
         else {TextView mark=text(glyph,27,Color.WHITE);mark.setGravity(Gravity.CENTER);mark.setBackground(glass(0x70ffffff,15));icon=mark;}
-        l.addView(icon,new LinearLayout.LayoutParams(dp(34),dp(34)));TextView name=text(label,10,Color.WHITE);name.setGravity(Gravity.CENTER);l.addView(name,new LinearLayout.LayoutParams(-1,dp(15)));l.setContentDescription(label);l.setOnClickListener(v->action.run());return l;
+        l.addView(icon,new LinearLayout.LayoutParams(dp(prefs.getInt("dock_size",0)==0?34:42),dp(prefs.getInt("dock_size",0)==0?34:42)));TextView name=text(label,10,Color.WHITE);name.setGravity(Gravity.CENTER);l.addView(name,new LinearLayout.LayoutParams(-1,dp(15)));l.setContentDescription(label);l.setOnClickListener(v->action.run());return l;
     }
     void showApps() {page="apps";render();}
     void buildDrawer() {
@@ -177,7 +194,7 @@ public class LauncherActivity extends Activity {
                     found.add(new App(info.loadLabel(pm).toString(),key,bitmap));}catch(RuntimeException unavailable){/* Removed packages are skipped. */}
             }
             found.sort((a,b)->a.label.compareToIgnoreCase(b.label));
-            main.post(()->{if(destroyed)return;apps.clear();apps.addAll(found);loaded=true;seedFavorites();if("apps".equals(page))filter();else if(!panelVisible)render();});
+            main.post(()->{if(destroyed)return;apps.clear();apps.addAll(found);loaded=true;seedFavorites();if("apps".equals(page))filter();else if(!panelVisible&&appearanceEditor==null)render();});
         });
     }
     void migrateFavorites() {
@@ -202,18 +219,8 @@ public class LauncherActivity extends Activity {
         android.content.SharedPreferences.Editor e=prefs.edit();for(int slot=0;slot<slots.length;slot++){if(prefs.contains("favorite_"+slots[slot]))continue;boolean done=false;for(String pkg:hints[slot]){for(App a:apps)if(ComponentName.unflattenFromString(a.component).getPackageName().equals(pkg)){e.putString("favorite_"+slots[slot],a.component);done=true;break;}if(done)break;}}e.apply();
     }
     void openSettings(String action) {try{startActivity(new Intent(action));}catch(RuntimeException unavailable){try{startActivity(new Intent(Settings.ACTION_SETTINGS));}catch(RuntimeException absent){Toast.makeText(this,"Settings unavailable on this device",Toast.LENGTH_SHORT).show();}}}
-    void controlCenter() {
-        LinearLayout panel=column();panel.setPadding(dp(20),dp(10),dp(20),dp(12));
-        LinearLayout links=row();links.addView(controlTile("Wi-Fi",0,0xff007aff,()->openSettings(Settings.ACTION_WIFI_SETTINGS)),new LinearLayout.LayoutParams(0,dp(96),1));links.addView(controlTile("Bluetooth",1,0xff007aff,()->openSettings(Settings.ACTION_BLUETOOTH_SETTINGS)),new LinearLayout.LayoutParams(0,dp(96),1));panel.addView(links);
-        LinearLayout links2=row();links2.addView(controlTile("Display",2,0xff9b65ed,()->openSettings(Settings.ACTION_DISPLAY_SETTINGS)),new LinearLayout.LayoutParams(0,dp(96),1));links2.addView(controlTile("Sound",3,0xffef4878,()->openSettings(Settings.ACTION_SOUND_SETTINGS)),new LinearLayout.LayoutParams(0,dp(96),1));panel.addView(links2);
-        TextView volume=text("Media volume",16,Color.WHITE);volume.setPadding(0,dp(18),0,0);panel.addView(volume);AudioManager audio=(AudioManager)getSystemService(AUDIO_SERVICE);SeekBar slider=new SeekBar(this);slider.setContentDescription("Media volume");slider.setMax(audio.getStreamMaxVolume(AudioManager.STREAM_MUSIC));slider.setProgress(audio.getStreamVolume(AudioManager.STREAM_MUSIC));slider.setMinimumHeight(dp(56));slider.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener(){public void onProgressChanged(SeekBar b,int n,boolean user){if(user)try{audio.setStreamVolume(AudioManager.STREAM_MUSIC,n,0);}catch(SecurityException denied){Toast.makeText(LauncherActivity.this,"Use the head unit volume control",Toast.LENGTH_SHORT).show();}}public void onStartTrackingTouch(SeekBar b){}public void onStopTrackingTouch(SeekBar b){}});panel.addView(slider);
-        panel.addView(button("Choose default launcher",()->openSettings(Settings.ACTION_HOME_SETTINGS)));
-        AlertDialog dialog=new AlertDialog.Builder(this).setTitle("Control Center").setView(panel).setPositiveButton("Done",null).create();dialog.show();if(dialog.getWindow()!=null){dialog.getWindow().setBackgroundDrawable(IosStyle.glass(this,0xff25324d,28,true));IosStyle.enter(dialog.getWindow().getDecorView());dialog.getWindow().setLayout(dp(440),-2);}
-    }
-    void customize() {
-        String[] options={"Calendar widget","Kalendar JAKIM","24-hour clock","Rose wallpaper","MRiOS icon theme","Smooth transitions"};boolean[] values={prefs.getBoolean("calendar",true),prefs.getBoolean("jakim",true),prefs.getBoolean("24h",true),theme==1,prefs.getBoolean("mrios_icons",true),prefs.getBoolean("motion",true)};
-        new AlertDialog.Builder(this).setTitle("Make it yours").setNeutralButton("Appearance / Wallpapers",(d,w)->appearancePicker()).setMultiChoiceItems(options,values,(d,index,checked)->values[index]=checked).setPositiveButton("Apply",(d,w)->{prefs.edit().putBoolean("calendar",values[0]).putBoolean("jakim",values[1]).putBoolean("24h",values[2]).putInt("theme",values[3]?1:0).putBoolean("mrios_icons",values[4]).putBoolean("motion",values[5]).apply();theme=values[3]?1:0;render();loadApps();}).setNegativeButton("Cancel",null).show();
-    }
+    void controlCenter(){if(quickControls==null)quickControls=new QuickControls(this);quickControls.show();}
+    void customize(){settingsSection="Appearance";page="settings";render();}
     View headerAction(String label,int icon,Runnable action){LinearLayout item=row();item.setGravity(Gravity.CENTER);item.setPadding(dp(10),0,dp(10),0);item.setBackground(glass(0x55e1eaff,20));item.setContentDescription(label);item.setMinimumHeight(dp(48));item.addView(new IosStyle.Icon(this,icon),new LinearLayout.LayoutParams(dp(22),dp(22)));TextView title=text(label,12,Color.WHITE);title.setPadding(dp(5),0,0,0);item.addView(title);item.setOnClickListener(v->action.run());LinearLayout.LayoutParams lp=new LinearLayout.LayoutParams(-2,dp(48));lp.leftMargin=dp(6);item.setLayoutParams(lp);return item;}
     View controlTile(String label,int icon,int color,Runnable action){LinearLayout tile=column();tile.setGravity(Gravity.CENTER);FrameLayout disc=new FrameLayout(this);GradientDrawable fill=new GradientDrawable(GradientDrawable.Orientation.TL_BR,new int[]{color,0xcc000000|(color&0xffffff)});fill.setCornerRadius(dp(18));disc.setBackground(fill);disc.addView(new IosStyle.Icon(this,icon),new FrameLayout.LayoutParams(-1,-1));tile.addView(disc,new LinearLayout.LayoutParams(dp(48),dp(48)));TextView caption=text(label,13,Color.WHITE);caption.setGravity(Gravity.CENTER);tile.addView(caption,new LinearLayout.LayoutParams(-1,dp(28)));tile.setContentDescription(label+" settings");tile.setOnClickListener(v->action.run());return tile;}
     void appearancePicker(){new AlertDialog.Builder(this).setTitle("Appearance").setItems(new String[]{"Glass","Transparent","Solid · high contrast","Wallpapers"},(d,index)->{if(index==3){wallpaperPicker();return;}prefs.edit().putInt("glass_style",index).apply();render();}).setNegativeButton("Cancel",null).show();}
@@ -261,26 +268,38 @@ public class LauncherActivity extends Activity {
     void updateBackdrop(){if(wallpaperView!=null){wallpaperView.setImageBitmap(wallpaperBitmap);wallpaperView.setVisibility(wallpaperBitmap==null?View.GONE:View.VISIBLE);}if(wallpaperShade!=null)wallpaperShade.setVisibility(wallpaperBitmap==null?View.GONE:View.VISIBLE);}
     void ensureWallpaper() {
         String path=prefs.getString("wallpaper","");if(path.equals(requestedWallpaper))return;requestedWallpaper=path;int generation=++wallpaperGeneration;
-        if(path.isEmpty()){wallpaperBitmap=null;updateBackdrop();return;}
+        if(path.isEmpty()){wallpaperBitmap=null;IosStyle.publishGlass(this,new GlassBackdrop.Frame(null,0xff526783));updateBackdrop();return;}
         if(worker.isShutdown())return;
-        worker.execute(()->{Bitmap image=null;try{image=CustomWallpaper.PATH.equals(path)?CustomWallpaper.decode(CustomWallpaper.file(this),1280):MrIosTheme.decode(getAssets(),path,1280);}catch(java.io.IOException ignored){}final Bitmap decoded=image;
-            main.post(()->{if(destroyed||generation!=wallpaperGeneration)return;wallpaperBitmap=decoded;updateBackdrop();});});
+        final int glassQuality=IosStyle.quality(this);
+        worker.execute(()->{Bitmap image=null;try{image=CustomWallpaper.PATH.equals(path)?CustomWallpaper.decode(CustomWallpaper.file(this),1280):MrIosTheme.decode(getAssets(),path,1280);}catch(java.io.IOException ignored){}final Bitmap decoded=image;GlassBackdrop.Frame prepared;try{prepared=GlassBackdrop.prepare(decoded,glassQuality);}catch(OutOfMemoryError unavailable){prepared=new GlassBackdrop.Frame(null,0xff526783);}final GlassBackdrop.Frame glassFrame=prepared;
+            main.post(()->{if(destroyed||generation!=wallpaperGeneration)return;wallpaperBitmap=decoded;IosStyle.publishGlass(this,glassFrame);updateBackdrop();});});
     }
     void showCalendar() {Calendar c=Calendar.getInstance();DatePickerDialog dialog=new DatePickerDialog(this,(v,y,m,d)->{},c.get(Calendar.YEAR),c.get(Calendar.MONTH),c.get(Calendar.DAY_OF_MONTH));dialog.setTitle("Calendar");dialog.show();}
-    void updateClock() {Date now=new Date();if(!JakimCalendar.key(now.getTime()).equals(jakimDayKey)||now.getTime()/60000!=jakimMinute)updateJakim();boolean h24=prefs.getBoolean("24h",true);if(clock!=null)clock.setText(new SimpleDateFormat(h24?"HH:mm":"h:mm a",Locale.getDefault()).format(now));if(date!=null)date.setText(new SimpleDateFormat("EEEE, d MMMM",Locale.getDefault()).format(now));if(statusTime!=null)statusTime.setText(new SimpleDateFormat(h24?"HH:mm  ·  EEE, d MMM":"h:mm a  ·  EEE, d MMM",Locale.getDefault()).format(now));}
+    private static void label(TextView view,String value){if(view!=null&&!TextUtils.equals(view.getText(),value))view.setText(value);}
+    void updateClock(){updateClock(System.currentTimeMillis());}
+    // The argument makes day/time-zone boundaries testable without changing the device clock.
+    void updateClock(long now){
+        long minute=now/60000;if(minute!=jakimMinute)updateJakim(now);
+        boolean h24=prefs.getBoolean("24h",true);Locale locale=Locale.getDefault();TimeZone zone=TimeZone.getDefault();
+        boolean changed=clockFormat==null||clock24!=h24||!locale.equals(clockLocale)||!zone.getID().equals(clockZone.getID())||!zone.hasSameRules(clockZone);
+        if(!changed&&clockMinute==minute)return;
+        if(changed){clockLocale=locale;clockZone=zone;clock24=h24;clockFormat=new SimpleDateFormat(h24?"HH:mm":"h:mm a",locale);dayFormat=new SimpleDateFormat("EEEE, d MMMM",locale);statusFormat=new SimpleDateFormat(h24?"HH:mm  ·  EEE, d MMM":"h:mm a  ·  EEE, d MMM",locale);clockFormat.setTimeZone(zone);dayFormat.setTimeZone(zone);statusFormat.setTimeZone(zone);}
+        clockMoment.setTime(now);String day=dayFormat.format(clockMoment);label(clock,clockFormat.format(clockMoment));label(date,day);label(calendarDay,day);label(statusTime,statusFormat.format(clockMoment));clockMinute=minute;
+    }
     void loadJakim(boolean refresh) {
         String zone=prefs.getString("jakim_zone","");if(zone.isEmpty()||jakimLoading||(!refresh&&zone.equals(loadedZone)))return;jakimLoading=true;
         worker.execute(()->{String error="";Map<String,JakimCalendar.Day> days=Collections.emptyMap();try{if(refresh)JakimCalendar.refresh(this,zone);days=JakimCalendar.load(this,zone);}catch(Exception failed){error="Muat turun gagal; cache sedia ada dikekalkan";try{days=JakimCalendar.load(this,zone);}catch(Exception ignored){}}
             final Map<String,JakimCalendar.Day> result=days;final String message=error;
             main.post(()->{if(destroyed)return;jakimLoading=false;if(!zone.equals(prefs.getString("jakim_zone",""))){loadJakim(false);return;}loadedZone=zone;jakimDays=result;updateJakim();if(!message.isEmpty())Toast.makeText(this,message,Toast.LENGTH_LONG).show();});});
     }
-    void updateJakim() {
-        jakimDayKey=JakimCalendar.key(System.currentTimeMillis());jakimMinute=System.currentTimeMillis()/60000;if(jakimText==null)return;if(jakimNext!=null)jakimNext.setText("Waktu solat");String zone=prefs.getString("jakim_zone","");
-        if(zone.isEmpty()){jakimText.setText("KALENDAR JAKIM\nPilih zon waktu solat\nTekan untuk tetapan");return;}
-        JakimCalendar.Day d=zone.equals(loadedZone)?jakimDays.get(jakimDayKey):null;
-        if(d==null){jakimText.setText("JAKIM · "+zone+"\n"+jakimDayKey+" · MYT\n"+(jakimLoading?"Memuat jadual…":"Tiada jadual tarikh ini · tekan untuk kemas kini"));return;}
-        if(jakimNext!=null)jakimNext.setText(JakimCalendar.nextPrayer(jakimDays,System.currentTimeMillis()));
-        jakimText.setText("JAKIM · "+zone+" · "+d.hijri+" H\nSubuh "+d.times[0]+"   Syuruk "+d.times[1]+"\nZohor "+d.times[2]+"   Asar "+d.times[3]+"\nMaghrib "+d.times[4]+"   Isyak "+d.times[5]+"\nMYT · Tekan untuk kalendar");
+    void updateJakim(){updateJakim(System.currentTimeMillis());}
+    void updateJakim(long now){
+        jakimDayKey=JakimCalendar.key(now);jakimMinute=now/60000;if(jakimText==null)return;String zone=prefs.getString("jakim_zone",""),heading="Waktu solat",body;
+        if(zone.isEmpty())body="KALENDAR JAKIM\nPilih zon waktu solat\nTekan untuk tetapan";
+        else{JakimCalendar.Day d=zone.equals(loadedZone)?jakimDays.get(jakimDayKey):null;
+            if(d==null)body="JAKIM · "+zone+"\n"+jakimDayKey+" · MYT\n"+(jakimLoading?"Memuat jadual…":"Tiada jadual tarikh ini · tekan untuk kemas kini");
+            else{heading=JakimCalendar.nextPrayer(jakimDays,now);body="JAKIM · "+zone+" · "+d.hijri+" H\nSubuh "+d.times[0]+"   Syuruk "+d.times[1]+"\nZohor "+d.times[2]+"   Asar "+d.times[3]+"\nMaghrib "+d.times[4]+"   Isyak "+d.times[5]+"\nMYT · Tekan untuk kalendar";}
+        }label(jakimNext,heading);label(jakimText,body);
     }
     void jakimDialog() {
         String zone=prefs.getString("jakim_zone","");if(zone.isEmpty()){chooseJakimZone();return;}
@@ -290,7 +309,7 @@ public class LauncherActivity extends Activity {
         String[] labels=Arrays.copyOf(JakimCalendar.LABELS,5);labels[4]="Zon lain (muat turun diperlukan)";
         new AlertDialog.Builder(this).setTitle("Pilih zon JAKIM").setItems(labels,(d,index)->{if(index<4)setJakimZone(JakimCalendar.ZONES[index]);else{EditText input=new EditText(this);input.setSingleLine();input.setHint("Contoh: JHR01");new AlertDialog.Builder(this).setTitle("Kod zon JAKIM").setView(input).setPositiveButton("Pilih",(dialog,w)->{String z=input.getText().toString().trim().toUpperCase(Locale.ROOT);if(JakimCalendar.validZone(z))setJakimZone(z);else Toast.makeText(this,"Kod zon tidak sah",Toast.LENGTH_LONG).show();}).setNegativeButton("Batal",null).show();}}).setNegativeButton("Batal",null).show();
     }
-    void setJakimZone(String zone){prefs.edit().putString("jakim_zone",zone).apply();loadedZone="";jakimDays=Collections.emptyMap();updateJakim();loadJakim(false);}
+    void setJakimZone(String zone){prefs.edit().putString("jakim_zone",zone).apply();loadedZone="";jakimDays=Collections.emptyMap();updateJakim();loadJakim(false);if("settings".equals(page)&&"Prayer Times".equals(settingsSection))render();}
     /** Original vector marks; no assets from the reference APK. */
     final class FavoriteGlyph extends View {
         final Paint ink=new Paint(Paint.ANTI_ALIAS_FLAG);final Path path=new Path(); final int slot;

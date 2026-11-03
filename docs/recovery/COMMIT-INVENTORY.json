@@ -1,0 +1,1074 @@
+{
+  "selected_files": [
+    {
+      "path": ".gitignore",
+      "bytes": 302,
+      "sha256": "1800f004c0113f844e9f531fe9bcadb65a8d6064e7fb10e701418a099a6414c1"
+    },
+    {
+      "path": "README.md",
+      "bytes": 11191,
+      "sha256": "ece6c57c9774b97f7ef3297c6afbb185e3ad897fd5a8d190f768fa70cb4b204d"
+    },
+    {
+      "path": "app/build.gradle",
+      "bytes": 581,
+      "sha256": "b4cb54b823a2c9664713321f9caed5ed281d2e6ddc19d7f75dcbfc7e93951c23"
+    },
+    {
+      "path": "app/src/androidTest/AndroidManifest.xml",
+      "bytes": 3184,
+      "sha256": "91a6c9709cc67ec0306d3b6f78661fb71c3b7cea6cb982900caccfded441d06c"
+    },
+    {
+      "path": "app/src/androidTest/java/com/shazwan/idash/AppearanceChecks.java",
+      "bytes": 10789,
+      "sha256": "78099158cb297a6cd8145fb81069843db193be875d05f9c27ea08ffd49ecf438"
+    },
+    {
+      "path": "app/src/androidTest/java/com/shazwan/idash/AppearanceGradientChecks.java",
+      "bytes": 2516,
+      "sha256": "1c6268658ccc63338ac3016a60eeee2b72d1428c8525466b3a5b50bd6f871a3a"
+    },
+    {
+      "path": "app/src/androidTest/java/com/shazwan/idash/AppearancePersistenceChecks.java",
+      "bytes": 4880,
+      "sha256": "84ac693530eecc77ddeb20daa8947edc618f62fd6a1881663d7fb246889e7093"
+    },
+    {
+      "path": "app/src/androidTest/java/com/shazwan/idash/AppearanceRenderChecks.java",
+      "bytes": 3111,
+      "sha256": "bf570d1b2e91ac05a91a7fe50e5e044d582ee337a83be600784c3a2abbf9d33d"
+    },
+    {
+      "path": "app/src/androidTest/java/com/shazwan/idash/CompactChecks.java",
+      "bytes": 9067,
+      "sha256": "fa0c71d7eb8caeb37148f655000b492443709e455159fa8bbbda1432ca457914"
+    },
+    {
+      "path": "app/src/androidTest/java/com/shazwan/idash/ControlGlassChecks.java",
+      "bytes": 2117,
+      "sha256": "d7f6068124b2d5fbf000c4a1f269397563f4c9876102cf2c1f06b059072482dc"
+    },
+    {
+      "path": "app/src/androidTest/java/com/shazwan/idash/ControlLayoutChecks.java",
+      "bytes": 5218,
+      "sha256": "f5e4ea2979c73b262836d77b01e38cf40cb598e06d634036fb8459d0bde0d8cf"
+    },
+    {
+      "path": "app/src/androidTest/java/com/shazwan/idash/ControlVisualChecks.java",
+      "bytes": 5002,
+      "sha256": "371f96be44c7fc2059a1aed8e4d0a65d0741e6af9a065b374a41aa42de11d5e9"
+    },
+    {
+      "path": "app/src/androidTest/java/com/shazwan/idash/DeviceReadinessChecks.java",
+      "bytes": 7705,
+      "sha256": "684d2efeac34f5669c1c54c79707f41ab4184e7155050cc8a8327b18ffb84b04"
+    },
+    {
+      "path": "app/src/androidTest/java/com/shazwan/idash/Glass6aChecks.java",
+      "bytes": 7503,
+      "sha256": "f9e871486c3089e5361cc2d8a05df58a8d88e9a6297b1a805ee0da25d0217f74"
+    },
+    {
+      "path": "app/src/androidTest/java/com/shazwan/idash/GlassMaterialChecks.java",
+      "bytes": 3314,
+      "sha256": "da94a087c34f005d51e845f202665a7d8a46636924bcd4b2ba85bb4f26a650c4"
+    },
+    {
+      "path": "app/src/androidTest/java/com/shazwan/idash/GlassRenderChecks.java",
+      "bytes": 3372,
+      "sha256": "62e1649dcaf8c0edfd16990cc5e4e3ceac35a00b4c793a7a6c96022b004e2035"
+    },
+    {
+      "path": "app/src/androidTest/java/com/shazwan/idash/GlassTextFixture.java",
+      "bytes": 1430,
+      "sha256": "0b8a7c34e33b4039e3265945217dd9929790450aa08e42d0a84c560964b80f23"
+    },
+    {
+      "path": "app/src/androidTest/java/com/shazwan/idash/LegacyGlassSurface.java",
+      "bytes": 2905,
+      "sha256": "43775386fa6080a3c60a6749ea168d06c1c56d8d9298df4edf5cb8836eb14bb0"
+    },
+    {
+      "path": "app/src/androidTest/java/com/shazwan/idash/MediaUtilitiesChecks.java",
+      "bytes": 8445,
+      "sha256": "8d13ee9154c727737c3dc8b6465e873ac704f727dcb13f0b73b85be132672c6f"
+    },
+    {
+      "path": "app/src/androidTest/java/com/shazwan/idash/PerformanceAuditChecks.java",
+      "bytes": 7143,
+      "sha256": "1a2b45d1ae9dfaa5de97c44b8596959f0055b69b953db11b84e9e901e6bef23c"
+    },
+    {
+      "path": "app/src/androidTest/java/com/shazwan/idash/Phase2GlassSurface.java",
+      "bytes": 5190,
+      "sha256": "092a1697c113599c67ee960e97142f602795eece54eaef9683562ecf5eede630"
+    },
+    {
+      "path": "app/src/androidTest/java/com/shazwan/idash/Phase3GlassSurface.java",
+      "bytes": 7192,
+      "sha256": "495b0ecdaa8a9c7f06b7d67e2614c8911f78f67cb88fdc782503f9650ff1fb39"
+    },
+    {
+      "path": "app/src/androidTest/java/com/shazwan/idash/QualityChecks.java",
+      "bytes": 7812,
+      "sha256": "538255a008a0eb29169fab82c58c5da6caa9c7d5e42f3229c0c52a789c537de1"
+    },
+    {
+      "path": "app/src/androidTest/java/com/shazwan/idash/SettingsAccessChecks.java",
+      "bytes": 3773,
+      "sha256": "68d9369e18cbd63edd1b1842313444e137f8247c920a05eae4162025cd55edf3"
+    },
+    {
+      "path": "app/src/androidTest/java/com/shazwan/idash/SettingsChecks.java",
+      "bytes": 7628,
+      "sha256": "2433ef1aabd5bc55197530db568baefa7250f192ad064bd86aa0bc4ffd03a10a"
+    },
+    {
+      "path": "app/src/androidTest/java/com/shazwan/idash/SettingsCompleteChecks.java",
+      "bytes": 9207,
+      "sha256": "a8e1c4f9f93c93e346c2eefcb052ee5a423a4b140a94a55decde8a6ffa27c1d7"
+    },
+    {
+      "path": "app/src/androidTest/java/com/shazwan/idash/SettingsPersistenceChecks.java",
+      "bytes": 4050,
+      "sha256": "eb2724071a76069f4d08e36799046b0efc373029f5ea00c8c912815017bf0b47"
+    },
+    {
+      "path": "app/src/androidTest/java/com/shazwan/idash/SettingsResetChecks.java",
+      "bytes": 3498,
+      "sha256": "0c9506b990caf2aa6de9ba31fb24b6ae2dcbc34f882158d9cd3973cae00cc525"
+    },
+    {
+      "path": "app/src/androidTest/java/com/shazwan/idash/SmokeChecks.java",
+      "bytes": 9478,
+      "sha256": "3f0799ec3151619389b2c9135a970933d107ad410a04b834efff1f0218af4583"
+    },
+    {
+      "path": "app/src/androidTest/java/com/shazwan/idash/StabilityChecks.java",
+      "bytes": 5308,
+      "sha256": "078f0d15b85e2385acb54ba2c4256061641df7c73b5f1f646fafb815d381382e"
+    },
+    {
+      "path": "app/src/androidTest/java/com/shazwan/idash/SystemControlsChecks.java",
+      "bytes": 4963,
+      "sha256": "564c27534ee410cc50b6c009a3c4474d06428686f6216c7a96ba5c90d1df4e07"
+    },
+    {
+      "path": "app/src/main/AndroidManifest.xml",
+      "bytes": 3051,
+      "sha256": "89f52398205cdb497bc2ed5b7a4d84847768df7875ce8c6594d78e525f43ef06"
+    },
+    {
+      "path": "app/src/main/java/com/shazwan/idash/AppearanceEditor.java",
+      "bytes": 15477,
+      "sha256": "e47ab4e7b6c674124786ef35b70e3b5f15d59ce51c6f00dab78fae7cde1519e1"
+    },
+    {
+      "path": "app/src/main/java/com/shazwan/idash/CapsuleSlider.java",
+      "bytes": 3827,
+      "sha256": "dfaf2ffa2b2b91b1d74865bb8e93d8bf62910c403534d01628e831412b7a7399"
+    },
+    {
+      "path": "app/src/main/java/com/shazwan/idash/ControlGlyph.java",
+      "bytes": 2744,
+      "sha256": "ea556c04edbbf6f1e5574a38bc87954e6756c12dc608fb52e28ea40600f4eac5"
+    },
+    {
+      "path": "app/src/main/java/com/shazwan/idash/ControlMedia.java",
+      "bytes": 8050,
+      "sha256": "015bae5dae705917b090601855cd0fbce091eacc615ea0332b6fc5d25ff020f0"
+    },
+    {
+      "path": "app/src/main/java/com/shazwan/idash/ControlUtilities.java",
+      "bytes": 5570,
+      "sha256": "9342cf9502f6e1ee6ae96c3e8a871e9084a569db47e5262edbe4391a6c17691a"
+    },
+    {
+      "path": "app/src/main/java/com/shazwan/idash/DashSettings.java",
+      "bytes": 16640,
+      "sha256": "747e0c2406f5ead896e52ec9e5b7ca9081af52004cbd8f70ff1462da0b3fec51"
+    },
+    {
+      "path": "app/src/main/java/com/shazwan/idash/GlassAppearance.java",
+      "bytes": 2642,
+      "sha256": "6b717b798217b2678b1c5452e590271972e768e34e01a3ac7f267bdf97c4838e"
+    },
+    {
+      "path": "app/src/main/java/com/shazwan/idash/GlassBackdrop.java",
+      "bytes": 2216,
+      "sha256": "6122873c77f0deb8c5a1d7fa92568971860dbed0c3166d981bad11c28a4dad98"
+    },
+    {
+      "path": "app/src/main/java/com/shazwan/idash/GlassSurface.java",
+      "bytes": 16181,
+      "sha256": "f16ff1153ac9e5c46045e85f66a1596e3a747aeced221e3bc610fde717766465"
+    },
+    {
+      "path": "app/src/main/java/com/shazwan/idash/HomeWidgets.java",
+      "bytes": 3484,
+      "sha256": "8976d193661ce3e09ff6d09d8dbfd74b13c3cc96a6d968227b86aadaf4de2c6f"
+    },
+    {
+      "path": "app/src/main/java/com/shazwan/idash/IosStyle.java",
+      "bytes": 6246,
+      "sha256": "bbb6b8964a95c52afec7b342ead9c31d712b4f85bf5aee1cc7da08b5f7294336"
+    },
+    {
+      "path": "app/src/main/java/com/shazwan/idash/LauncherActivity.java",
+      "bytes": 44773,
+      "sha256": "bc6ac67198f0d94229a7d02448bfa472f2702cbae0e15b7d149f5d9d50f76f6d"
+    },
+    {
+      "path": "app/src/main/java/com/shazwan/idash/MediaAccessService.java",
+      "bytes": 562,
+      "sha256": "704b74f6a2a8b0a85ca8b2ecf597030bf2002be1c02669e7a453c57d9b8d7ea0"
+    },
+    {
+      "path": "app/src/main/java/com/shazwan/idash/QuickControls.java",
+      "bytes": 18462,
+      "sha256": "41062fd69f135cd0992cc926422e6476c2c5c5bd0f64efb9dcb21ed62c63414a"
+    },
+    {
+      "path": "app/src/main/java/com/shazwan/idash/SettingsActions.java",
+      "bytes": 5109,
+      "sha256": "80647793ae95bea4077c2b21691b6f814fdf9c05891847c73e9e7573797d0644"
+    },
+    {
+      "path": "app/src/main/java/com/shazwan/idash/SettingsGlyph.java",
+      "bytes": 1845,
+      "sha256": "f8e51196139a73332409bc5545a6f9135fcf0a0160a33b11c9515c01ddf7f617"
+    },
+    {
+      "path": "app/src/main/java/com/shazwan/idash/SettingsNavigation.java",
+      "bytes": 1536,
+      "sha256": "a7c1e1e2ac367f2eace239668ebb4cc5d849f1618806c9baf0c10f12d7dcb7b6"
+    },
+    {
+      "path": "docs/RECOVERY-FASA6D-A1-MS.md",
+      "bytes": 4227,
+      "sha256": "6d360d5930a441b3e54df06e09f9907dfbc11ffe518701adaf0e755bda89e7cc"
+    },
+    {
+      "path": "docs/recovery/phase6d-a1/APK-METADATA.json",
+      "bytes": 991,
+      "sha256": "c447f25c4302ed4f97bf1de4ba66cd47d56c61ad0c8c9d1651b52880f7454771"
+    },
+    {
+      "path": "docs/recovery/phase6d-a1/BINA-WINDOWS-MS.md",
+      "bytes": 2631,
+      "sha256": "d8764084f26da5e5aa8596f807e84d192044890283051fd4314b107a13ac793c"
+    },
+    {
+      "path": "docs/recovery/phase6d-a1/EMULATOR-PROVENANCE.json",
+      "bytes": 549,
+      "sha256": "d69525fe315324c57f0b49337dc35764071743fb3f6249a4bbfb8f91273bb9eb"
+    },
+    {
+      "path": "docs/recovery/phase6d-a1/LAPORAN-MS.md",
+      "bytes": 8664,
+      "sha256": "93fcf8663afa874f1a54239fcf9abd510d87b0f37607d0f38ff8329b7ae787c1"
+    },
+    {
+      "path": "docs/recovery/phase6d-a1/LINT-SUMMARY.json",
+      "bytes": 78,
+      "sha256": "74a937a177f51ff6578c60d09e4e2405d0a0d4c1f7f4dce63b3281a5c70b197f"
+    },
+    {
+      "path": "docs/recovery/phase6d-a1/UJIAN-FIZIKAL-MS.md",
+      "bytes": 3359,
+      "sha256": "c84bd8bfabf1dea3f62c04df0ba4d226bca468568665c1a3c150f7f340da42e8"
+    },
+    {
+      "path": "docs/recovery/phase6d-a1/source-only-manifest.json",
+      "bytes": 87494,
+      "sha256": "5703b41049e102daf91de136299687d0f3d9c7969a8e42f93a1f649ad935db0e"
+    },
+    {
+      "path": "docs/reviews/APPEARANCE_PHASE4B1.md",
+      "bytes": 7068,
+      "sha256": "9e17e709aadf964cf1f8e10786c019a7983a6ad1fcea5e08b3c35a505676c0a4"
+    },
+    {
+      "path": "docs/reviews/COMPACT_PHASE6B.md",
+      "bytes": 3563,
+      "sha256": "cc9bad4412b06842a17176d9ceb79a9984b0e1a1bd3e17b0906c0d0cf5fa521f"
+    },
+    {
+      "path": "docs/reviews/CONTROL_CENTER_PHASE3A.md",
+      "bytes": 3669,
+      "sha256": "c7a7a28bddac095bd2dcbbeb3b9bde3c9a80909b37b4bf4c6f83d31efc9d00e7"
+    },
+    {
+      "path": "docs/reviews/CONTROL_CENTER_PHASE3B1.md",
+      "bytes": 4551,
+      "sha256": "031139e3051bd78df965a2422f5f72270184ea1670ec8f34bae12c9a4c6551d6"
+    },
+    {
+      "path": "docs/reviews/CONTROL_CENTER_PHASE3B2.md",
+      "bytes": 5510,
+      "sha256": "21262e94961616753c83eefea6ad32579838dab69eedf268313645393c3689d4"
+    },
+    {
+      "path": "docs/reviews/CONTROL_CENTER_PHASE4A.md",
+      "bytes": 5328,
+      "sha256": "23812f83025fdad7e6f2d8407c6d695b28c0ae7f9665d6b3f70bed482f30d204"
+    },
+    {
+      "path": "docs/reviews/DEVICE_PHASE5A.md",
+      "bytes": 8517,
+      "sha256": "30f0d2ece6edde47fbf5341b7611d50fe60a490484dbdfd18d20a75fa75d9553"
+    },
+    {
+      "path": "docs/reviews/DEVICE_PHASE5A_GUIDE.md",
+      "bytes": 5627,
+      "sha256": "f093eaed89d2b27c94745a76a3db95d242f75ec5917583664833a597f25bc8a3"
+    },
+    {
+      "path": "docs/reviews/GLASS_PHASE2.md",
+      "bytes": 3637,
+      "sha256": "7e777bbd63facb510f9d601519c9642de8c993969f20c68a7dc36a362d5107f1"
+    },
+    {
+      "path": "docs/reviews/GLASS_PHASE25.md",
+      "bytes": 2929,
+      "sha256": "91d92f8c513d731485e242a89e0fb8022f9146b0f1cd4fafde596337ecc93b87"
+    },
+    {
+      "path": "docs/reviews/GLASS_PHASE6A.md",
+      "bytes": 3278,
+      "sha256": "89a0c7790111f704c860411c5d23fc6e484607f397698171097b75d29d2b3f48"
+    },
+    {
+      "path": "docs/reviews/QA_PHASE6C.md",
+      "bytes": 5514,
+      "sha256": "9d6939b9d34097c39aceb268ba1a12a4a797f06f82a5280306032d2af8c510d5"
+    },
+    {
+      "path": "docs/reviews/SETTINGS_PHASE4B2.md",
+      "bytes": 6630,
+      "sha256": "801abd152a42cc662f65dc3edd686ce8636ff48f5a9d459826619da6a6c38d53"
+    },
+    {
+      "path": "experiments/phase6d-a1/host-project/LICENSE",
+      "bytes": 1074,
+      "sha256": "1ca549fcfbcc8bf83bfd550356f3cf7637e7a5e4676272aef01f6aa3a7fd6ad9"
+    },
+    {
+      "path": "experiments/phase6d-a1/host-project/NOTICE",
+      "bytes": 3053,
+      "sha256": "14e03c81af90dc254d2939433cd1de87fcf723fa5792ec5863280c626cca9a35"
+    },
+    {
+      "path": "experiments/phase6d-a1/host-project/README-A1-MS.md",
+      "bytes": 1904,
+      "sha256": "38d84d0b61d5b990eea67cf22353c8702bbbd8ae66cf869fc00eb59e4286da5c"
+    },
+    {
+      "path": "experiments/phase6d-a1/host-project/app/build.gradle",
+      "bytes": 1027,
+      "sha256": "81a3fbbeb730ad75f9bf9dc03f0b517b3ac6d166e5b19612915e9ae5ed73bbb1"
+    },
+    {
+      "path": "experiments/phase6d-a1/host-project/app/src/androidTest/java/com/shazwan/idash/a1lab/A1Checks.java",
+      "bytes": 7296,
+      "sha256": "3e6b295ec6480e026bf95554c93ac5ae7edfce001c825e123b8b366af3e07857"
+    },
+    {
+      "path": "experiments/phase6d-a1/host-project/app/src/main/AndroidManifest.xml",
+      "bytes": 1811,
+      "sha256": "5337ebaa21bacb3852cddab0bf7b2bba8bba2e05555f8967cc7928c51dcf62f3"
+    },
+    {
+      "path": "experiments/phase6d-a1/host-project/app/src/main/assets/jakim/README.txt",
+      "bytes": 423,
+      "sha256": "a910aaba856b155150247737905357d53feadf7a7f6e8546e5346dcb98daf15e"
+    },
+    {
+      "path": "experiments/phase6d-a1/host-project/app/src/main/assets/jakim/SGR01.json",
+      "bytes": 77256,
+      "sha256": "1e31db23df4796df488f364a43be7a57a1254035ea6626aeee6a6f1441198dc8"
+    },
+    {
+      "path": "experiments/phase6d-a1/host-project/app/src/main/assets/jakim/SGR02.json",
+      "bytes": 77257,
+      "sha256": "278ec94b560a9663af6c71410b9fb11ffe700e4c13efd28cde3579a4a6e0b1ef"
+    },
+    {
+      "path": "experiments/phase6d-a1/host-project/app/src/main/assets/jakim/SGR03.json",
+      "bytes": 77257,
+      "sha256": "d936251c07912e2a3556bc335a132646dc0647589a2a9afe629088f5cf2fefc0"
+    },
+    {
+      "path": "experiments/phase6d-a1/host-project/app/src/main/assets/jakim/WLY01.json",
+      "bytes": 77257,
+      "sha256": "7bdbab2edba87a2b1f54d79574ce0274fd5b31d6e9c79a26ed95a65e7a0218dc"
+    },
+    {
+      "path": "experiments/phase6d-a1/host-project/app/src/main/assets/jakim/source.json",
+      "bytes": 909,
+      "sha256": "918e3e5e65325756b8b2ed899907f20cce7c9fa71028b130c07716d82d3ac958"
+    },
+    {
+      "path": "experiments/phase6d-a1/host-project/app/src/main/assets/mrios/fonts/sf_pro_display_bold.ttf",
+      "bytes": 337512,
+      "sha256": "c672b517c693558fbf9660039f7a249744250045c7522443c82501ab0eead2c7"
+    },
+    {
+      "path": "experiments/phase6d-a1/host-project/app/src/main/assets/mrios/fonts/sf_pro_display_medium.ttf",
+      "bytes": 335420,
+      "sha256": "52a96a0039c283867dbe80b1856c44de9244521e3502b1d6f2d667cd8df6c4ab"
+    },
+    {
+      "path": "experiments/phase6d-a1/host-project/app/src/main/assets/mrios/fonts/sf_pro_display_regular.ttf",
+      "bytes": 334724,
+      "sha256": "997d34f18eb31ffbd26f563d6cabdf54f6c0a7171dc76eec234a8241754a8f39"
+    },
+    {
+      "path": "experiments/phase6d-a1/host-project/app/src/main/assets/mrios/fonts/sf_pro_display_semi_bold.ttf",
+      "bytes": 336264,
+      "sha256": "433d306431345534c7e9dcc5fd26dae81bc68df6abddc491a5e3e5e1b9d5a6ad"
+    },
+    {
+      "path": "experiments/phase6d-a1/host-project/app/src/main/assets/mrios/icons/ic_ios_airdrop.png",
+      "bytes": 50368,
+      "sha256": "e52f8117cf2df7e5b598297131bd907eab06862041d15e20a555c6f7a7052eb3"
+    },
+    {
+      "path": "experiments/phase6d-a1/host-project/app/src/main/assets/mrios/icons/ic_ios_books.png",
+      "bytes": 53341,
+      "sha256": "bacde680da60512bb6e49b34fd9a19570e74634c870ad0e97c968f09dbccd074"
+    },
+    {
+      "path": "experiments/phase6d-a1/host-project/app/src/main/assets/mrios/icons/ic_ios_calculator.png",
+      "bytes": 62303,
+      "sha256": "9a0f3a3e5a3109cc3b4d84a8065d24dfd5dd8759a0779a14b4894d3ed702d6ca"
+    },
+    {
+      "path": "experiments/phase6d-a1/host-project/app/src/main/assets/mrios/icons/ic_ios_calendar_lg.png",
+      "bytes": 29779,
+      "sha256": "72acceb5de5e3fdc454fc4e68d4769bffa4362d5f3e7c3da03a4cc55aa041241"
+    },
+    {
+      "path": "experiments/phase6d-a1/host-project/app/src/main/assets/mrios/icons/ic_ios_camera.png",
+      "bytes": 82210,
+      "sha256": "6fb64334fb10909e325214cb657e80e985e627e0fd1a1c6f624ee7fecdfdff13"
+    },
+    {
+      "path": "experiments/phase6d-a1/host-project/app/src/main/assets/mrios/icons/ic_ios_clock.png",
+      "bytes": 38003,
+      "sha256": "ad0429c16d2883e7007344ee0aae37cb6424ead0b799d0998e0c5ff8e300aa55"
+    },
+    {
+      "path": "experiments/phase6d-a1/host-project/app/src/main/assets/mrios/icons/ic_ios_contacts.png",
+      "bytes": 61076,
+      "sha256": "52f44b560c0c965ceb3b73d4b974c1bbe95db3d6644984392be3e0b8bc40bb1a"
+    },
+    {
+      "path": "experiments/phase6d-a1/host-project/app/src/main/assets/mrios/icons/ic_ios_facetime.png",
+      "bytes": 55212,
+      "sha256": "d1c7d28fa250e1fc7bb5207b73db814f926303a6d1c810a98f8441f6d10c6a8b"
+    },
+    {
+      "path": "experiments/phase6d-a1/host-project/app/src/main/assets/mrios/icons/ic_ios_files.png",
+      "bytes": 37391,
+      "sha256": "2ca2eb77754c788f31ae3a8986fd0ee0781b94c0708aca05ae248f1bc16e347a"
+    },
+    {
+      "path": "experiments/phase6d-a1/host-project/app/src/main/assets/mrios/icons/ic_ios_fitness.png",
+      "bytes": 74234,
+      "sha256": "774583841586ad0f3efc1892b6396116d92b62da277d0ab12a142a6d35b1dcf7"
+    },
+    {
+      "path": "experiments/phase6d-a1/host-project/app/src/main/assets/mrios/icons/ic_ios_freeform.png",
+      "bytes": 52141,
+      "sha256": "4f83e2adad329fd7e64798de9d5a9181e8e23cd36eec09e9d6497bff7dc73581"
+    },
+    {
+      "path": "experiments/phase6d-a1/host-project/app/src/main/assets/mrios/icons/ic_ios_health.png",
+      "bytes": 37394,
+      "sha256": "ef9cd2536da08fa70b8380c8b03f5074806a7eff1c27c34bf7f02fbdb82fd16a"
+    },
+    {
+      "path": "experiments/phase6d-a1/host-project/app/src/main/assets/mrios/icons/ic_ios_home.png",
+      "bytes": 44003,
+      "sha256": "c690b7a70a6e68e59eb985af0eee1c6d885c9927b38baa26907411159ffee4b0"
+    },
+    {
+      "path": "experiments/phase6d-a1/host-project/app/src/main/assets/mrios/icons/ic_ios_itunes.png",
+      "bytes": 57920,
+      "sha256": "afa10a3e1a42a3af99433a5043bc00754f8e74fc44293dd175efc65a8a2ef4ba"
+    },
+    {
+      "path": "experiments/phase6d-a1/host-project/app/src/main/assets/mrios/icons/ic_ios_keys.png",
+      "bytes": 66592,
+      "sha256": "8ed89fea89045581592483e6a6c5bb1f5c12a0a442ee9a627050802897b5118e"
+    },
+    {
+      "path": "experiments/phase6d-a1/host-project/app/src/main/assets/mrios/icons/ic_ios_mail.png",
+      "bytes": 57826,
+      "sha256": "30d1f6b22ab4c660050b580ccf5cb337afc0e30f3334d0300126c3cbb59f669d"
+    },
+    {
+      "path": "experiments/phase6d-a1/host-project/app/src/main/assets/mrios/icons/ic_ios_maps.png",
+      "bytes": 71953,
+      "sha256": "53da6d77244da8b5527a1b3973fe50347d759b46b92f9350a3c17833c8029886"
+    },
+    {
+      "path": "experiments/phase6d-a1/host-project/app/src/main/assets/mrios/icons/ic_ios_measure.png",
+      "bytes": 31158,
+      "sha256": "91395b7cf4ba2b641c8e46fbef5f299edb618f0bcd496ba4bc04deb0f89bafd6"
+    },
+    {
+      "path": "experiments/phase6d-a1/host-project/app/src/main/assets/mrios/icons/ic_ios_messages.png",
+      "bytes": 55623,
+      "sha256": "30fab3e435f3a343b60be97efba22737a476682183a09a426092077b9513fcb2"
+    },
+    {
+      "path": "experiments/phase6d-a1/host-project/app/src/main/assets/mrios/icons/ic_ios_music.png",
+      "bytes": 45791,
+      "sha256": "69562e08654c7638448d17043b6988b1cf082d59126202c4eb28c7d5fc9181df"
+    },
+    {
+      "path": "experiments/phase6d-a1/host-project/app/src/main/assets/mrios/icons/ic_ios_news.png",
+      "bytes": 40624,
+      "sha256": "2b2b6d8279a035aaaa5d64eb4ab630ee0812203168ee01e546a4eb8387098651"
+    },
+    {
+      "path": "experiments/phase6d-a1/host-project/app/src/main/assets/mrios/icons/ic_ios_notes.png",
+      "bytes": 36155,
+      "sha256": "22d2e7ece322d16495150bbb8c15e925eb16500253f703779a64af9a3638db53"
+    },
+    {
+      "path": "experiments/phase6d-a1/host-project/app/src/main/assets/mrios/icons/ic_ios_phone.png",
+      "bytes": 58234,
+      "sha256": "c7c52a4fd0237f956e7c49fb3337ad0634eb5818eaf3e2d9bb9defa4e70a1aeb"
+    },
+    {
+      "path": "experiments/phase6d-a1/host-project/app/src/main/assets/mrios/icons/ic_ios_photos.png",
+      "bytes": 49245,
+      "sha256": "f4fbccefe6482ced24f0469b7a2cecac0bf210df119e7689e2a1e6c59ae5ca93"
+    },
+    {
+      "path": "experiments/phase6d-a1/host-project/app/src/main/assets/mrios/icons/ic_ios_preview.png",
+      "bytes": 62301,
+      "sha256": "5163c8630ef986f8c53e700d7909b1e76021b04dbd8daaf3760cb650a5ee7506"
+    },
+    {
+      "path": "experiments/phase6d-a1/host-project/app/src/main/assets/mrios/icons/ic_ios_reminders.png",
+      "bytes": 37993,
+      "sha256": "73da95220e95635b6a21bf5ed075ac20bd484eee31dc8319ba500c10769c0b6c"
+    },
+    {
+      "path": "experiments/phase6d-a1/host-project/app/src/main/assets/mrios/icons/ic_ios_safari.png",
+      "bytes": 40116,
+      "sha256": "b8de232a8ea806bf510ff1c21bb752f1bc8247ae050ed59c07a4173ea9d139c6"
+    },
+    {
+      "path": "experiments/phase6d-a1/host-project/app/src/main/assets/mrios/icons/ic_ios_settings.png",
+      "bytes": 89010,
+      "sha256": "046230114f57a254c29a38702449f9418d1f2a1bed488907367335b0f4c8d417"
+    },
+    {
+      "path": "experiments/phase6d-a1/host-project/app/src/main/assets/mrios/icons/ic_ios_shortcuts.png",
+      "bytes": 69592,
+      "sha256": "ade612550cba146b5fc7daf2444c8b9a3f7b18a1f915f50b68ccb412f8fc2392"
+    },
+    {
+      "path": "experiments/phase6d-a1/host-project/app/src/main/assets/mrios/icons/ic_ios_stocks.png",
+      "bytes": 45519,
+      "sha256": "70ce8cc5390dc7cd709f5bf8ddca339d92709de909546a4f63ceb2e12f74c16a"
+    },
+    {
+      "path": "experiments/phase6d-a1/host-project/app/src/main/assets/mrios/icons/ic_ios_store.png",
+      "bytes": 59832,
+      "sha256": "d124b44cfb24549e7a37f09730c5cda37b0d343a48eb15535eaea198c88daaee"
+    },
+    {
+      "path": "experiments/phase6d-a1/host-project/app/src/main/assets/mrios/icons/ic_ios_translate.png",
+      "bytes": 60525,
+      "sha256": "7528bfe8ee527f874eb8cccdbdd5ffd57e5ee9398797eb71d1772b854b99eb8b"
+    },
+    {
+      "path": "experiments/phase6d-a1/host-project/app/src/main/assets/mrios/icons/ic_ios_voice_memos.png",
+      "bytes": 40353,
+      "sha256": "37525291c25eebe0a89d2bcaaf76519ab307a6ab452402a9720a53fd58cab97f"
+    },
+    {
+      "path": "experiments/phase6d-a1/host-project/app/src/main/assets/mrios/icons/ic_ios_wallet.png",
+      "bytes": 59832,
+      "sha256": "d124b44cfb24549e7a37f09730c5cda37b0d343a48eb15535eaea198c88daaee"
+    },
+    {
+      "path": "experiments/phase6d-a1/host-project/app/src/main/assets/mrios/icons/ic_ios_watch.png",
+      "bytes": 60441,
+      "sha256": "abd5d741306924cf26c3cfc1fa5c57665856663d79e2e3b1f9915555baa6ca74"
+    },
+    {
+      "path": "experiments/phase6d-a1/host-project/app/src/main/assets/mrios/icons/ic_ios_weather.png",
+      "bytes": 63625,
+      "sha256": "3f2d3c7a22a49847cb914523155d11f9d25b4478c3c703a24cfac73998987c05"
+    },
+    {
+      "path": "experiments/phase6d-a1/host-project/app/src/main/assets/mrios/wallpapers/47.jpg",
+      "bytes": 85013,
+      "sha256": "bc0c66a1aee8601078f150367e355c7402fa9d3b8bafeb7b5f01046148857bec"
+    },
+    {
+      "path": "experiments/phase6d-a1/host-project/app/src/main/assets/mrios/wallpapers/48.webp",
+      "bytes": 61814,
+      "sha256": "6033ed7308c485b75e743e57fbbf724114f9a11829985e49616dc207b888c3e7"
+    },
+    {
+      "path": "experiments/phase6d-a1/host-project/app/src/main/assets/mrios/wallpapers/49.webp",
+      "bytes": 164564,
+      "sha256": "8b3357c1bcb7723c84155265ae1dd04a3e30b9b9d6cca3e3d816ee595e616f79"
+    },
+    {
+      "path": "experiments/phase6d-a1/host-project/app/src/main/assets/mrios/wallpapers/50.webp",
+      "bytes": 27326,
+      "sha256": "5b02a4c894350dbef9b8ca854bae00316da613698bf4a698b7272eb7309b76a7"
+    },
+    {
+      "path": "experiments/phase6d-a1/host-project/app/src/main/assets/mrios/wallpapers/51.webp",
+      "bytes": 32728,
+      "sha256": "9c44020ac10bebcffc852ed3d1f3f40305d95a33ae9b015ae3ba2d80fab0b4fd"
+    },
+    {
+      "path": "experiments/phase6d-a1/host-project/app/src/main/assets/mrios/wallpapers/52.webp",
+      "bytes": 29532,
+      "sha256": "ec1806998c09a9a9e90aba66a5977733e33262b0421dd4fd907033fb5be84494"
+    },
+    {
+      "path": "experiments/phase6d-a1/host-project/app/src/main/assets/mrios/wallpapers/53.webp",
+      "bytes": 29426,
+      "sha256": "9beb51d9634109a1b6900d1858fae7154d6d6c98e7b670f1e3903d4b99c6fe8b"
+    },
+    {
+      "path": "experiments/phase6d-a1/host-project/app/src/main/assets/mrios/wallpapers/54.webp",
+      "bytes": 154319,
+      "sha256": "20d9998559ea654d7ed4cb55a9789f6647e1fd348d503573e7f8bf6448941707"
+    },
+    {
+      "path": "experiments/phase6d-a1/host-project/app/src/main/assets/mrios/wallpapers/55.webp",
+      "bytes": 197925,
+      "sha256": "06fd4f3f524b28fa55d90f77c9b2e6917301b7274efa8ceb0e8e20411974d7a8"
+    },
+    {
+      "path": "experiments/phase6d-a1/host-project/app/src/main/assets/mrios/wallpapers/56.webp",
+      "bytes": 148253,
+      "sha256": "e136e393abfe2f6f6bcc54ab76d1b3ac6c593f430b60fb224f17ac1f65e0cd8d"
+    },
+    {
+      "path": "experiments/phase6d-a1/host-project/app/src/main/assets/mrios/wallpapers/57.webp",
+      "bytes": 121264,
+      "sha256": "66e3515ef74005c4d3683d8715f793edc2cf027c48b7a7ab22a54cca3a8120de"
+    },
+    {
+      "path": "experiments/phase6d-a1/host-project/app/src/main/assets/mrios/wallpapers/58.webp",
+      "bytes": 129250,
+      "sha256": "a179298dc54e5d73f94940f523b280ecd7cdd9c173c5a19ad84f10324df3b210"
+    },
+    {
+      "path": "experiments/phase6d-a1/host-project/app/src/main/assets/mrios/wallpapers/59.webp",
+      "bytes": 200653,
+      "sha256": "edd58a481222af542e27cbda25316de7ddd38022b67de46a1168e2e5711544a8"
+    },
+    {
+      "path": "experiments/phase6d-a1/host-project/app/src/main/assets/mrios/wallpapers/60.webp",
+      "bytes": 198751,
+      "sha256": "405ff8ee76b056357a2bc945644b47ca44d4e424012a085cfffef289b6290384"
+    },
+    {
+      "path": "experiments/phase6d-a1/host-project/app/src/main/assets/mrios/wallpapers/61.webp",
+      "bytes": 399836,
+      "sha256": "0efcb681085116b6a89a07c5a18bf241fe3b9bfed1fa809e9c6bb3eef3d0c4e5"
+    },
+    {
+      "path": "experiments/phase6d-a1/host-project/app/src/main/assets/mrios/wallpapers/62.webp",
+      "bytes": 39960,
+      "sha256": "856aff0864128809102f0a508eb957d2a8891b4fe4a6fd73da57d1fd6e02bfe0"
+    },
+    {
+      "path": "experiments/phase6d-a1/host-project/app/src/main/assets/mrios/wallpapers/63.webp",
+      "bytes": 48724,
+      "sha256": "025fa03053a6e8c39eacd42346d4bd55c0fc7f7f028397932e4d73ff66e46ba7"
+    },
+    {
+      "path": "experiments/phase6d-a1/host-project/app/src/main/assets/mrios/wallpapers/64.webp",
+      "bytes": 63594,
+      "sha256": "3eb45a9b5831e64e4e2b951a430db2ea2c652ebca50dfd7bdaa799cdda2e647c"
+    },
+    {
+      "path": "experiments/phase6d-a1/host-project/app/src/main/assets/mrios/wallpapers/65.webp",
+      "bytes": 44302,
+      "sha256": "06463122e8e94e61a99273f3ce870c4877707e687fd61e7f7555b476c4da729d"
+    },
+    {
+      "path": "experiments/phase6d-a1/host-project/app/src/main/assets/mrios/wallpapers/66.webp",
+      "bytes": 58746,
+      "sha256": "9f5d23d155f8ba5c60783587924ca224659d9a1087656345eaf6f41dca844e2d"
+    },
+    {
+      "path": "experiments/phase6d-a1/host-project/app/src/main/assets/mrios/wallpapers/67.webp",
+      "bytes": 53818,
+      "sha256": "0c2c9ee45a89a2ce5e430c7eed7b7f26bb2be3052fd779cd548857a9c323df5b"
+    },
+    {
+      "path": "experiments/phase6d-a1/host-project/app/src/main/assets/mrios/wallpapers/68.webp",
+      "bytes": 54432,
+      "sha256": "0f8b36c5f87a67b054a5a056a09034a6b92973b83a53368ab58b0abed3c07702"
+    },
+    {
+      "path": "experiments/phase6d-a1/host-project/app/src/main/assets/mrios/wallpapers/69.webp",
+      "bytes": 65784,
+      "sha256": "e01a039c6204339d9cec689a8bde95aee531637a1bcbf7f67103b95304c6dd52"
+    },
+    {
+      "path": "experiments/phase6d-a1/host-project/app/src/main/assets/mrios/wallpapers/70.webp",
+      "bytes": 44664,
+      "sha256": "6f978edcb52b08f0470d899ef7c9a1ffa8436db37fc1e68c08c943d12baf9df1"
+    },
+    {
+      "path": "experiments/phase6d-a1/host-project/app/src/main/java/com/shazwan/idash/a1lab/AppearanceEditor.java",
+      "bytes": 15483,
+      "sha256": "225a26811a37b5cdedfd9cbe75a3510c106da826c27731e5c71814e1a1b6fe9f"
+    },
+    {
+      "path": "experiments/phase6d-a1/host-project/app/src/main/java/com/shazwan/idash/a1lab/CapsuleSlider.java",
+      "bytes": 3833,
+      "sha256": "a568c179d0676a3c5a26665ca822b6db434c49b0fb714db5dc7b84e78a57f6c0"
+    },
+    {
+      "path": "experiments/phase6d-a1/host-project/app/src/main/java/com/shazwan/idash/a1lab/ControlGlyph.java",
+      "bytes": 2750,
+      "sha256": "fa67ec5fcf1c005c705560834e65798f766908a585a0cdd9a5e3e944d7a7ddc7"
+    },
+    {
+      "path": "experiments/phase6d-a1/host-project/app/src/main/java/com/shazwan/idash/a1lab/ControlMedia.java",
+      "bytes": 8056,
+      "sha256": "9d3b94b2cf70e5059f672498d45744581429dd41dd410528df9754951db08b1e"
+    },
+    {
+      "path": "experiments/phase6d-a1/host-project/app/src/main/java/com/shazwan/idash/a1lab/ControlUtilities.java",
+      "bytes": 5576,
+      "sha256": "9ac161c11ee845116a2f8ce1b99d673f5dbc15e199756f409a00b01939f0218c"
+    },
+    {
+      "path": "experiments/phase6d-a1/host-project/app/src/main/java/com/shazwan/idash/a1lab/CustomWallpaper.java",
+      "bytes": 1813,
+      "sha256": "fe1163cc3fe7465800d7ca4f0df4f6522ce9a5ca5eff1d40975ec83a505f2e12"
+    },
+    {
+      "path": "experiments/phase6d-a1/host-project/app/src/main/java/com/shazwan/idash/a1lab/DashFmBand.java",
+      "bytes": 1651,
+      "sha256": "875117126c8a6e7c9cfcc24d0d1bf0dc2a461b40fc0d6b23807b005d616da885"
+    },
+    {
+      "path": "experiments/phase6d-a1/host-project/app/src/main/java/com/shazwan/idash/a1lab/DashFmController.java",
+      "bytes": 9998,
+      "sha256": "bb8ccbd0a80ab254d45cbf9fcbe7030c947770acd50d4ca068c72b85356199df"
+    },
+    {
+      "path": "experiments/phase6d-a1/host-project/app/src/main/java/com/shazwan/idash/a1lab/DashFmPanel.java",
+      "bytes": 9889,
+      "sha256": "e46647d59e39a753252b6e80a046fb7c4722ea206bf9fd43b569efeb85ac504b"
+    },
+    {
+      "path": "experiments/phase6d-a1/host-project/app/src/main/java/com/shazwan/idash/a1lab/DashNativeFrame.java",
+      "bytes": 27255,
+      "sha256": "dba74a128ca3fa37f08ea5ff3477180edb563b6f4b656473db8128498cdf098b"
+    },
+    {
+      "path": "experiments/phase6d-a1/host-project/app/src/main/java/com/shazwan/idash/a1lab/DashNativeGeometry.java",
+      "bytes": 780,
+      "sha256": "796272fa2fde6303a3fa4ef6f7dc615fc0580d1713f60e5b5246de635de82995"
+    },
+    {
+      "path": "experiments/phase6d-a1/host-project/app/src/main/java/com/shazwan/idash/a1lab/DashNativeProxy.java",
+      "bytes": 1013,
+      "sha256": "5d4c54b5786b279670a04b1507d5e0b4bb71448a65a383ea445fe0686649eb25"
+    },
+    {
+      "path": "experiments/phase6d-a1/host-project/app/src/main/java/com/shazwan/idash/a1lab/DashRadioBackend.java",
+      "bytes": 796,
+      "sha256": "c33cdc6363e29dabaaa56b4ba43bd7acd862826c0c305bb706ecf18de2ce7c06"
+    },
+    {
+      "path": "experiments/phase6d-a1/host-project/app/src/main/java/com/shazwan/idash/a1lab/DashSettings.java",
+      "bytes": 16670,
+      "sha256": "5061eb73dc9cff845719c9bd33f857ebd319eaa41481cbd4960f9334473f368a"
+    },
+    {
+      "path": "experiments/phase6d-a1/host-project/app/src/main/java/com/shazwan/idash/a1lab/DashWebPlayer.java",
+      "bytes": 14004,
+      "sha256": "2ef94d0573e203937f4325d13aad5a52bbaa433ee2517ff856f220655326d505"
+    },
+    {
+      "path": "experiments/phase6d-a1/host-project/app/src/main/java/com/shazwan/idash/a1lab/GlassAppearance.java",
+      "bytes": 2648,
+      "sha256": "544c4113a0afceecf6cdff3e4c43c24e40442c142e7cd7cf95ca2c40b8420559"
+    },
+    {
+      "path": "experiments/phase6d-a1/host-project/app/src/main/java/com/shazwan/idash/a1lab/GlassBackdrop.java",
+      "bytes": 2222,
+      "sha256": "c18278f800b39e9e4ca497d0fdab73becd227747ba75445f90a0a7a32138c32d"
+    },
+    {
+      "path": "experiments/phase6d-a1/host-project/app/src/main/java/com/shazwan/idash/a1lab/GlassSurface.java",
+      "bytes": 16187,
+      "sha256": "83ed967761ba4f83c1f92b40176d1c214a58c29215c7e4ff2835ba32b89feeb2"
+    },
+    {
+      "path": "experiments/phase6d-a1/host-project/app/src/main/java/com/shazwan/idash/a1lab/HomeWidgets.java",
+      "bytes": 3490,
+      "sha256": "e3deeb3f14e8ba9b51bdc6661257ead26ea68735122f7ee5a87ae37ea0cc7c89"
+    },
+    {
+      "path": "experiments/phase6d-a1/host-project/app/src/main/java/com/shazwan/idash/a1lab/IosStyle.java",
+      "bytes": 6252,
+      "sha256": "430f55b5e0657a9354107b8844384b5e084559ce78445a425745588e82c7c147"
+    },
+    {
+      "path": "experiments/phase6d-a1/host-project/app/src/main/java/com/shazwan/idash/a1lab/JakimCalendar.java",
+      "bytes": 6048,
+      "sha256": "db8171e6c34e7bb8a80d8a81e96ca98c5b76de07884e97a2fc968430269ed653"
+    },
+    {
+      "path": "experiments/phase6d-a1/host-project/app/src/main/java/com/shazwan/idash/a1lab/LauncherActivity.java",
+      "bytes": 44797,
+      "sha256": "e3fa0194553e788c367782ec53dbebde38a17d1c81354c99567f66b06be85938"
+    },
+    {
+      "path": "experiments/phase6d-a1/host-project/app/src/main/java/com/shazwan/idash/a1lab/MediaAccessService.java",
+      "bytes": 574,
+      "sha256": "671b929bda23608d5b1322eba321b433da8158e4d77dca573ca744c8d8b0c6a0"
+    },
+    {
+      "path": "experiments/phase6d-a1/host-project/app/src/main/java/com/shazwan/idash/a1lab/MrIosTheme.java",
+      "bytes": 2622,
+      "sha256": "1245a57cf9c766d40547854e53535b13352b5aaf1bd15127e954dca267a63baf"
+    },
+    {
+      "path": "experiments/phase6d-a1/host-project/app/src/main/java/com/shazwan/idash/a1lab/ProbeHostActivity.java",
+      "bytes": 1120,
+      "sha256": "4bbcf488a9d0e7c5c71fceb015b2920144eaadfc2e2357547d3d8c390dd9f620"
+    },
+    {
+      "path": "experiments/phase6d-a1/host-project/app/src/main/java/com/shazwan/idash/a1lab/QuickControls.java",
+      "bytes": 18468,
+      "sha256": "c7436fe7cec0b412a2991a2757121f54a4ca4fc45eb4f296aeb2ac381025ad21"
+    },
+    {
+      "path": "experiments/phase6d-a1/host-project/app/src/main/java/com/shazwan/idash/a1lab/SagaAngleView.java",
+      "bytes": 9961,
+      "sha256": "600641234296c603b0c4b651157a4e49b133780d36869a924a6a1f5ae7199bad"
+    },
+    {
+      "path": "experiments/phase6d-a1/host-project/app/src/main/java/com/shazwan/idash/a1lab/SettingsActions.java",
+      "bytes": 5115,
+      "sha256": "73c65647f9fe2a94eb77888e2812d76c9080524d3ffdbcad8b8e17c5100059ad"
+    },
+    {
+      "path": "experiments/phase6d-a1/host-project/app/src/main/java/com/shazwan/idash/a1lab/SettingsGlyph.java",
+      "bytes": 1851,
+      "sha256": "57157617ad26e6eb1c643b2f20140dae450f6774e1a0ceebeba7b7aebb131893"
+    },
+    {
+      "path": "experiments/phase6d-a1/host-project/app/src/main/java/com/shazwan/idash/a1lab/SettingsNavigation.java",
+      "bytes": 1542,
+      "sha256": "3afb7b3c2f016a5f3249ef401276b407b12038856d3fae5e9686f898010f64f1"
+    },
+    {
+      "path": "experiments/phase6d-a1/host-project/app/src/main/res/drawable-nodpi/mrios_files.png",
+      "bytes": 37391,
+      "sha256": "2ca2eb77754c788f31ae3a8986fd0ee0781b94c0708aca05ae248f1bc16e347a"
+    },
+    {
+      "path": "experiments/phase6d-a1/host-project/app/src/main/res/drawable-nodpi/mrios_settings.png",
+      "bytes": 89010,
+      "sha256": "046230114f57a254c29a38702449f9418d1f2a1bed488907367335b0f4c8d417"
+    },
+    {
+      "path": "experiments/phase6d-a1/host-project/app/src/main/res/drawable-nodpi/saga_angles.png",
+      "bytes": 1159103,
+      "sha256": "bf66dff16b62b882a20a832f4b56e49f4547c7c4eaa55cc88c42cee1e966b2f9"
+    },
+    {
+      "path": "experiments/phase6d-a1/host-project/app/src/main/res/drawable/ic_launcher.xml",
+      "bytes": 465,
+      "sha256": "04db944190633979cf781d6f209649b87b7f72f46c8a4fb2ab12c37407c7278c"
+    },
+    {
+      "path": "experiments/phase6d-a1/host-project/app/src/main/res/font/mrios_regular.ttf",
+      "bytes": 334724,
+      "sha256": "997d34f18eb31ffbd26f563d6cabdf54f6c0a7171dc76eec234a8241754a8f39"
+    },
+    {
+      "path": "experiments/phase6d-a1/host-project/app/src/main/res/values/styles.xml",
+      "bytes": 372,
+      "sha256": "0cecd3cad0823ad8dfaf431e1b16ffb4993c3bc4660896f4167a27d1bcdede23"
+    },
+    {
+      "path": "experiments/phase6d-a1/host-project/build.gradle",
+      "bytes": 69,
+      "sha256": "8ebf0602839be8fd4c06f07a93e45da6b4a04444fa1b38df8b9def9c1b5c8032"
+    },
+    {
+      "path": "experiments/phase6d-a1/host-project/docs/MRIOS_REVIEW.md",
+      "bytes": 4389,
+      "sha256": "c5f34910e2f4b4c1d61f5f713dfb2a69d7e2e55d512648383497737f91974c1a"
+    },
+    {
+      "path": "experiments/phase6d-a1/host-project/docs/SMARTTUBE_REVIEW.md",
+      "bytes": 3085,
+      "sha256": "f489b9bae4b39a203ed28614ad14670c1fe0ab82a96d626b5382c4b36dbb1bf5"
+    },
+    {
+      "path": "experiments/phase6d-a1/host-project/docs/licenses/NexaDash-MIT.txt",
+      "bytes": 1078,
+      "sha256": "84091ab70ccf59bcab7c4ed7e13901a17fab42098b75208aac1766bc20388083"
+    },
+    {
+      "path": "experiments/phase6d-a1/host-project/docs/licenses/SmartTube-MIT.txt",
+      "bytes": 1072,
+      "sha256": "8e3cfc52890feae676fa35c38bf939d9d386a341d7c21a323937b5a9f87dc70d"
+    },
+    {
+      "path": "experiments/phase6d-a1/host-project/docs/qa/mrios-visual-assets.json",
+      "bytes": 13688,
+      "sha256": "be51bc4a5bd98c1d0a1c5b9964d34cafa3e0811f1d6c150cb15f6a2d52dbff64"
+    },
+    {
+      "path": "experiments/phase6d-a1/host-project/gradle.properties",
+      "bytes": 75,
+      "sha256": "727f1939b506ba75c38c26a727ac8bc2fc6b23551929a2d36eb729a4487da6a4"
+    },
+    {
+      "path": "experiments/phase6d-a1/host-project/local.properties.example",
+      "bytes": 29,
+      "sha256": "3f277498cd8a26e16b4c2b3a62a26cd77221001f93f67b38a2dfd12d18eac659"
+    },
+    {
+      "path": "experiments/phase6d-a1/host-project/probe-target/build.gradle",
+      "bytes": 875,
+      "sha256": "f81cf79032487602b48f8f97175cd3c42e735745a5d1089d0badc2a216334e67"
+    },
+    {
+      "path": "experiments/phase6d-a1/host-project/probe-target/src/androidTest/java/com/shazwan/idash/a1lab/target/TargetChecks.java",
+      "bytes": 3290,
+      "sha256": "c9f4bc6b464525e09b11be89ee75ea0bbbaba0de4650d78d3989f15981b5be3c"
+    },
+    {
+      "path": "experiments/phase6d-a1/host-project/probe-target/src/main/AndroidManifest.xml",
+      "bytes": 973,
+      "sha256": "c62437c5ae490fca72138636a23b62d0e608e5e2471ab3875ab988f8f37cc930"
+    },
+    {
+      "path": "experiments/phase6d-a1/host-project/probe-target/src/main/java/com/shazwan/idash/a1lab/target/Bridge.java",
+      "bytes": 3541,
+      "sha256": "43e52c5a3f451d24d0c65b296f294f2f447b2ed56525790233de2c245231256e"
+    },
+    {
+      "path": "experiments/phase6d-a1/host-project/probe-target/src/main/java/com/shazwan/idash/a1lab/target/ProbeActivity.java",
+      "bytes": 5244,
+      "sha256": "71264a3a68fe7c606387c642274436e89028e7725105e8118f6a9977726d72a8"
+    },
+    {
+      "path": "experiments/phase6d-a1/host-project/settings.gradle",
+      "bytes": 296,
+      "sha256": "013535d86725aad078446d8d3da007dde3485d8440c34d82e91aa9180dbd45b6"
+    },
+    {
+      "path": "tools/build-preview.sh",
+      "bytes": 641,
+      "sha256": "f9dee58d8dccf5e93bbf41252a7d7716cfa99acc21ecdcd9c5022c9d9548eb9c"
+    },
+    {
+      "path": "tools/media-fixture/Main.java",
+      "bytes": 1766,
+      "sha256": "f612295700edab47729fd4408f796e727f8beef19ff76e06962087feb176a4ab"
+    },
+    {
+      "path": "tools/media-fixture/build.sh",
+      "bytes": 1255,
+      "sha256": "3c7c2d1ddbfb718f0650329d6f8f7a52d4f3d0b5454b09ea50d718c9f1ff6c9b"
+    }
+  ],
+  "excluded_new_changes": [
+    "dist/iDash-0.1.8-preview.apk"
+  ],
+  "reviewed_binary_resources_equal_existing_assets": [
+    "experiments/phase6d-a1/host-project/app/src/main/assets/mrios/fonts/sf_pro_display_bold.ttf",
+    "experiments/phase6d-a1/host-project/app/src/main/assets/mrios/fonts/sf_pro_display_medium.ttf",
+    "experiments/phase6d-a1/host-project/app/src/main/assets/mrios/fonts/sf_pro_display_regular.ttf",
+    "experiments/phase6d-a1/host-project/app/src/main/assets/mrios/fonts/sf_pro_display_semi_bold.ttf",
+    "experiments/phase6d-a1/host-project/app/src/main/assets/mrios/icons/ic_ios_airdrop.png",
+    "experiments/phase6d-a1/host-project/app/src/main/assets/mrios/icons/ic_ios_books.png",
+    "experiments/phase6d-a1/host-project/app/src/main/assets/mrios/icons/ic_ios_calculator.png",
+    "experiments/phase6d-a1/host-project/app/src/main/assets/mrios/icons/ic_ios_calendar_lg.png",
+    "experiments/phase6d-a1/host-project/app/src/main/assets/mrios/icons/ic_ios_camera.png",
+    "experiments/phase6d-a1/host-project/app/src/main/assets/mrios/icons/ic_ios_clock.png",
+    "experiments/phase6d-a1/host-project/app/src/main/assets/mrios/icons/ic_ios_contacts.png",
+    "experiments/phase6d-a1/host-project/app/src/main/assets/mrios/icons/ic_ios_facetime.png",
+    "experiments/phase6d-a1/host-project/app/src/main/assets/mrios/icons/ic_ios_files.png",
+    "experiments/phase6d-a1/host-project/app/src/main/assets/mrios/icons/ic_ios_fitness.png",
+    "experiments/phase6d-a1/host-project/app/src/main/assets/mrios/icons/ic_ios_freeform.png",
+    "experiments/phase6d-a1/host-project/app/src/main/assets/mrios/icons/ic_ios_health.png",
+    "experiments/phase6d-a1/host-project/app/src/main/assets/mrios/icons/ic_ios_home.png",
+    "experiments/phase6d-a1/host-project/app/src/main/assets/mrios/icons/ic_ios_itunes.png",
+    "experiments/phase6d-a1/host-project/app/src/main/assets/mrios/icons/ic_ios_keys.png",
+    "experiments/phase6d-a1/host-project/app/src/main/assets/mrios/icons/ic_ios_mail.png",
+    "experiments/phase6d-a1/host-project/app/src/main/assets/mrios/icons/ic_ios_maps.png",
+    "experiments/phase6d-a1/host-project/app/src/main/assets/mrios/icons/ic_ios_measure.png",
+    "experiments/phase6d-a1/host-project/app/src/main/assets/mrios/icons/ic_ios_messages.png",
+    "experiments/phase6d-a1/host-project/app/src/main/assets/mrios/icons/ic_ios_music.png",
+    "experiments/phase6d-a1/host-project/app/src/main/assets/mrios/icons/ic_ios_news.png",
+    "experiments/phase6d-a1/host-project/app/src/main/assets/mrios/icons/ic_ios_notes.png",
+    "experiments/phase6d-a1/host-project/app/src/main/assets/mrios/icons/ic_ios_phone.png",
+    "experiments/phase6d-a1/host-project/app/src/main/assets/mrios/icons/ic_ios_photos.png",
+    "experiments/phase6d-a1/host-project/app/src/main/assets/mrios/icons/ic_ios_preview.png",
+    "experiments/phase6d-a1/host-project/app/src/main/assets/mrios/icons/ic_ios_reminders.png",
+    "experiments/phase6d-a1/host-project/app/src/main/assets/mrios/icons/ic_ios_safari.png",
+    "experiments/phase6d-a1/host-project/app/src/main/assets/mrios/icons/ic_ios_settings.png",
+    "experiments/phase6d-a1/host-project/app/src/main/assets/mrios/icons/ic_ios_shortcuts.png",
+    "experiments/phase6d-a1/host-project/app/src/main/assets/mrios/icons/ic_ios_stocks.png",
+    "experiments/phase6d-a1/host-project/app/src/main/assets/mrios/icons/ic_ios_store.png",
+    "experiments/phase6d-a1/host-project/app/src/main/assets/mrios/icons/ic_ios_translate.png",
+    "experiments/phase6d-a1/host-project/app/src/main/assets/mrios/icons/ic_ios_voice_memos.png",
+    "experiments/phase6d-a1/host-project/app/src/main/assets/mrios/icons/ic_ios_wallet.png",
+    "experiments/phase6d-a1/host-project/app/src/main/assets/mrios/icons/ic_ios_watch.png",
+    "experiments/phase6d-a1/host-project/app/src/main/assets/mrios/icons/ic_ios_weather.png",
+    "experiments/phase6d-a1/host-project/app/src/main/assets/mrios/wallpapers/47.jpg",
+    "experiments/phase6d-a1/host-project/app/src/main/assets/mrios/wallpapers/48.webp",
+    "experiments/phase6d-a1/host-project/app/src/main/assets/mrios/wallpapers/49.webp",
+    "experiments/phase6d-a1/host-project/app/src/main/assets/mrios/wallpapers/50.webp",
+    "experiments/phase6d-a1/host-project/app/src/main/assets/mrios/wallpapers/51.webp",
+    "experiments/phase6d-a1/host-project/app/src/main/assets/mrios/wallpapers/52.webp",
+    "experiments/phase6d-a1/host-project/app/src/main/assets/mrios/wallpapers/53.webp",
+    "experiments/phase6d-a1/host-project/app/src/main/assets/mrios/wallpapers/54.webp",
+    "experiments/phase6d-a1/host-project/app/src/main/assets/mrios/wallpapers/55.webp",
+    "experiments/phase6d-a1/host-project/app/src/main/assets/mrios/wallpapers/56.webp",
+    "experiments/phase6d-a1/host-project/app/src/main/assets/mrios/wallpapers/57.webp",
+    "experiments/phase6d-a1/host-project/app/src/main/assets/mrios/wallpapers/58.webp",
+    "experiments/phase6d-a1/host-project/app/src/main/assets/mrios/wallpapers/59.webp",
+    "experiments/phase6d-a1/host-project/app/src/main/assets/mrios/wallpapers/60.webp",
+    "experiments/phase6d-a1/host-project/app/src/main/assets/mrios/wallpapers/61.webp",
+    "experiments/phase6d-a1/host-project/app/src/main/assets/mrios/wallpapers/62.webp",
+    "experiments/phase6d-a1/host-project/app/src/main/assets/mrios/wallpapers/63.webp",
+    "experiments/phase6d-a1/host-project/app/src/main/assets/mrios/wallpapers/64.webp",
+    "experiments/phase6d-a1/host-project/app/src/main/assets/mrios/wallpapers/65.webp",
+    "experiments/phase6d-a1/host-project/app/src/main/assets/mrios/wallpapers/66.webp",
+    "experiments/phase6d-a1/host-project/app/src/main/assets/mrios/wallpapers/67.webp",
+    "experiments/phase6d-a1/host-project/app/src/main/assets/mrios/wallpapers/68.webp",
+    "experiments/phase6d-a1/host-project/app/src/main/assets/mrios/wallpapers/69.webp",
+    "experiments/phase6d-a1/host-project/app/src/main/assets/mrios/wallpapers/70.webp",
+    "experiments/phase6d-a1/host-project/app/src/main/res/drawable-nodpi/mrios_files.png",
+    "experiments/phase6d-a1/host-project/app/src/main/res/drawable-nodpi/mrios_settings.png",
+    "experiments/phase6d-a1/host-project/app/src/main/res/drawable-nodpi/saga_angles.png",
+    "experiments/phase6d-a1/host-project/app/src/main/res/font/mrios_regular.ttf"
+  ],
+  "namespace_signing_configs_copied_unchanged": true,
+  "no_new_apk_or_private_key": true
+}

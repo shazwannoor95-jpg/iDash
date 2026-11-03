@@ -1,0 +1,398 @@
+{
+  "source_apk_sha256": "f11442cb96b7ab0ef2ece5e7241fdb4a38ed148ba841735fdf45530b0db071cb",
+  "assets": [
+    {
+      "source": "assets/wallpaper/47.jpg",
+      "asset": "wallpapers/47.jpg",
+      "sha256": "bc0c66a1aee8601078f150367e355c7402fa9d3b8bafeb7b5f01046148857bec",
+      "size": 85013
+    },
+    {
+      "source": "assets/wallpaper/48.webp",
+      "asset": "wallpapers/48.webp",
+      "sha256": "6033ed7308c485b75e743e57fbbf724114f9a11829985e49616dc207b888c3e7",
+      "size": 61814
+    },
+    {
+      "source": "assets/wallpaper/49.webp",
+      "asset": "wallpapers/49.webp",
+      "sha256": "8b3357c1bcb7723c84155265ae1dd04a3e30b9b9d6cca3e3d816ee595e616f79",
+      "size": 164564
+    },
+    {
+      "source": "assets/wallpaper/50.webp",
+      "asset": "wallpapers/50.webp",
+      "sha256": "5b02a4c894350dbef9b8ca854bae00316da613698bf4a698b7272eb7309b76a7",
+      "size": 27326
+    },
+    {
+      "source": "assets/wallpaper/51.webp",
+      "asset": "wallpapers/51.webp",
+      "sha256": "9c44020ac10bebcffc852ed3d1f3f40305d95a33ae9b015ae3ba2d80fab0b4fd",
+      "size": 32728
+    },
+    {
+      "source": "assets/wallpaper/52.webp",
+      "asset": "wallpapers/52.webp",
+      "sha256": "ec1806998c09a9a9e90aba66a5977733e33262b0421dd4fd907033fb5be84494",
+      "size": 29532
+    },
+    {
+      "source": "assets/wallpaper/53.webp",
+      "asset": "wallpapers/53.webp",
+      "sha256": "9beb51d9634109a1b6900d1858fae7154d6d6c98e7b670f1e3903d4b99c6fe8b",
+      "size": 29426
+    },
+    {
+      "source": "assets/wallpaper/54.webp",
+      "asset": "wallpapers/54.webp",
+      "sha256": "20d9998559ea654d7ed4cb55a9789f6647e1fd348d503573e7f8bf6448941707",
+      "size": 154319
+    },
+    {
+      "source": "assets/wallpaper/55.webp",
+      "asset": "wallpapers/55.webp",
+      "sha256": "06fd4f3f524b28fa55d90f77c9b2e6917301b7274efa8ceb0e8e20411974d7a8",
+      "size": 197925
+    },
+    {
+      "source": "assets/wallpaper/56.webp",
+      "asset": "wallpapers/56.webp",
+      "sha256": "e136e393abfe2f6f6bcc54ab76d1b3ac6c593f430b60fb224f17ac1f65e0cd8d",
+      "size": 148253
+    },
+    {
+      "source": "assets/wallpaper/57.webp",
+      "asset": "wallpapers/57.webp",
+      "sha256": "66e3515ef74005c4d3683d8715f793edc2cf027c48b7a7ab22a54cca3a8120de",
+      "size": 121264
+    },
+    {
+      "source": "assets/wallpaper/58.webp",
+      "asset": "wallpapers/58.webp",
+      "sha256": "a179298dc54e5d73f94940f523b280ecd7cdd9c173c5a19ad84f10324df3b210",
+      "size": 129250
+    },
+    {
+      "source": "assets/wallpaper/59.webp",
+      "asset": "wallpapers/59.webp",
+      "sha256": "edd58a481222af542e27cbda25316de7ddd38022b67de46a1168e2e5711544a8",
+      "size": 200653
+    },
+    {
+      "source": "assets/wallpaper/60.webp",
+      "asset": "wallpapers/60.webp",
+      "sha256": "405ff8ee76b056357a2bc945644b47ca44d4e424012a085cfffef289b6290384",
+      "size": 198751
+    },
+    {
+      "source": "assets/wallpaper/61.webp",
+      "asset": "wallpapers/61.webp",
+      "sha256": "0efcb681085116b6a89a07c5a18bf241fe3b9bfed1fa809e9c6bb3eef3d0c4e5",
+      "size": 399836
+    },
+    {
+      "source": "assets/wallpaper/62.webp",
+      "asset": "wallpapers/62.webp",
+      "sha256": "856aff0864128809102f0a508eb957d2a8891b4fe4a6fd73da57d1fd6e02bfe0",
+      "size": 39960
+    },
+    {
+      "source": "assets/wallpaper/63.webp",
+      "asset": "wallpapers/63.webp",
+      "sha256": "025fa03053a6e8c39eacd42346d4bd55c0fc7f7f028397932e4d73ff66e46ba7",
+      "size": 48724
+    },
+    {
+      "source": "assets/wallpaper/64.webp",
+      "asset": "wallpapers/64.webp",
+      "sha256": "3eb45a9b5831e64e4e2b951a430db2ea2c652ebca50dfd7bdaa799cdda2e647c",
+      "size": 63594
+    },
+    {
+      "source": "assets/wallpaper/65.webp",
+      "asset": "wallpapers/65.webp",
+      "sha256": "06463122e8e94e61a99273f3ce870c4877707e687fd61e7f7555b476c4da729d",
+      "size": 44302
+    },
+    {
+      "source": "assets/wallpaper/66.webp",
+      "asset": "wallpapers/66.webp",
+      "sha256": "9f5d23d155f8ba5c60783587924ca224659d9a1087656345eaf6f41dca844e2d",
+      "size": 58746
+    },
+    {
+      "source": "assets/wallpaper/67.webp",
+      "asset": "wallpapers/67.webp",
+      "sha256": "0c2c9ee45a89a2ce5e430c7eed7b7f26bb2be3052fd779cd548857a9c323df5b",
+      "size": 53818
+    },
+    {
+      "source": "assets/wallpaper/68.webp",
+      "asset": "wallpapers/68.webp",
+      "sha256": "0f8b36c5f87a67b054a5a056a09034a6b92973b83a53368ab58b0abed3c07702",
+      "size": 54432
+    },
+    {
+      "source": "assets/wallpaper/69.webp",
+      "asset": "wallpapers/69.webp",
+      "sha256": "e01a039c6204339d9cec689a8bde95aee531637a1bcbf7f67103b95304c6dd52",
+      "size": 65784
+    },
+    {
+      "source": "assets/wallpaper/70.webp",
+      "asset": "wallpapers/70.webp",
+      "sha256": "6f978edcb52b08f0470d899ef7c9a1ffa8436db37fc1e68c08c943d12baf9df1",
+      "size": 44664
+    },
+    {
+      "source": "res/drawable/ic_ios_airdrop.png",
+      "asset": "icons/ic_ios_airdrop.png",
+      "sha256": "e52f8117cf2df7e5b598297131bd907eab06862041d15e20a555c6f7a7052eb3",
+      "size": 50368
+    },
+    {
+      "source": "res/drawable/ic_ios_books.png",
+      "asset": "icons/ic_ios_books.png",
+      "sha256": "bacde680da60512bb6e49b34fd9a19570e74634c870ad0e97c968f09dbccd074",
+      "size": 53341
+    },
+    {
+      "source": "res/drawable/ic_ios_calculator.png",
+      "asset": "icons/ic_ios_calculator.png",
+      "sha256": "9a0f3a3e5a3109cc3b4d84a8065d24dfd5dd8759a0779a14b4894d3ed702d6ca",
+      "size": 62303
+    },
+    {
+      "source": "res/drawable/ic_ios_calendar_lg.png",
+      "asset": "icons/ic_ios_calendar_lg.png",
+      "sha256": "72acceb5de5e3fdc454fc4e68d4769bffa4362d5f3e7c3da03a4cc55aa041241",
+      "size": 29779
+    },
+    {
+      "source": "res/drawable/ic_ios_camera.png",
+      "asset": "icons/ic_ios_camera.png",
+      "sha256": "6fb64334fb10909e325214cb657e80e985e627e0fd1a1c6f624ee7fecdfdff13",
+      "size": 82210
+    },
+    {
+      "source": "res/drawable/ic_ios_clock.png",
+      "asset": "icons/ic_ios_clock.png",
+      "sha256": "ad0429c16d2883e7007344ee0aae37cb6424ead0b799d0998e0c5ff8e300aa55",
+      "size": 38003
+    },
+    {
+      "source": "res/drawable/ic_ios_contacts.png",
+      "asset": "icons/ic_ios_contacts.png",
+      "sha256": "52f44b560c0c965ceb3b73d4b974c1bbe95db3d6644984392be3e0b8bc40bb1a",
+      "size": 61076
+    },
+    {
+      "source": "res/drawable/ic_ios_facetime.png",
+      "asset": "icons/ic_ios_facetime.png",
+      "sha256": "d1c7d28fa250e1fc7bb5207b73db814f926303a6d1c810a98f8441f6d10c6a8b",
+      "size": 55212
+    },
+    {
+      "source": "res/drawable/ic_ios_files.png",
+      "asset": "icons/ic_ios_files.png",
+      "sha256": "2ca2eb77754c788f31ae3a8986fd0ee0781b94c0708aca05ae248f1bc16e347a",
+      "size": 37391
+    },
+    {
+      "source": "res/drawable/ic_ios_fitness.png",
+      "asset": "icons/ic_ios_fitness.png",
+      "sha256": "774583841586ad0f3efc1892b6396116d92b62da277d0ab12a142a6d35b1dcf7",
+      "size": 74234
+    },
+    {
+      "source": "res/drawable/ic_ios_freeform.png",
+      "asset": "icons/ic_ios_freeform.png",
+      "sha256": "4f83e2adad329fd7e64798de9d5a9181e8e23cd36eec09e9d6497bff7dc73581",
+      "size": 52141
+    },
+    {
+      "source": "res/drawable/ic_ios_health.png",
+      "asset": "icons/ic_ios_health.png",
+      "sha256": "ef9cd2536da08fa70b8380c8b03f5074806a7eff1c27c34bf7f02fbdb82fd16a",
+      "size": 37394
+    },
+    {
+      "source": "res/drawable/ic_ios_home.png",
+      "asset": "icons/ic_ios_home.png",
+      "sha256": "c690b7a70a6e68e59eb985af0eee1c6d885c9927b38baa26907411159ffee4b0",
+      "size": 44003
+    },
+    {
+      "source": "res/drawable/ic_ios_itunes.png",
+      "asset": "icons/ic_ios_itunes.png",
+      "sha256": "afa10a3e1a42a3af99433a5043bc00754f8e74fc44293dd175efc65a8a2ef4ba",
+      "size": 57920
+    },
+    {
+      "source": "res/drawable/ic_ios_keys.png",
+      "asset": "icons/ic_ios_keys.png",
+      "sha256": "8ed89fea89045581592483e6a6c5bb1f5c12a0a442ee9a627050802897b5118e",
+      "size": 66592
+    },
+    {
+      "source": "res/drawable/ic_ios_mail.png",
+      "asset": "icons/ic_ios_mail.png",
+      "sha256": "30d1f6b22ab4c660050b580ccf5cb337afc0e30f3334d0300126c3cbb59f669d",
+      "size": 57826
+    },
+    {
+      "source": "res/drawable/ic_ios_maps.png",
+      "asset": "icons/ic_ios_maps.png",
+      "sha256": "53da6d77244da8b5527a1b3973fe50347d759b46b92f9350a3c17833c8029886",
+      "size": 71953
+    },
+    {
+      "source": "res/drawable/ic_ios_measure.png",
+      "asset": "icons/ic_ios_measure.png",
+      "sha256": "91395b7cf4ba2b641c8e46fbef5f299edb618f0bcd496ba4bc04deb0f89bafd6",
+      "size": 31158
+    },
+    {
+      "source": "res/drawable/ic_ios_messages.png",
+      "asset": "icons/ic_ios_messages.png",
+      "sha256": "30fab3e435f3a343b60be97efba22737a476682183a09a426092077b9513fcb2",
+      "size": 55623
+    },
+    {
+      "source": "res/drawable/ic_ios_music.png",
+      "asset": "icons/ic_ios_music.png",
+      "sha256": "69562e08654c7638448d17043b6988b1cf082d59126202c4eb28c7d5fc9181df",
+      "size": 45791
+    },
+    {
+      "source": "res/drawable/ic_ios_news.png",
+      "asset": "icons/ic_ios_news.png",
+      "sha256": "2b2b6d8279a035aaaa5d64eb4ab630ee0812203168ee01e546a4eb8387098651",
+      "size": 40624
+    },
+    {
+      "source": "res/drawable/ic_ios_notes.png",
+      "asset": "icons/ic_ios_notes.png",
+      "sha256": "22d2e7ece322d16495150bbb8c15e925eb16500253f703779a64af9a3638db53",
+      "size": 36155
+    },
+    {
+      "source": "res/drawable/ic_ios_phone.png",
+      "asset": "icons/ic_ios_phone.png",
+      "sha256": "c7c52a4fd0237f956e7c49fb3337ad0634eb5818eaf3e2d9bb9defa4e70a1aeb",
+      "size": 58234
+    },
+    {
+      "source": "res/drawable/ic_ios_photos.png",
+      "asset": "icons/ic_ios_photos.png",
+      "sha256": "f4fbccefe6482ced24f0469b7a2cecac0bf210df119e7689e2a1e6c59ae5ca93",
+      "size": 49245
+    },
+    {
+      "source": "res/drawable/ic_ios_preview.png",
+      "asset": "icons/ic_ios_preview.png",
+      "sha256": "5163c8630ef986f8c53e700d7909b1e76021b04dbd8daaf3760cb650a5ee7506",
+      "size": 62301
+    },
+    {
+      "source": "res/drawable/ic_ios_reminders.png",
+      "asset": "icons/ic_ios_reminders.png",
+      "sha256": "73da95220e95635b6a21bf5ed075ac20bd484eee31dc8319ba500c10769c0b6c",
+      "size": 37993
+    },
+    {
+      "source": "res/drawable/ic_ios_safari.png",
+      "asset": "icons/ic_ios_safari.png",
+      "sha256": "b8de232a8ea806bf510ff1c21bb752f1bc8247ae050ed59c07a4173ea9d139c6",
+      "size": 40116
+    },
+    {
+      "source": "res/drawable/ic_ios_settings.png",
+      "asset": "icons/ic_ios_settings.png",
+      "sha256": "046230114f57a254c29a38702449f9418d1f2a1bed488907367335b0f4c8d417",
+      "size": 89010
+    },
+    {
+      "source": "res/drawable/ic_ios_shortcuts.png",
+      "asset": "icons/ic_ios_shortcuts.png",
+      "sha256": "ade612550cba146b5fc7daf2444c8b9a3f7b18a1f915f50b68ccb412f8fc2392",
+      "size": 69592
+    },
+    {
+      "source": "res/drawable/ic_ios_stocks.png",
+      "asset": "icons/ic_ios_stocks.png",
+      "sha256": "70ce8cc5390dc7cd709f5bf8ddca339d92709de909546a4f63ceb2e12f74c16a",
+      "size": 45519
+    },
+    {
+      "source": "res/drawable/ic_ios_store.png",
+      "asset": "icons/ic_ios_store.png",
+      "sha256": "d124b44cfb24549e7a37f09730c5cda37b0d343a48eb15535eaea198c88daaee",
+      "size": 59832
+    },
+    {
+      "source": "res/drawable/ic_ios_translate.png",
+      "asset": "icons/ic_ios_translate.png",
+      "sha256": "7528bfe8ee527f874eb8cccdbdd5ffd57e5ee9398797eb71d1772b854b99eb8b",
+      "size": 60525
+    },
+    {
+      "source": "res/drawable/ic_ios_voice_memos.png",
+      "asset": "icons/ic_ios_voice_memos.png",
+      "sha256": "37525291c25eebe0a89d2bcaaf76519ab307a6ab452402a9720a53fd58cab97f",
+      "size": 40353
+    },
+    {
+      "source": "res/drawable/ic_ios_wallet.png",
+      "asset": "icons/ic_ios_wallet.png",
+      "sha256": "d124b44cfb24549e7a37f09730c5cda37b0d343a48eb15535eaea198c88daaee",
+      "size": 59832
+    },
+    {
+      "source": "res/drawable/ic_ios_watch.png",
+      "asset": "icons/ic_ios_watch.png",
+      "sha256": "abd5d741306924cf26c3cfc1fa5c57665856663d79e2e3b1f9915555baa6ca74",
+      "size": 60441
+    },
+    {
+      "source": "res/drawable/ic_ios_weather.png",
+      "asset": "icons/ic_ios_weather.png",
+      "sha256": "3f2d3c7a22a49847cb914523155d11f9d25b4478c3c703a24cfac73998987c05",
+      "size": 63625
+    }
+  ],
+  "fonts": [
+    {
+      "source": "res/font/sf_pro_display_bold.ttf",
+      "asset": "fonts/sf_pro_display_bold.ttf",
+      "size": 337512,
+      "sha256": "c672b517c693558fbf9660039f7a249744250045c7522443c82501ab0eead2c7"
+    },
+    {
+      "source": "res/font/sf_pro_display_medium.ttf",
+      "asset": "fonts/sf_pro_display_medium.ttf",
+      "size": 335420,
+      "sha256": "52a96a0039c283867dbe80b1856c44de9244521e3502b1d6f2d667cd8df6c4ab"
+    },
+    {
+      "source": "res/font/sf_pro_display_regular.ttf",
+      "asset": "fonts/sf_pro_display_regular.ttf",
+      "size": 334724,
+      "sha256": "997d34f18eb31ffbd26f563d6cabdf54f6c0a7171dc76eec234a8241754a8f39"
+    },
+    {
+      "source": "res/font/sf_pro_display_semi_bold.ttf",
+      "asset": "fonts/sf_pro_display_semi_bold.ttf",
+      "size": 336264,
+      "sha256": "433d306431345534c7e9dcc5fd26dae81bc68df6abddc491a5e3e5e1b9d5a6ad"
+    }
+  ],
+  "emoji_font_found": false,
+  "font_families": "Four SF Pro Display weights; no COLR/CPAL/CBDT/CBLC/sbix color tables",
+  "android_font_resource": {
+    "source": "res/font/sf_pro_display_regular.ttf",
+    "path": "app/src/main/res/font/mrios_regular.ttf",
+    "sha256": "997d34f18eb31ffbd26f563d6cabdf54f6c0a7171dc76eec234a8241754a8f39"
+  }
+}

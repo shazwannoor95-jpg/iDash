@@ -1,0 +1,29 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Public instrumentation entries let one test APK run the complete regression suite. -->
+    <instrumentation android:name="com.shazwan.idash.SmokeChecks" android:targetPackage="com.shazwan.idash"/>
+    <instrumentation android:name="com.shazwan.idash.PerformanceAuditChecks" android:targetPackage="com.shazwan.idash"/>
+    <instrumentation android:name="com.shazwan.idash.QualityChecks" android:targetPackage="com.shazwan.idash"/>
+    <instrumentation android:name="com.shazwan.idash.StabilityChecks" android:targetPackage="com.shazwan.idash"/>
+    <instrumentation android:name="com.shazwan.idash.CompactChecks" android:targetPackage="com.shazwan.idash"/>
+    <instrumentation android:name="com.shazwan.idash.Glass6aChecks" android:targetPackage="com.shazwan.idash"/>
+    <instrumentation android:name="com.shazwan.idash.GlassMaterialChecks" android:targetPackage="com.shazwan.idash"/>
+    <!-- AGP rewrites the first entry to the configured default runner. -->
+    <instrumentation android:name="com.shazwan.idash.DeviceReadinessChecks" android:targetPackage="com.shazwan.idash"/>
+    <instrumentation android:name="com.shazwan.idash.PanelChecks" android:targetPackage="com.shazwan.idash"/>
+    <instrumentation android:name="com.shazwan.idash.WallpaperChecks" android:targetPackage="com.shazwan.idash"/>
+    <instrumentation android:name="com.shazwan.idash.GlassRenderChecks" android:targetPackage="com.shazwan.idash"/>
+    <instrumentation android:name="com.shazwan.idash.SystemControlsChecks" android:targetPackage="com.shazwan.idash"/>
+    <instrumentation android:name="com.shazwan.idash.SettingsChecks" android:targetPackage="com.shazwan.idash"/>
+    <instrumentation android:name="com.shazwan.idash.MediaUtilitiesChecks" android:targetPackage="com.shazwan.idash"/>
+    <instrumentation android:name="com.shazwan.idash.ControlLayoutChecks" android:targetPackage="com.shazwan.idash"/>
+    <instrumentation android:name="com.shazwan.idash.ControlVisualChecks" android:targetPackage="com.shazwan.idash"/>
+    <instrumentation android:name="com.shazwan.idash.ControlGlassChecks" android:targetPackage="com.shazwan.idash"/>
+    <instrumentation android:name="com.shazwan.idash.AppearanceChecks" android:targetPackage="com.shazwan.idash"/>
+    <instrumentation android:name="com.shazwan.idash.AppearanceRenderChecks" android:targetPackage="com.shazwan.idash"/>
+    <instrumentation android:name="com.shazwan.idash.AppearancePersistenceChecks" android:targetPackage="com.shazwan.idash"/>
+    <instrumentation android:name="com.shazwan.idash.AppearanceGradientChecks" android:targetPackage="com.shazwan.idash"/>
+    <instrumentation android:name="com.shazwan.idash.SettingsCompleteChecks" android:targetPackage="com.shazwan.idash"/>
+    <instrumentation android:name="com.shazwan.idash.SettingsPersistenceChecks" android:targetPackage="com.shazwan.idash"/>
+    <instrumentation android:name="com.shazwan.idash.SettingsAccessChecks" android:targetPackage="com.shazwan.idash"/>
+    <instrumentation android:name="com.shazwan.idash.SettingsResetChecks" android:targetPackage="com.shazwan.idash"/>
+</manifest>

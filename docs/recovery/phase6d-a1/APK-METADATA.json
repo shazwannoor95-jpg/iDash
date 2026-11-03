@@ -1,0 +1,30 @@
+[
+  {
+    "file": "iDash-A1-Lab-Host-debug.apk",
+    "bytes": 6604226,
+    "sha256": "96222705be50f8c85a56988af2a941b63958317a4ddd2f79e7a17542af777475",
+    "package": "com.shazwan.idash.a1lab.host",
+    "versionCode": 1,
+    "versionName": "0.1-6d-a1",
+    "minSdk": 26,
+    "targetSdk": 27,
+    "native_libraries": [],
+    "signer_sha256": "d0fe6fa653f7693d4bca51977a790b88793fbaec937d29d3dc37ca79d6f8c333",
+    "signing": "v2 experimental, not stable",
+    "zipalign4_verified": true
+  },
+  {
+    "file": "iDash-A1-Cooperative-Probe-debug.apk",
+    "bytes": 15457,
+    "sha256": "f278cc1a8f60fd46a21bb13f535aebe53499d16ce99f3b0e457e358904bb3666",
+    "package": "com.shazwan.idash.a1lab.target",
+    "versionCode": 1,
+    "versionName": "0.1-6d-a1",
+    "minSdk": 26,
+    "targetSdk": 27,
+    "native_libraries": [],
+    "signer_sha256": "d0fe6fa653f7693d4bca51977a790b88793fbaec937d29d3dc37ca79d6f8c333",
+    "signing": "v2 experimental, not stable",
+    "zipalign4_verified": true
+  }
+]

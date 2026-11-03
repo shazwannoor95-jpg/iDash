@@ -22,3 +22,8 @@ __pycache__/
 !dist/companions/*.apk
 
 !dist/system-theme/*.apk
+
+# Recovery: private signing and local credentials stay outside Git
+*.p12
+*.pfx
+*.key

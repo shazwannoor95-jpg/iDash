@@ -1,5 +1,7 @@
 # iDash
 
+> Recovery snapshot: launcher source **0.1.8 / versionCode 9**, including Phase 6A–6C, plus the separate **Phase 6D-A1 cooperative probe** in `experiments/phase6d-a1/host-project`. See [PC recovery instructions](docs/RECOVERY-FASA6D-A1-MS.md). Existing 0.1.7 download links below are historical APKs, not builds of this recovery source. BitChord embedding and physical head-unit compatibility remain unverified.
+
 An iPad-inspired Android launcher for landscape car head units. Floating glass dock, rounded widgets, an App Library and a Control Center, built with native Android views and no third-party runtime dependencies.
 
 ![iDash dashboard](docs/dashboard.png)

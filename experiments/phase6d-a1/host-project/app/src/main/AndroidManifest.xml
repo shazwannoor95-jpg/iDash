@@ -1,0 +1,17 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+ <uses-permission android:name="android.permission.INTERNET"/><uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
+ <uses-permission android:name="com.shazwan.idash.a1lab.permission.CONTROL"/>
+ <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+ <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" android:maxSdkVersion="28"/>
+ <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" android:maxSdkVersion="30"/>
+ <uses-permission android:name="android.permission.BLUETOOTH" android:maxSdkVersion="30"/>
+ <uses-permission android:name="android.permission.BLUETOOTH_CONNECT"/>
+ <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+ <uses-permission android:name="android.permission.ACCESS_NOTIFICATION_POLICY"/>
+ <uses-permission android:name="com.android.alarm.permission.SET_ALARM"/>
+ <queries><package android:name="com.shazwan.idash.a1lab.target"/></queries>
+ <application android:label="iDash A1 Lab Host" android:icon="@drawable/ic_launcher" android:theme="@style/AppTheme" android:allowBackup="false" android:supportsRtl="true">
+  <activity android:name=".LauncherActivity" android:exported="false"/>
+  <activity android:name=".ProbeHostActivity" android:exported="true" android:screenOrientation="sensorLandscape" android:configChanges="orientation|screenSize|keyboardHidden"><intent-filter><action android:name="android.intent.action.MAIN"/><category android:name="android.intent.category.LAUNCHER"/></intent-filter></activity>
+  <activity android:name=".DashNativeProxy" android:exported="false" android:resizeableActivity="true" android:allowEmbedded="true" android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
+ </application></manifest>

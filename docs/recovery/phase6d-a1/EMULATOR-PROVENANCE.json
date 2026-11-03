@@ -1,0 +1,11 @@
+{
+  "old_avd": "iDashDebug27",
+  "old_avd_not_used_for_stock_pass": "contains/system/etc/permissions/idash-secondary-display.xml from previous work",
+  "stock_avd": "/workspace/idash-experiments/phase6d-a1/avd/Stock27.avd",
+  "base_system_img": "/workspace/android-sdk/system-images/android-27/default/x86_64/system.img",
+  "base_system_sha256": "f4bc9f12584f4f25b122a3881d0c9a2db17be62934e219a7e5ecf28b59162c04",
+  "copied_old_userdata_or_system_overlay": false,
+  "writable_system": false,
+  "port": 5558,
+  "image_modified_in_this_phase": false
+}

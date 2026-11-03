@@ -1,0 +1,15 @@
+package com.shazwan.idash;
+import android.app.*;import android.graphics.*;import android.os.*;
+/** Canvas-only parameter tests, distinct from actual Activity screenshots. */
+public class AppearanceRenderChecks extends Instrumentation {
+ public void onCreate(Bundle b){super.onCreate(b);start();}
+ public void onStart(){Bundle result=new Bundle();int count=0;try{
+  for(int wallpaper:new int[]{0xff081426,Color.WHITE})for(int tone:new int[]{0,1,2})for(int q=0;q<3;q++)for(int transparency:new int[]{10,30,45,65}){
+   Bitmap wall=Bitmap.createBitmap(300,160,Bitmap.Config.ARGB_8888);wall.eraseColor(wallpaper);GlassBackdrop cache=new GlassBackdrop();cache.publish(GlassBackdrop.prepare(wall,q));Bitmap b=Bitmap.createBitmap(300,160,Bitmap.Config.ARGB_8888);Canvas c=new Canvas(b);c.drawColor(wallpaper);GlassSurface glass=new GlassSurface(1,IosStyle.CC_BASE,24,0,false,cache,q,2,true).appearance(new GlassAppearance(tone,transparency,q,3,2,true,true));glass.setBounds(0,0,300,160);glass.draw(c);double a=Color.luminance(glass.foregroundColor()),bg=Color.luminance(b.getPixel(150,80));if(GlassTextFixture.contrast(getTargetContext(),glass,wallpaper,300,160)<4.5)throw new AssertionError("contrast tone="+tone+" quality="+q+" alpha="+transparency);count++;
+   Bitmap old=b.copy(Bitmap.Config.ARGB_8888,true);glass.appearance(new GlassAppearance(tone,transparency,q,3,0,true,true));c.drawColor(wallpaper);glass.draw(c);if(q==0&&!old.sameAs(b))throw new AssertionError("LOW enabled HIGH reflection");if(q>0&&old.sameAs(b))throw new AssertionError("reflection setting has no effect");count++;Bitmap identity=cache.frame.bitmap;for(int value:new int[]{10,20,30,45,65}){glass.appearance(new GlassAppearance(tone,value,q,3,0,true,true));glass.draw(c);}if(identity!=cache.frame.bitmap)throw new AssertionError("transparency rebuilt bitmap");count++;old.recycle();b.recycle();wall.recycle();
+  }
+  Bitmap tintWall=Bitmap.createBitmap(300,160,Bitmap.Config.ARGB_8888);tintWall.eraseColor(0xff405c88);GlassBackdrop tintCache=new GlassBackdrop();tintCache.publish(GlassBackdrop.prepare(tintWall,1));Bitmap previous=null;for(int tint=0;tint<=4;tint++){Bitmap image=Bitmap.createBitmap(300,160,Bitmap.Config.ARGB_8888);Canvas c=new Canvas(image);GlassSurface surface=new GlassSurface(1,IosStyle.CC_BASE,24,0,false,tintCache,1,2,true).appearance(new GlassAppearance(2,20,1,tint,1,true,true));surface.setBounds(0,0,300,160);surface.draw(c);if(previous!=null){if(previous.sameAs(image))throw new AssertionError("tint selection has no visual effect");count++;previous.recycle();}previous=image;}if(previous!=null)previous.recycle();tintWall.recycle();
+  GlassAppearance bad=new GlassAppearance(-20,900,40,-3,-8,false,true);if(bad.tone!=0||bad.transparency!=65||bad.quality!=2||bad.tint!=0||bad.reflection!=0)throw new AssertionError("unsafe values not clamped");count++;
+  result.putString("stream","PASS: "+count+" appearance render/contrast/LOW/cache checks\n");finish(Activity.RESULT_OK,result);
+ }catch(Throwable error){result.putString("stream","FAIL after "+count+": "+error+"\n");finish(Activity.RESULT_CANCELED,result);}}
+}

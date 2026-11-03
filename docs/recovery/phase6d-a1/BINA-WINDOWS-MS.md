@@ -1,0 +1,13 @@
+# Alternatif Windows Android Studio — memerlukan pemindahan source terlebih dahulu
+
+Source eksperimen sudah tersedia sebagai iDash-A1-Lab-source.zip di output fasa ini, tetapi ia juga belum dihantar keluar workspace. Panduan ini tidak menyelesaikan pemindahan dengan sendirinya. Jangan cuba membina source branch utama GitHub dan menganggapnya source eksperimen yang sama.
+
+1. Selepas ZIP source dipindahkan melalui saluran yang diluluskan, ekstrak host-project dan buka projek itu, bukan iDash stabil.
+2. Pasang JDK17, Android SDK35 dan Gradle8.9. Projek menggunakan Android Gradle Plugin8.7.3. Gradle wrapper tidak dibundel; gunakan pemasangan Gradle8.9 dan PATH yang betul. Android Studio: pilih Gradle JDK17 dan SDK tempatan. Bina local.properties sdk.dir untuk komputer sendiri; jangan salin path Linux.
+3. Cipta keystore EKSPERIMEN sendiri di luar projek menggunakan keytool -genkeypair -storetype PKCS12 -keystore C:\idash-a1-private\a1lab.p12 -alias a1lab -keyalg RSA -keysize 2048 -validity 3650. Cipta direktori itu dahulu. Biarkan keytool meminta password secara interaktif; jangan masukkan password dalam command/history atau Git.
+4. Dalam PowerShell tetapkan A1LAB_KEYSTORE ke path tersebut. Untuk password: $a1Secret = Read-Host 'Password eksperimen' -AsSecureString; $env:A1LAB_STORE_PASSWORD = [System.Net.NetworkCredential]::new('', $a1Secret).Password. Jangan cetak environment atau password. Kedua-dua modul mesti dibina dalam sesi env yang sama.
+5. Dari host-project jalankan gradle :app:assembleDebug :probe-target:assembleDebug :app:lintDebug :probe-target:lintDebug. Ini membina debug sahaja. Untuk bina menggunakan Android Studio, launch Studio daripada sesi yang mewarisi env itu atau konfigurasi env secara lokal tanpa commit password.
+6. APK berada di app\build\outputs\apk\debug\app-debug.apk dan probe-target\build\outputs\apk\debug\probe-target-debug.apk. Sahkan menggunakan apksigner verify --print-certs untuk kedua-duanya. Sijil mesti sama antara pasangan itu; checksum/sijil tidak akan sama dengan APK asal workspace kerana key baru.
+7. Selepas selesai: Remove-Item Env:A1LAB_STORE_PASSWORD; Remove-Item Env:A1LAB_KEYSTORE; Remove-Variable a1Secret. Simpan keystore secara peribadi untuk update eksperimen anda sendiri.
+
+Jangan mengganti signing/applicationId iDash stabil. Jangan cuba memasang pasangan key baru sebagai update kepada pakej makmal bertandatangan lama tanpa merancang pemeliharaan data; jangan uninstall versi lama secara automatik. Source makmal merangkumi aset warisan dengan lesen berasingan dalam NOTICE; jangan menerbitkan seluruh source/aset secara umum tanpa semakan hak.
